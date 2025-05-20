@@ -13,41 +13,114 @@ main:
  	mov x20, x0	// Guarda la dirección base del framebuffer en x20
 	//---------------- CODE HERE ------------------------------------
 
-	movz x10, 0xC7, lsl 16
-	movk x10, 0x1585, lsl 00
+	movz x2, 0xFF, lsl 16
+	movk x2, 0xFFFF, lsl 00
 
-	mov x2, SCREEN_HEIGH         // Y Size
-loop1:
-	mov x1, SCREEN_WIDTH         // X Size
-loop0:
-	stur w10,[x0]  // Colorear el pixel N
-	add x0,x0,4	   // Siguiente pixel
-	sub x1,x1,1	   // Decrementar contador X
-	cbnz x1,loop0  // Si no terminó la fila, salto
-	sub x2,x2,1	   // Decrementar contador Y
-	cbnz x2,loop1  // Si no es la última fila, salto
+	movz x4, 400, lsl 48 // X0
+	movk x4, 200, lsl 32 // Y0
+	movk x4, 100, lsl 16 // X1 (En este caso actua como Radio)
 
-	// Ejemplo de uso de gpios
-	mov x9, GPIO_BASE
+	bl drawcircle
 
-	// Atención: se utilizan registros w porque la documentación de broadcom
-	// indica que los registros que estamos leyendo y escribiendo son de 32 bits
+	movz x2, 0xFF, lsl 16
+	movk x2, 0x00FF, lsl 00
 
-	// Setea gpios 0 - 9 como lectura
-	str wzr, [x9, GPIO_GPFSEL0]
+	movz x4, 100, lsl 48 // X0
+	movk x4, 100, lsl 32 // Y0
+	movk x4, 300, lsl 16 // X1
+	movk x4, 300, lsl 00 // Y1
 
-	// Lee el estado de los GPIO 0 - 31
-	ldr w10, [x9, GPIO_GPLEV0]
-
-	// And bit a bit mantiene el resultado del bit 2 en w10
-	and w11, w10, 0b10
-
-	// w11 será 1 si había un 1 en la posición 2 de w10, si no será 0
-	// efectivamente, su valor representará si GPIO 2 está activo
-	lsr w11, w11, 1
+	bl drawsquare
 
 	//---------------------------------------------------------------
 	// Infinite Loop
 
 InfLoop:
 	b InfLoop
+
+//------------------------------Funciones de dibujo--------------------------//
+
+// Dibuja pixel en las cordenadas almacenadas en los registros x7(X) y x8(Y)
+drawpixel: 
+    mov x1, 640
+    mul x1, x8, x1
+    add x1, x1, x7
+    lsl x1, x1, 2
+    add x1, x1, x0
+	stur x2,[x1]
+    ret
+
+// Dibuja un rectangulo entre las cordenadas A y B en x4
+drawsquare:
+	lsl x11, x4, 32 //Guardamos en x11 el valor de X1
+	lsr x11, x11, 48
+
+	lsl x12, x4, 48 //Guardamos en x12 el valor de Y1
+	lsr x12, x12, 48
+
+	lsl x8, x4, 16  // Setea el valor original de la cordenada Y0
+	lsr x8, x8, 48
+
+loopsquare1:
+	lsr x7, x4, 48  // Setea el valor original de la cordenada X0
+
+loopsquare2:
+	mov x29, x30 // Guardamos el valor original del RET
+	bl drawpixel // Dibujamos el pixel en la coordenada actual (x7, x8)
+	mov x30, x29 // Restauramos el valor del RET
+	add x7, x7, 1 // Incrementamos X
+	cmp x7, x11
+	b.ne loopsquare2 //Verificamos que llego al limite de X
+	add x8, x8, 1 // Incrementamos Y
+	cmp x8, x12 //Verificamos que llego al limite de Y
+	b.ne loopsquare1
+	ret
+
+// Dibuja un circulo con centro en la cordenada A con un radio R (X1)
+drawcircle:
+    lsr x9, x4, 48  // Guardamos la coordenada X del centro
+
+    lsl x10, x4, 16  // Guardamos la coordenada Y del centro
+	lsr x10, x10, 48
+
+    lsl x11, x4, 32  // Guardamos el radio
+	lsr x11, x11, 48
+
+    mul x12, x11, x11 // Elevamos al cuadrado el radio
+
+    sub x8, x10, x12  // Inicializamos Y en el límite superior del cuadrado (Y0 - r)
+
+	add x15, x9, x11 // Calculamos el límite derecho del cuadrado (X0 + r)
+
+	add x16, x10, x11 // Calculamos el límite inferior del cuadrado (Y0 + r)
+
+
+loopcircle1:
+    sub x7, x9, x12  // Inicializamos X en el límite izquierdo del cuadrado (X0 - r)
+
+loopcircle2:
+    // Calculamos la distancia al cuadrado desde el centro del círculo
+    sub x13, x7, x9  // Diferencia en X (X - X0)
+    sub x14, x8, x10  // Diferencia en Y (Y - Y0)
+    mul x13, x13, x13 // (X - X0)^2
+    mul x14, x14, x14 // (Y - Y0)^2
+    add x13, x13, x14 // (X - X0)^2 + (Y - Y0)^2
+
+    cmp x13, x12      // Comparamos con el radio al cuadrado
+    b.gt circuloskip  // Si está fuera del círculo, saltamos
+
+    mov x29, x30      // Guardamos el valor original del RET
+    bl drawpixel      // Dibujamos el pixel en la coordenada actual (x7, x8)
+    mov x30, x29      // Restauramos el valor del RET
+
+circuloskip:
+    add x7, x7, 1     // Incrementamos X
+    cmp x7, x15
+    b.le loopcircle2   // Continuamos iterando en X si no hemos llegado al límite
+    add x8, x8, 1     // Incrementamos Y
+    cmp x8, x16
+    b.le loopcircle1   // Continuamos iterando en Y si no hemos llegado al límite
+
+    ret
+
+
