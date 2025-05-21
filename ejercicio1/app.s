@@ -10,7 +10,8 @@
 
 main:
 	// x0 contiene la direccion base del framebuffer
- 	mov x20, x0	// Guarda la dirección base del framebuffer en x20
+	// Para mayor organizacion, usaremos los registros de la siguiente manera: https://docs.google.com/spreadsheets/d/1SuxA6J6tJd5geir0w2ndczHOmU239FzZQ2teHOsjGkk/edit?usp=sharing
+
 	//---------------- CODE HERE ------------------------------------
 
 	movz x2, 0xFF, lsl 16
@@ -32,6 +33,14 @@ main:
 
 	bl drawsquare
 
+
+	movz x4, 0, lsl 48 // X0
+	movk x4, 480, lsl 32 // Y0
+	movk x4, 640, lsl 16 // X1
+	movk x4, 0, lsl 00 // Y1
+
+	bl drawline
+
 	//---------------------------------------------------------------
 	// Infinite Loop
 
@@ -50,12 +59,83 @@ drawpixel:
 	stur x2,[x1]
     ret
 
-// Dibuja un rectangulo entre las cordenadas A y B en x4
-drawsquare:
-	lsl x11, x4, 32 //Guardamos en x11 el valor de X1
+// Dibuja una linea desde la cordenada A a la B utilizando el algorimo de Bresenham
+drawline:
+	lsr x9, x4, 48 // Guardamos en x9 el valor de X0
+
+	lsl x10, x4, 16 // Guardamos en x10 el valor de Y0
+	lsr x10, x10, 48
+
+	lsl x11, x4, 32 // Guardamos en x11 el valor de X1
 	lsr x11, x11, 48
 
-	lsl x12, x4, 48 //Guardamos en x12 el valor de Y1
+	lsl x12, x4, 48 // Guardamos en x12 el valor de Y1
+	lsr x12, x12, 48	
+
+	sub x13, x11, x9 // Calculamos las distancias entre los puntos
+	sub x14, x12, x10 
+
+	mov x20, x13 // Calculamos los valores absolutos de las distancias
+	bl abs
+	mov x13, x20 // abs(X1-X0)
+
+	mov x20, x14
+	bl abs
+	mov x14, x20 // abs(Y1-Y0)
+
+	mov x15, xzr
+	sub x14, x15, x14 //-abs(Y1-Y0)
+	
+
+	mov x17, 1
+	mov x18, -1
+
+	cmp x9, x11
+	csel x15, x17, x18, lt // if X0 < X1 then x15 = 1, else -1
+
+	cmp x10, x12
+	csel x16, x17, x18, lt // if Y0 < Y1 then x16 = 1, else -1
+
+	add x17, x13, x14 // error = distanciaX + distanciaY
+
+	mov x7, x9 // Seteamos valores iniciales
+	mov x8, x10
+
+loopline:
+	mov x29, x30 // Guardamos el valor original del RET
+	bl drawpixel // Dibujamos el pixel en la coordenada actual (x7, x8)
+	mov x30, x29 // Restauramos el valor del RET
+
+	add x18, x17, x17 // e2 = error * 2
+
+	cmp x18, x14 // if e2 >= distanciaY then:
+	b.lt lineskip1
+	cmp x7, x11 // if X == X1 then break
+	b.eq linefinish
+	add x17, x17, x14 // error = error + distanciaY
+	add x7, x7, x15
+
+lineskip1:
+
+	cmp x18, x13 // if e2 <= distanciaX then:
+	b.gt lineskip2
+	cmp x8, x12 // if X == X1 then break
+	b.eq linefinish
+	add x17, x17, x13 // error = error + distanciaX
+	add x8, x8, x16
+
+lineskip2:
+	b loopline
+
+linefinish: 
+	ret
+
+// Dibuja un rectangulo entre las cordenadas A y B en x4
+drawsquare:
+	lsl x11, x4, 32 // Guardamos en x11 el valor de X1
+	lsr x11, x11, 48
+
+	lsl x12, x4, 48 // Guardamos en x12 el valor de Y1
 	lsr x12, x12, 48
 
 	lsl x8, x4, 16  // Setea el valor original de la cordenada Y0
@@ -124,3 +204,14 @@ circuloskip:
     ret
 
 
+//---------------------------Funciones Matematicas---------------------------//
+
+// Calcula el absoluto del valor en x20
+abs: 
+	cmp x20, xzr
+	b.GE skipabs
+	mov x19, xzr
+	sub x20, x19, x20
+
+skipabs:
+	ret
