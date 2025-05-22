@@ -14,8 +14,8 @@ main:
 
 	//---------------- CODE HERE ------------------------------------
 
-	movz x2, 0xFF, lsl 16
-	movk x2, 0xFFFF, lsl 00
+	movz x2, 0x00, lsl 16
+	movk x2, 0xFF00, lsl 00
 
 	movz x4, 400, lsl 48 				// X0
 	movk x4, 200, lsl 32 				// Y0
@@ -24,7 +24,7 @@ main:
 	bl drawcircle
 
 	movz x2, 0xFF, lsl 16
-	movk x2, 0x00FF, lsl 00
+	movk x2, 0xFFFF, lsl 00
 
 	movz x4, 100, lsl 48 				// X0
 	movk x4, 100, lsl 32 				// Y0
@@ -120,10 +120,11 @@ drawline:
 	mov x7, x9 							// Seteamos valores iniciales
 	mov x8, x10
 
-loopline:
 	mov x29, x30 						// Guardamos el valor original del RET
+
+
+loopline:
 	bl drawpixel 						// Dibujamos el pixel en la coordenada actual (x7, x8)
-	mov x30, x29 						// Restauramos el valor del RET
 	
 	sub x19, x19, 1
 
@@ -143,6 +144,7 @@ lineskip1:
 
 lineskip2: 
 	cbnz x19, loopline 
+	mov x30, x29 						// Restauramos el valor del RET
 	ret
 
 // Dibuja un rectangulo entre las cordenadas A y B en x4
@@ -156,19 +158,20 @@ drawsquare:
 	lsl x8, x4, 16  					// Setea el valor original de la cordenada Y0
 	lsr x8, x8, 48
 
+	mov x29, x30 						// Guardamos el valor original del RET
+
 loopsquare1:
 	lsr x7, x4, 48  					// Setea el valor original de la cordenada X0
 
 loopsquare2:
-	mov x29, x30 						// Guardamos el valor original del RET
 	bl drawpixel 						// Dibujamos el pixel en la coordenada actual (x7, x8)
-	mov x30, x29 						// Restauramos el valor del RET
 	add x7, x7, 1 						// Incrementamos X
 	cmp x7, x11
 	b.ne loopsquare2 					//Verificamos que llego al limite de X
 	add x8, x8, 1 						// Incrementamos Y
 	cmp x8, x12 						//Verificamos que llego al limite de Y
 	b.ne loopsquare1
+	mov x30, x29 						// Restauramos el valor del RET
 	ret
 
 // Dibuja un circulo con centro en la cordenada A con un radio R (X1)
@@ -189,6 +192,7 @@ drawcircle:
 
 	add x16, x10, x11 					// Calculamos el límite inferior del cuadrado (Y0 + r)
 
+    mov x29, x30      					// Guardamos el valor original del RET
 
 loopcircle1:
     sub x7, x9, x12  					// Inicializamos X en el límite izquierdo del cuadrado (X0 - r)
@@ -203,9 +207,7 @@ loopcircle2:
     cmp x13, x12      					// Comparamos con el radio al cuadrado
     b.gt circuloskip  					// Si está fuera del círculo, saltamos
 
-    mov x29, x30      					// Guardamos el valor original del RET
     bl drawpixel      					// Dibujamos el pixel en la coordenada actual (x7, x8)
-    mov x30, x29      					// Restauramos el valor del RET
 
 circuloskip:
     add x7, x7, 1     					// Incrementamos X
@@ -214,7 +216,7 @@ circuloskip:
     add x8, x8, 1     					// Incrementamos Y
     cmp x8, x16
     b.le loopcircle1   					// Continuamos iterando en Y si no hemos llegado al límite
-
+    mov x30, x29      					// Restauramos el valor del RET
     ret
 
 
