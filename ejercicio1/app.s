@@ -33,13 +33,25 @@ main:
 
 	bl drawsquare
 
-
 	movz x4, 0, lsl 48 					// X0
 	movk x4, 480, lsl 32 				// Y0
 	movk x4, 640, lsl 16 				// X1
 	movk x4, 0, lsl 00 					// Y1
 
 	bl drawline
+
+	movz x4, 30, lsl 48 				// X0
+	movk x4, 30, lsl 32 				// Y0
+	movk x4, 350, lsl 16 	  			// X1
+	movk x4, 30, lsl 00 				// Y1
+
+
+	movz x5, 10, lsl 48 				// X2
+	movk x5, 400, lsl 32 				// Y2
+	movk x5, 400, lsl 16 	  			// X3
+	movk x5, 400, lsl 00 				// Y3
+
+	bl drawtrap
 
 	//---------------------------------------------------------------
 	// Infinite Loop
@@ -76,17 +88,24 @@ drawline:
 	sub x14, x12, x10 
 
 	mov x20, x13 						// Calculamos los valores absolutos de las distancias
+	mov x28, x30
 	bl abs
+	mov x30, x28
 	mov x13, x20 						// abs(X1-X0)
 
 	mov x20, x14
+	mov x28, x30
 	bl abs
+	mov x30, x28
 	mov x14, x20 						// abs(Y1-Y0)
+
+	cmp x13, x14
+	csel x19, x13, x14, gt
+	add x19, x19, 1
 
 	mov x15, xzr
 	sub x14, x15, x14 					//-abs(Y1-Y0)
 	
-
 	mov x17, 1
 	mov x18, -1
 
@@ -105,13 +124,13 @@ loopline:
 	mov x29, x30 						// Guardamos el valor original del RET
 	bl drawpixel 						// Dibujamos el pixel en la coordenada actual (x7, x8)
 	mov x30, x29 						// Restauramos el valor del RET
+	
+	sub x19, x19, 1
 
 	add x18, x17, x17 					// e2 = error * 2
 
 	cmp x18, x14 						// if e2 >= distanciaY then:
 	b.lt lineskip1
-	cmp x7, x11 						// if X == X1 then break
-	b.eq linefinish
 	add x17, x17, x14 					// error = error + distanciaY
 	add x7, x7, x15
 
@@ -119,15 +138,11 @@ lineskip1:
 
 	cmp x18, x13 						// if e2 <= distanciaX then:
 	b.gt lineskip2
-	cmp x8, x12 						// if X == X1 then break
-	b.eq linefinish
 	add x17, x17, x13 					// error = error + distanciaX
 	add x8, x8, x16
 
-lineskip2:
-	b loopline
-
-linefinish: 
+lineskip2: 
+	cbnz x19, loopline 
 	ret
 
 // Dibuja un rectangulo entre las cordenadas A y B en x4
@@ -178,8 +193,6 @@ drawcircle:
 loopcircle1:
     sub x7, x9, x12  					// Inicializamos X en el límite izquierdo del cuadrado (X0 - r)
 
-
-// Calculamos la distancia al cuadrado desde el centro del círculo
 loopcircle2:
     sub x13, x7, x9  					// Diferencia en X (X - X0)
     sub x14, x8, x10  					// Diferencia en Y (Y - Y0)
@@ -204,6 +217,23 @@ circuloskip:
 
     ret
 
+
+// Dibuja un trapezio con las cordenadas A, B, C y D
+drawtrap:
+	mov x28, x30 						// Guardamos el valor original del RET
+	bl drawline 						// Dibujamos una linea entre A y B
+	mov x30, x28 						// Restauramos el valor del RET
+
+	mov x9, x4							//Intercambiamos los valores de A y B por los de C y D
+	mov x4, x5
+	
+	mov x28, x30 						// Guardamos el valor original del RET
+	bl drawline 						// Dibujamos una linea entre C y D
+	mov x30, x28 						// Restauramos el valor del RET
+
+	mov x4, x9                          // Restauramos los valores de A y B
+
+	ret									// FALTA COMPLETAR RELLENO
 
 //---------------------------Funciones Matematicas---------------------------//
 
