@@ -216,11 +216,81 @@ circuloskip:
     ret
 
 
-// Dibuja un trapezio con las cordenadas A, B, C y D
+// Dibuja un triangulo desde la cordenada A a la B utilizando el algorimo de Bresenham
 drawtriangle:
+	lsr x9, x4, 48 						// Guardamos en x9 el valor de X0
+
+	lsl x10, x4, 16 					// Guardamos en x10 el valor de Y0
+	lsr x10, x10, 48
+
+	lsl x11, x4, 32 					// Guardamos en x11 el valor de X1
+	lsr x11, x11, 48
+
+	lsl x12, x4, 48 					// Guardamos en x12 el valor de Y1
+	lsr x12, x12, 48	
+
+	sub x13, x11, x9 					// Calculamos las distancias entre los puntos
+	sub x14, x12, x10 
+
+	mov x20, x13 						// Calculamos los valores absolutos de las distancias
+	mov x28, x30
+	bl abs
+	mov x30, x28
+	mov x13, x20 						// abs(X1-X0)
+
+	mov x20, x14
+	mov x28, x30
+	bl abs
+	mov x30, x28
+	mov x14, x20 						// abs(Y1-Y0)
+
+	cmp x13, x14
+	csel x19, x13, x14, gt
+	add x19, x19, 1
+
+	mov x15, xzr
+	sub x14, x15, x14 					//-abs(Y1-Y0)
+	
+	mov x17, 1
+	mov x18, -1
+
+	cmp x9, x11
+	csel x15, x17, x18, lt 				// if X0 < X1 then x15 = 1, else -1
+
+	cmp x10, x12
+	csel x16, x17, x18, lt 				// if Y0 < Y1 then x16 = 1, else -1
+
+	add x17, x13, x14 					// error = distanciaX + distanciaY
+
+	mov x7, x9 							// Seteamos valores iniciales
+	mov x8, x10
+
+	mov x29, x30 						// Guardamos el valor original del RET
 
 
-	ret									// FALTA COMPLETAR RELLENO
+looptraingle:
+	bl drawpixel 						// Dibujamos el pixel en la coordenada actual (x7, x8)
+	
+	sub x19, x19, 1
+
+	add x18, x17, x17 					// e2 = error * 2
+
+	cmp x18, x14 						// if e2 >= distanciaY then:
+	b.lt triangleskip1
+	add x17, x17, x14 					// error = error + distanciaY
+	add x7, x7, x15
+
+triangleskip1:
+
+	cmp x18, x13 						// if e2 <= distanciaX then:
+	b.gt triangleskip2
+	add x17, x17, x13 					// error = error + distanciaX
+	add x8, x8, x16
+
+triangleskip2: 
+	cbnz x19, looptraingle 
+	mov x30, x29 						// Restauramos el valor del RET
+	ret
 
 //---------------------------Funciones Matematicas---------------------------//
 
