@@ -14,6 +14,7 @@ main:
 
 	//---------------- CODE HERE ------------------------------------
 
+// ---------------------------------------------- PARAMETROS CIRCULO -----------------------------------------------------
 	movz x2, 0x00, lsl 16
 	movk x2, 0xFF00, lsl 00
 
@@ -23,6 +24,7 @@ main:
 
 	bl drawcircle
 
+// ---------------------------------------------- PARAMETROS CUADRADO ----------------------------------------------------
 	movz x2, 0xFF, lsl 16
 	movk x2, 0xFFFF, lsl 00
 
@@ -33,6 +35,8 @@ main:
 
 	bl drawsquare
 
+// ---------------------------------------------- PARAMETROS LINEA -------------------------------------------------------
+
 	movz x4, 0, lsl 48 					// X0
 	movk x4, 480, lsl 32 				// Y0
 	movk x4, 640, lsl 16 				// X1
@@ -40,18 +44,10 @@ main:
 
 	bl drawline
 
-	movz x4, 30, lsl 48 				// X0
-	movk x4, 30, lsl 32 				// Y0
-	movk x4, 350, lsl 16 	  			// X1
-	movk x4, 30, lsl 00 				// Y1
+// ---------------------------------------------- PARAMETROS TRIANGULO ----------------------------------------------------
 
 
-	movz x5, 10, lsl 48 				// X2
-	movk x5, 400, lsl 32 				// Y2
-	movk x5, 400, lsl 16 	  			// X3
-	movk x5, 400, lsl 00 				// Y3
-
-	bl drawtrap
+	bl drawtriangle
 
 	//---------------------------------------------------------------
 	// Infinite Loop
@@ -221,19 +217,8 @@ circuloskip:
 
 
 // Dibuja un trapezio con las cordenadas A, B, C y D
-drawtrap:
-	mov x28, x30 						// Guardamos el valor original del RET
-	bl drawline 						// Dibujamos una linea entre A y B
-	mov x30, x28 						// Restauramos el valor del RET
+drawtriangle:
 
-	mov x9, x4							//Intercambiamos los valores de A y B por los de C y D
-	mov x4, x5
-	
-	mov x28, x30 						// Guardamos el valor original del RET
-	bl drawline 						// Dibujamos una linea entre C y D
-	mov x30, x28 						// Restauramos el valor del RET
-
-	mov x4, x9                          // Restauramos los valores de A y B
 
 	ret									// FALTA COMPLETAR RELLENO
 
