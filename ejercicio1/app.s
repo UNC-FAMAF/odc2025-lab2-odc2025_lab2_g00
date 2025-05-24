@@ -46,8 +46,27 @@ main:
 
 // ---------------------------------------------- PARAMETROS TRIANGULO ----------------------------------------------------
 
+	/*movz x2, 0xFF, lsl 16
+	movk x2, 0x0080, lsl 00
 
-	bl drawtriangle
+	movz x4, 100, lsl 48 				// X0
+	movk x4, 100, lsl 32 				// Y0
+	movk x4, 250, lsl 16 				// X1
+	movk x4, 250, lsl 00 				// Y1
+
+	bl drawtriangle*/
+
+// ---------------------------------------------- PARAMETROS LINEA ----------------------------------------------------
+
+	movz x2, 0xFF, lsl 16
+	movk x2, 0x0080, lsl 00
+
+	movz x4, 50, lsl 48 				// X0
+	movk x4, 50, lsl 32 				// Y0
+	movk x4, 250, lsl 16 				// X1
+	movk x4, 250, lsl 00 				// Y1
+
+	bl drawHorizontalLine
 
 	//---------------------------------------------------------------
 	// Infinite Loop
@@ -55,7 +74,7 @@ main:
 InfLoop:
 	b InfLoop
 
-//------------------------------Funciones de dibujo--------------------------//
+//----------------------------------------------- FUNCIONES DE DIBUJO ----------------------------------------------------
 
 // Dibuja pixel en las cordenadas almacenadas en los registros x7(X) y x8(Y)
 drawpixel: 
@@ -172,9 +191,9 @@ loopsquare2:
 
 // Dibuja un circulo con centro en la cordenada A con un radio R (X1)
 drawcircle:
-    lsr x9, x4, 48  					// Guardamos la coordenada X del centro
+    lsr x9, x4, 48  					// Guardamos la coordenada X0 del centro
 
-    lsl x10, x4, 16  					// Guardamos la coordenada Y del centro
+    lsl x10, x4, 16  					// Guardamos la coordenada Y0 del centro
 	lsr x10, x10, 48
 
     lsl x11, x4, 32  					// Guardamos el radio
@@ -268,17 +287,35 @@ drawtriangle:
 	mov x29, x30 						// Guardamos el valor original del RET
 
 
-looptraingle:
-	bl drawpixel 						// Dibujamos el pixel en la coordenada actual (x7, x8)
-	
+// -------------------------------------------
+	bl drawpixel
 	sub x19, x19, 1
-
 	add x18, x17, x17 					// e2 = error * 2
-
 	cmp x18, x14 						// if e2 >= distanciaY then:
 	b.lt triangleskip1
 	add x17, x17, x14 					// error = error + distanciaY
-	add x7, x7, x15
+	add x7, x7, x15	
+
+
+looptriangle1:
+	mov x20, x7							// Hacemos un auxiliar para no romper x7
+
+looptriangle: 
+	bl drawpixel 						// Dibujamos el pixel en la coordenada actual (x7, x8)								
+	cmp x7, x9
+	sub x7, x7, 1 					    // Nos movemos hacia la izquierda
+	b.ne looptriangle				
+	mov x7, x20
+	bl drawpixel 
+
+	sub x19, x19, 1
+	add x18, x17, x17 					// e2 = error * 2
+	cmp x18, x14 						// if e2 >= distanciaY then:
+	b.lt triangleskip1
+	add x17, x17, x14 					// error = error + distanciaY
+	add x7, x7, x15	
+
+
 
 triangleskip1:
 
@@ -288,9 +325,40 @@ triangleskip1:
 	add x8, x8, x16
 
 triangleskip2: 
-	cbnz x19, looptraingle 
+	cbnz x19, looptriangle1
 	mov x30, x29 						// Restauramos el valor del RET
 	ret
+
+// ------------------------------------------------------------------------------------------
+
+drawHorizontalLine:
+	lsr x9, x4, 48 						// Guardamos en x9 el valor de X0
+
+	lsl x10, x4, 16 					// Guardamos en x10 el valor de Y0
+	lsr x10, x10, 48
+
+	lsl x11, x4, 32 					// Guardamos en x11 el valor de X1
+	lsr x11, x11, 48
+
+	lsl x12, x4, 48 					// Guardamos en x12 el valor de Y1
+	lsr x12, x12, 48	
+
+	cmp x9, x11
+	csel x15, x9, x11, lt 				// Si sucede que x9 < x11 (lo indica lt) => se guarda en x15 el primer parametro (x9)
+	csel x16, x11, x9, lt				// Si sucede que x9 < x11 (lo indica lt) => se guarda en x16 el primer parametro (x11)
+
+	mov x8, x10
+
+drawHorizontalLine_loop:
+	mov x7, x15							// Guardo en x7, la posicion actual
+	bl drawpixel						// Dibujo
+
+	add x15, x15, 1						// Avanzamos en la linea
+	cmp x15, x16					
+	b.le  drawHorizontalLine_loop
+
+	mov x30, x29            			// Restauramos x30
+    ret
 
 //---------------------------Funciones Matematicas---------------------------//
 
