@@ -8,6 +8,21 @@
 
 	.globl main
 
+
+world_map:  .byte 1, 1, 1, 1, 1, 1, 1, 1
+            .byte 1, 0, 0, 0, 0, 0, 0, 1
+            .byte 1, 0, 1, 1, 1, 1, 0, 1
+            .byte 1, 0, 1, 0, 0, 1, 0, 1
+            .byte 1, 0, 1, 0, 0, 1, 0, 1
+            .byte 1, 0, 1, 1, 1, 1, 0, 1
+            .byte 1, 0, 0, 0, 0, 0, 0, 1
+            .byte 1, 1, 1, 1, 1, 1, 1, 1
+
+player_x:   	.float 2.5
+player_y:   	.float 2.5
+player_angle: 	.float 0.0   // Ángulo en radianes (0 = hacia +X, PI/2 = hacia +Y)
+player_fov: 	.float 1.047   // 60 grados (aprox. PI/3)
+
 main:
 	// x0 contiene la direccion base del framebuffer
 	// Para mayor organizacion, usaremos los registros de la siguiente manera: https://docs.google.com/spreadsheets/d/1SuxA6J6tJd5geir0w2ndczHOmU239FzZQ2teHOsjGkk/edit?usp=sharing
@@ -66,6 +81,16 @@ drawgui:
 
 	bl drawsquare
 
+	movz x2, 0xFF, lsl 16
+	movk x2, 0xFFFF, lsl 00
+
+	movz x4, 640, lsl 48 			// X0
+	movk x4, 480, lsl 32 			// Y0
+	movk x4, 0, lsl 16 			// X1
+	movk x4, 0, lsl 00 			// Y1
+
+	bl drawline
+
 	movz x2, 0x00, lsl 16
 	movk x2, 0x0000, lsl 00
 
@@ -111,6 +136,13 @@ drawgui:
 
 	bl drawhline
 
+	movz x4, 100, lsl 48 			// X0
+	movk x4, 100, lsl 32 			// Y0
+	movk x4, 200, lsl 16 			// X1
+	movk x4, 200, lsl 16 			// Y1h
+
+	bl drawtriangle
+
 InfLoop:
 	b InfLoop
 
@@ -152,7 +184,7 @@ drawhline:
 
 	lsl x11, x4, 32 					// Guardamos en x11 el valor de X1
 	lsr x11, x11, 48
-
+	
 	lsl x8, x4, 16	 					// Guardamos en x10 el valor de Y0
 	lsr x8, x8, 48
 
@@ -367,30 +399,6 @@ drawtriangle:
 
 	mov x29, x30 						// Guardamos el valor original del RET
 
-
-looptraingle:
-	bl drawpixel 						// Dibujamos el pixel en la coordenada actual (x7, x8)
-	
-	sub x19, x19, 1
-
-	add x18, x17, x17 					// e2 = error * 2
-
-	cmp x18, x14 						// if e2 >= distanciaY then:
-	b.lt triangleskip1
-	add x17, x17, x14 					// error = error + distanciaY
-	add x7, x7, x15
-
-triangleskip1:
-
-	cmp x18, x13 						// if e2 <= distanciaX then:
-	b.gt triangleskip2
-	add x17, x17, x13 					// error = error + distanciaX
-	add x8, x8, x16
-
-triangleskip2: 
-	cbnz x19, looptraingle 
-	mov x30, x29 						// Restauramos el valor del RET
-	ret
 
 //---------------------------Funciones Matematicas---------------------------//
 
