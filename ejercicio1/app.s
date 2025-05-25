@@ -44,30 +44,29 @@ main:
 
 	bl drawline
 
-// ---------------------------------------------- PARAMETROS TRIANGULO ----------------------------------------------------
 
-	/*movz x2, 0xFF, lsl 16
-	movk x2, 0x0080, lsl 00
-
-	movz x4, 100, lsl 48 				// X0
-	movk x4, 100, lsl 32 				// Y0
-	movk x4, 250, lsl 16 				// X1
-	movk x4, 250, lsl 00 				// Y1
-
-	bl drawtriangle*/
-
-// ---------------------------------------------- PARAMETROS LINEA ----------------------------------------------------
+// ---------------------------------------------- PARAMETROS LINEA HORIZONTAL ---------------------------------------------
 
 	movz x2, 0xFF, lsl 16
 	movk x2, 0x0080, lsl 00
 
-	movz x4, 50, lsl 48 				// X0
-	movk x4, 50, lsl 32 				// Y0
-	movk x4, 250, lsl 16 				// X1
-	movk x4, 250, lsl 00 				// Y1
+	mov x21, 50
+	mov x22, 50
+	mov x23, 250
 
 	bl drawHorizontalLine
 
+// ---------------------------------------------- PARAMETROS TRIANGULO ----------------------------------------------------
+
+	movz x2, 0xFF, lsl 16
+	movk x2, 0x0080, lsl 00
+
+	movz x4, 100, lsl 48 				// X0
+	movk x4, 100, lsl 32 				// Y0
+	movk x4, 300, lsl 16 				// X1
+	movk x4, 300, lsl 00 				// Y1
+
+	bl drawtriangle
 	//---------------------------------------------------------------
 	// Infinite Loop
 
@@ -287,26 +286,17 @@ drawtriangle:
 	mov x29, x30 						// Guardamos el valor original del RET
 
 
-// -------------------------------------------
-	bl drawpixel
-	sub x19, x19, 1
-	add x18, x17, x17 					// e2 = error * 2
-	cmp x18, x14 						// if e2 >= distanciaY then:
-	b.lt triangleskip1
-	add x17, x17, x14 					// error = error + distanciaY
-	add x7, x7, x15	
 
-
+	
 looptriangle1:
-	mov x20, x7							// Hacemos un auxiliar para no romper x7
 
-looptriangle: 
-	bl drawpixel 						// Dibujamos el pixel en la coordenada actual (x7, x8)								
-	cmp x7, x9
-	sub x7, x7, 1 					    // Nos movemos hacia la izquierda
-	b.ne looptriangle				
-	mov x7, x20
-	bl drawpixel 
+	mov x21, x9
+	mov x22, x8
+	mov x23, x7
+	bl drawHorizontalLine
+	
+	cmp x23, x11						// Si la posicion actual = x11 (x1), llegue al final y corto el programa
+	b.eq endtriangle
 
 	sub x19, x19, 1
 	add x18, x17, x17 					// e2 = error * 2
@@ -315,10 +305,10 @@ looptriangle:
 	add x17, x17, x14 					// error = error + distanciaY
 	add x7, x7, x15	
 
+	mov x29, x30 						// Guardamos el valor original del RET
 
 
 triangleskip1:
-
 	cmp x18, x13 						// if e2 <= distanciaX then:
 	b.gt triangleskip2
 	add x17, x17, x13 					// error = error + distanciaX
@@ -329,32 +319,30 @@ triangleskip2:
 	mov x30, x29 						// Restauramos el valor del RET
 	ret
 
+endtriangle:
+	mov x30, x29            			// Restauramos x30
+    ret
+
 // ------------------------------------------------------------------------------------------
 
 drawHorizontalLine:
-	lsr x9, x4, 48 						// Guardamos en x9 el valor de X0
 
-	lsl x10, x4, 16 					// Guardamos en x10 el valor de Y0
-	lsr x10, x10, 48
+	mov x29, x30            			// Guardamos x30 (RET)
 
-	lsl x11, x4, 32 					// Guardamos en x11 el valor de X1
-	lsr x11, x11, 48
+	mov x26, 1
+	mov x27, -1
 
-	lsl x12, x4, 48 					// Guardamos en x12 el valor de Y1
-	lsr x12, x12, 48	
+	cmp x21, x23
+	csel x24, x26, x27, le
 
-	cmp x9, x11
-	csel x15, x9, x11, lt 				// Si sucede que x9 < x11 (lo indica lt) => se guarda en x15 el primer parametro (x9)
-	csel x16, x11, x9, lt				// Si sucede que x9 < x11 (lo indica lt) => se guarda en x16 el primer parametro (x11)
-
-	mov x8, x10
+	mov x8, x22
 
 drawHorizontalLine_loop:
-	mov x7, x15							// Guardo en x7, la posicion actual
-	bl drawpixel						// Dibujo
+	mov x7, x21						// Guardo en x7, la posicion actual
+	bl drawpixel					// Dibujo
 
-	add x15, x15, 1						// Avanzamos en la linea
-	cmp x15, x16					
+	add x21, x21, x24 						// Avanzamos o retrocedemos en la linea
+	cmp x21, x23					
 	b.le  drawHorizontalLine_loop
 
 	mov x30, x29            			// Restauramos x30
