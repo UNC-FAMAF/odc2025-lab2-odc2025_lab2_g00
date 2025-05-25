@@ -10,44 +10,399 @@
 
 main:
 	// x0 contiene la direccion base del framebuffer
- 	mov x20, x0	// Guarda la dirección base del framebuffer en x20
-	//---------------- CODE HERE ------------------------------------
+	// Para mayor organizacion, usaremos los registros de la siguiente manera: https://docs.google.com/spreadsheets/d/1SuxA6J6tJd5geir0w2ndczHOmU239FzZQ2teHOsjGkk/edit?usp=sharing
 
-	movz x10, 0xC7, lsl 16
-	movk x10, 0x1585, lsl 00
 
-	mov x2, SCREEN_HEIGH         // Y Size
-loop1:
-	mov x1, SCREEN_WIDTH         // X Size
-loop0:
-	stur w10,[x0]  // Colorear el pixel N
-	add x0,x0,4	   // Siguiente pixel
-	sub x1,x1,1	   // Decrementar contador X
-	cbnz x1,loop0  // Si no terminó la fila, salto
-	sub x2,x2,1	   // Decrementar contador Y
-	cbnz x2,loop1  // Si no es la última fila, salto
+// ---------------------------------------------- Cielo y Suelo----------------------------------------------------
+basedraw:
+	movz x2, 0x70, lsl 16
+	movk x2, 0x6969, lsl 00
 
-	// Ejemplo de uso de gpios
-	mov x9, GPIO_BASE
+	movz x4, 0, lsl 48 				// X0
+	movk x4, 0, lsl 32 				// Y0
+	movk x4, SCREEN_WIDTH, lsl 16 	// X1
+	movk x4, SCREEN_HEIGH, lsl 00 	// Y1
 
-	// Atención: se utilizan registros w porque la documentación de broadcom
-	// indica que los registros que estamos leyendo y escribiendo son de 32 bits
+	bl drawsquare
 
-	// Setea gpios 0 - 9 como lectura
-	str wzr, [x9, GPIO_GPFSEL0]
+	movz x2, 0x37, lsl 16
+	movk x2, 0x3535, lsl 00
 
-	// Lee el estado de los GPIO 0 - 31
-	ldr w10, [x9, GPIO_GPLEV0]
+	movz x4, 0, lsl 48 				// X0
+	movk x4, 240, lsl 32 			// Y0
+	movk x4, SCREEN_WIDTH, lsl 16 	// X1
+	movk x4, SCREEN_HEIGH, lsl 00 	// Y1
 
-	// And bit a bit mantiene el resultado del bit 2 en w10
-	and w11, w10, 0b10
+	bl drawsquare
 
-	// w11 será 1 si había un 1 en la posición 2 de w10, si no será 0
-	// efectivamente, su valor representará si GPIO 2 está activo
-	lsr w11, w11, 1
+drawgui:
+	movz x2, 0x1F, lsl 16
+	movk x2, 0x44D0, lsl 00
 
-	//---------------------------------------------------------------
-	// Infinite Loop
+	movz x4, 0, lsl 48 				// X0
+	movk x4, 380, lsl 32 			// Y0
+	movk x4, SCREEN_WIDTH, lsl 16 	// X1
+	movk x4, SCREEN_HEIGH, lsl 00 	// Y1
+
+	bl drawsquare
+
+	movz x2, 0x52, lsl 16
+	movk x2, 0x1FD0, lsl 00
+
+	movz x4, 10, lsl 48 			// X0
+	movk x4, 390, lsl 32 			// Y0
+	movk x4, 630, lsl 16 			// X1
+	movk x4, 470, lsl 00 			// Y1
+
+	bl drawsquare
+
+	movz x2, 0x84, lsl 16
+	movk x2, 0x8E91, lsl 00
+
+	movz x4, 280, lsl 48 			// X0
+	movk x4, 390, lsl 32 			// Y0
+	movk x4, 360, lsl 16 			// X1
+	movk x4, 470, lsl 00 			// Y1
+
+	bl drawsquare
+
+	movz x2, 0x00, lsl 16
+	movk x2, 0x0000, lsl 00
+
+	movz x4, 280, lsl 48 			// X0
+	movk x4, 390, lsl 32 			// Y0
+	movk x4, 470, lsl 00 			// Y1
+
+	bl drawvline
+
+	movz x2, 0x00, lsl 16
+	movk x2, 0x0000, lsl 00
+
+	movz x4, 360, lsl 48 			// X0
+	movk x4, 390, lsl 32 			// Y0
+	movk x4, 470, lsl 00 			// Y1
+
+	bl drawvline
+
+	movz x2, 0x00, lsl 16
+	movk x2, 0x0000, lsl 00
+
+	movz x4, 10, lsl 48 			// X0
+	movk x4, 390, lsl 32 			// Y0
+	movk x4, 470, lsl 00 			// Y1
+
+	bl drawvline
+
+	movz x4, 630, lsl 48 			// X0
+	movk x4, 390, lsl 32 			// Y0
+	movk x4, 470, lsl 00 			// Y1
+
+	bl drawvline
+
+	movz x4, 10, lsl 48 			// X0
+	movk x4, 390, lsl 32 			// Y0
+	movk x4, 630, lsl 16 			// X1
+
+	bl drawhline
+
+	movz x4, 10, lsl 48 			// X0
+	movk x4, 470, lsl 32 			// Y0
+	movk x4, 630, lsl 16 			// X1
+
+	bl drawhline
 
 InfLoop:
 	b InfLoop
+
+//------------------------------Funciones de dibujo--------------------------//
+
+// Dibuja pixel en las cordenadas almacenadas en los registros x7(X) y x8(Y)
+drawpixel: 
+    mov x1, 640
+    mul x1, x8, x1
+    add x1, x1, x7
+    lsl x1, x1, 2
+    add x1, x1, x0
+	stur x2,[x1]
+    ret
+
+// Dibuja una linea vertical desde la cordenada A a la B
+drawvline:
+	lsr x7, x4, 48  					// Setea el valor original de la cordenada X0
+
+	lsl x12, x4, 48 					// Guardamos en x12 el valor de Y1
+	lsr x12, x12, 48	
+
+	lsl x8, x4, 16	 					// Guardamos en x10 el valor de Y0
+	lsr x8, x8, 48
+
+	mov x29, x30
+
+loopvline:
+	bl drawpixel 						// Dibujamos el pixel en la coordenada actual (x7, x8)
+	add x8, x8, 1 						// Incrementamos X
+	cmp x8, x12
+	b.ne loopvline
+	mov x30, x29 						// Restauramos el valor del RET
+	ret
+
+// Dibuja una linea vertical desde la cordenada A a la B
+drawhline:
+	lsr x7, x4, 48  					// Setea el valor original de la cordenada X0
+
+	lsl x11, x4, 32 					// Guardamos en x11 el valor de X1
+	lsr x11, x11, 48
+
+	lsl x8, x4, 16	 					// Guardamos en x10 el valor de Y0
+	lsr x8, x8, 48
+
+	mov x29, x30
+
+loophline:
+	bl drawpixel 						// Dibujamos el pixel en la coordenada actual (x7, x8)
+	add x7, x7, 1 						// Incrementamos X
+	cmp x7, x11
+	b.ne loophline
+	mov x30, x29 						// Restauramos el valor del RET
+	ret
+
+
+// Dibuja una linea desde la cordenada A a la B utilizando el algorimo de Bresenham
+drawline:
+	lsr x9, x4, 48 						// Guardamos en x9 el valor de X0
+
+	lsl x10, x4, 16 					// Guardamos en x10 el valor de Y0
+	lsr x10, x10, 48
+
+	lsl x11, x4, 32 					// Guardamos en x11 el valor de X1
+	lsr x11, x11, 48
+
+	lsl x12, x4, 48 					// Guardamos en x12 el valor de Y1
+	lsr x12, x12, 48	
+
+	sub x13, x11, x9 					// Calculamos las distancias entre los puntos
+	sub x14, x12, x10 
+
+	mov x20, x13 						// Calculamos los valores absolutos de las distancias
+	mov x28, x30
+	bl abs
+	mov x30, x28
+	mov x13, x20 						// abs(X1-X0)
+
+	mov x20, x14
+	mov x28, x30
+	bl abs
+	mov x30, x28
+	mov x14, x20 						// abs(Y1-Y0)
+
+	cmp x13, x14
+	csel x19, x13, x14, gt
+	add x19, x19, 1
+
+	mov x15, xzr
+	sub x14, x15, x14 					//-abs(Y1-Y0)
+	
+	mov x17, 1
+	mov x18, -1
+
+	cmp x9, x11
+	csel x15, x17, x18, lt 				// if X0 < X1 then x15 = 1, else -1
+
+	cmp x10, x12
+	csel x16, x17, x18, lt 				// if Y0 < Y1 then x16 = 1, else -1
+
+	add x17, x13, x14 					// error = distanciaX + distanciaY
+
+	mov x7, x9 							// Seteamos valores iniciales
+	mov x8, x10
+
+	mov x29, x30 						// Guardamos el valor original del RET
+
+
+loopline:
+	bl drawpixel 						// Dibujamos el pixel en la coordenada actual (x7, x8)
+	
+	sub x19, x19, 1
+
+	add x18, x17, x17 					// e2 = error * 2
+
+	cmp x18, x14 						// if e2 >= distanciaY then:
+	b.lt lineskip1
+	add x17, x17, x14 					// error = error + distanciaY
+	add x7, x7, x15
+
+lineskip1:
+
+	cmp x18, x13 						// if e2 <= distanciaX then:
+	b.gt lineskip2
+	add x17, x17, x13 					// error = error + distanciaX
+	add x8, x8, x16
+
+lineskip2: 
+	cbnz x19, loopline 
+	mov x30, x29 						// Restauramos el valor del RET
+	ret
+
+// Dibuja un rectangulo entre las cordenadas A y B en x4
+drawsquare:
+	lsl x11, x4, 32 					// Guardamos en x11 el valor de X1
+	lsr x11, x11, 48
+
+	lsl x12, x4, 48 					// Guardamos en x12 el valor de Y1
+	lsr x12, x12, 48
+
+	lsl x8, x4, 16  					// Setea el valor original de la cordenada Y0
+	lsr x8, x8, 48
+
+	mov x29, x30 						// Guardamos el valor original del RET
+
+loopsquare1:
+	lsr x7, x4, 48  					// Setea el valor original de la cordenada X0
+
+loopsquare2:
+	bl drawpixel 						// Dibujamos el pixel en la coordenada actual (x7, x8)
+	add x7, x7, 1 						// Incrementamos X
+	cmp x7, x11
+	b.ne loopsquare2 					//Verificamos que llego al limite de X
+	add x8, x8, 1 						// Incrementamos Y
+	cmp x8, x12 						//Verificamos que llego al limite de Y
+	b.ne loopsquare1
+	mov x30, x29 						// Restauramos el valor del RET
+	ret
+
+// Dibuja un circulo con centro en la cordenada A con un radio R (X1)
+drawcircle:
+    lsr x9, x4, 48  					// Guardamos la coordenada X del centro
+
+    lsl x10, x4, 16  					// Guardamos la coordenada Y del centro
+	lsr x10, x10, 48
+
+    lsl x11, x4, 32  					// Guardamos el radio
+	lsr x11, x11, 48
+
+    mul x12, x11, x11 					// Elevamos al cuadrado el radio
+
+    sub x8, x10, x12  					// Inicializamos Y en el límite superior del cuadrado (Y0 - r)
+
+	add x15, x9, x11 					// Calculamos el límite derecho del cuadrado (X0 + r)
+
+	add x16, x10, x11 					// Calculamos el límite inferior del cuadrado (Y0 + r)
+
+    mov x29, x30      					// Guardamos el valor original del RET
+
+loopcircle1:
+    sub x7, x9, x12  					// Inicializamos X en el límite izquierdo del cuadrado (X0 - r)
+
+loopcircle2:
+    sub x13, x7, x9  					// Diferencia en X (X - X0)
+    sub x14, x8, x10  					// Diferencia en Y (Y - Y0)
+    mul x13, x13, x13 					// (X - X0)^2
+    mul x14, x14, x14 					// (Y - Y0)^2
+    add x13, x13, x14 					// (X - X0)^2 + (Y - Y0)^2
+
+    cmp x13, x12      					// Comparamos con el radio al cuadrado
+    b.gt circuloskip  					// Si está fuera del círculo, saltamos
+
+    bl drawpixel      					// Dibujamos el pixel en la coordenada actual (x7, x8)
+
+circuloskip:
+    add x7, x7, 1     					// Incrementamos X
+    cmp x7, x15
+    b.le loopcircle2   					// Continuamos iterando en X si no hemos llegado al límite
+    add x8, x8, 1     					// Incrementamos Y
+    cmp x8, x16
+    b.le loopcircle1   					// Continuamos iterando en Y si no hemos llegado al límite
+    mov x30, x29      					// Restauramos el valor del RET
+    ret
+
+
+// Dibuja un triangulo desde la cordenada A a la B utilizando el algorimo de Bresenham
+drawtriangle:
+	lsr x9, x4, 48 						// Guardamos en x9 el valor de X0
+
+	lsl x10, x4, 16 					// Guardamos en x10 el valor de Y0
+	lsr x10, x10, 48
+
+	lsl x11, x4, 32 					// Guardamos en x11 el valor de X1
+	lsr x11, x11, 48
+
+	lsl x12, x4, 48 					// Guardamos en x12 el valor de Y1
+	lsr x12, x12, 48	
+
+	sub x13, x11, x9 					// Calculamos las distancias entre los puntos
+	sub x14, x12, x10 
+
+	mov x20, x13 						// Calculamos los valores absolutos de las distancias
+	mov x28, x30
+	bl abs
+	mov x30, x28
+	mov x13, x20 						// abs(X1-X0)
+
+	mov x20, x14
+	mov x28, x30
+	bl abs
+	mov x30, x28
+	mov x14, x20 						// abs(Y1-Y0)
+
+	cmp x13, x14
+	csel x19, x13, x14, gt
+	add x19, x19, 1
+
+	mov x15, xzr
+	sub x14, x15, x14 					//-abs(Y1-Y0)
+	
+	mov x17, 1
+	mov x18, -1
+
+	cmp x9, x11
+	csel x15, x17, x18, lt 				// if X0 < X1 then x15 = 1, else -1
+
+	cmp x10, x12
+	csel x16, x17, x18, lt 				// if Y0 < Y1 then x16 = 1, else -1
+
+	add x17, x13, x14 					// error = distanciaX + distanciaY
+
+	mov x7, x9 							// Seteamos valores iniciales
+	mov x8, x10
+
+	mov x29, x30 						// Guardamos el valor original del RET
+
+
+looptraingle:
+	bl drawpixel 						// Dibujamos el pixel en la coordenada actual (x7, x8)
+	
+	sub x19, x19, 1
+
+	add x18, x17, x17 					// e2 = error * 2
+
+	cmp x18, x14 						// if e2 >= distanciaY then:
+	b.lt triangleskip1
+	add x17, x17, x14 					// error = error + distanciaY
+	add x7, x7, x15
+
+triangleskip1:
+
+	cmp x18, x13 						// if e2 <= distanciaX then:
+	b.gt triangleskip2
+	add x17, x17, x13 					// error = error + distanciaX
+	add x8, x8, x16
+
+triangleskip2: 
+	cbnz x19, looptraingle 
+	mov x30, x29 						// Restauramos el valor del RET
+	ret
+
+//---------------------------Funciones Matematicas---------------------------//
+
+// Calcula el absoluto del valor en x20
+abs: 
+	cmp x20, xzr
+	b.GE skipabs
+	mov x19, xzr
+	sub x20, x19, x20
+
+skipabs:
+	ret
+
+
+
