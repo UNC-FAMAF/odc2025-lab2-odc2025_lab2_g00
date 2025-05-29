@@ -12,7 +12,7 @@ main:
 	// x0 contiene la direccion base del framebuffer
 	// Para mayor organizacion, usaremos los registros de la siguiente manera: https://docs.google.com/spreadsheets/d/1SuxA6J6tJd5geir0w2ndczHOmU239FzZQ2teHOsjGkk/edit?usp=sharing
 
-	//---------------- CODE HERE ------------------------------------
+//--------------------------------------------------- CODE HERE ----------------------------------------------------------
 
 	mov x22, 76
 	mov x23, 287
@@ -28,6 +28,12 @@ main:
 
 	mov x22, 324
 	bl faro
+
+//-----------------------------------------------
+
+	mov x22, 32
+	mov x23, 235
+	bl salidaDeAire
 
 //-----------------------------------------------
 
@@ -663,8 +669,182 @@ parrilla:
 	bl drawline
 	mov x30, x27
 
+	ret
 
+// ------------------------------------------------- SALIDAS DE AIRE ------------------------------------------------------
 
+salidaDeAire:
+	movz x2, 0x96, lsl 16				
+	movk x2, 0x2237, lsl 00
 
+	add x21, x22, 6
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 8
+	bfi x4, x21, 32, 16					// Y0
+	movk x4, 7, lsl 16					// X1
+
+	mov x27, x30
+	bl drawcircle
+	mov x30, x27
+
+// ----------------------------------------------
+
+	movz x2, 0x53, lsl 16				
+	movk x2, 0x6765, lsl 00
+
+	add x21, x22, 7
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 8
+	bfi x4, x21, 32, 16					// Y0
+	movk x4, 7, lsl 16					// X1
+
+	mov x27, x30
+	bl drawcircle
+	mov x30, x27
+
+// ----------------------------------------------
+
+	add x21, x22, 4
+	bfi x4, x21, 48, 16					// X0 
+	add x21, x23, 2
+ 	bfi x4, x21, 32, 16					// Y0 
+	add x21, x22, 47
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 15
+	bfi x4, x21, 0, 16					// Y1
+
+	mov x27, x30
+	bl drawsquare
+	mov x30, x27
+
+// ----------------------------------------------
+
+	add x21, x22, 46
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 8
+	bfi x4, x21, 32, 16					// Y0
+	movk x4, 7, lsl 16					// X1
+
+	mov x27, x30
+	bl drawcircle
+	mov x30, x27
+
+// ----------------------------------------------
+
+	movz x2, 0x96, lsl 16				
+	movk x2, 0x2237, lsl 00
+
+	add x21, x22, 12
+	bfi x4, x21, 48, 16					// X0 
+	add x21, x23, 15
+ 	bfi x4, x21, 32, 16					// Y0 
+	add x21, x22, 48
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 16
+	bfi x4, x21, 0, 16					// Y1
+
+	mov x27, x30
+	bl drawsquare
+	mov x30, x27
+
+// ----------------------------------------------
+
+	add x21, x22, 5
+	bfi x4, x21, 48, 16					// X0 
+	add x21, x23, 1
+ 	bfi x4, x21, 32, 16					// Y0 
+	add x21, x22, 47
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 2
+	bfi x4, x21, 0, 16					// Y1
+
+	mov x27, x30
+	bl drawsquare
+	mov x30, x27
+
+// ----------------------------------------------
+	add x21, x22, 7
+	bfi x4, x21, 48, 16					// X0 
+	add x21, x23, 0
+ 	bfi x4, x21, 32, 16					// Y0 
+	add x21, x22, 41
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 1
+	bfi x4, x21, 0, 16					// Y1
+
+	mov x27, x30
+	bl drawsquare
+	mov x30, x27
+	
+// ----------------------------------------------
+
+	movz x2, 0x01, lsl 16				
+	movk x2, 0x0505, lsl 00
+
+	add x21, x22, 6
+	bfi x4, x21, 48, 16					// X0 
+	add x21, x23, 4
+ 	bfi x4, x21, 32, 16					// Y0 
+	add x21, x22, 46
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 6
+	bfi x4, x21, 0, 16					// Y1
+
+	mov x27, x30
+	bl drawsquare
+	mov x30, x27
+
+// ----------------------------------------------
+
+	add x21, x22, 4
+	bfi x4, x21, 48, 16					// X0 
+	add x21, x23, 8
+ 	bfi x4, x21, 32, 16					// Y0 
+	add x21, x22, 49
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 10
+	bfi x4, x21, 0, 16					// Y1
+
+	mov x27, x30
+	bl drawsquare
+	mov x30, x27
+
+// ----------------------------------------------
+
+	add x21, x22, 5
+	bfi x4, x21, 48, 16					// X0 
+	add x21, x23, 12
+ 	bfi x4, x21, 32, 16					// Y0 
+	add x21, x22, 45
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 14
+	bfi x4, x21, 0, 16					// Y1
+
+	mov x27, x30
+	bl drawsquare
+	mov x30, x27
+
+// ----------------------------------------------
+
+	movz x2, 0xad, lsl 16				
+	movk x2, 0xadad, lsl 00
+
+	add x21, x22, 6
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 8
+	bfi x4, x21, 32, 16					// Y0
+	movk x4, 7, lsl 16					// X1
+
+	mov x27, x30
+	bl drawcircle
+	mov x30, x27
+
+// ----------------------------------------------
+	ret
+//
+//	mov x22, 32     X
+//	mov x23, 235    Y
+//	bl salidaDeAire
+//
 
 
