@@ -14,348 +14,373 @@ main:
 
 	//---------------- CODE HERE ------------------------------------
 
-// ---------------------------------------------- PARAMETROS CIRCULO -----------------------------------------------------
-	movz x2, 0x00, lsl 16
-	movk x2, 0xFF00, lsl 00
+	mov x22, 100
+	mov x23, 200
 
-	movz x4, 400, lsl 48 				// X0
-	movk x4, 200, lsl 32 				// Y0
-	movk x4, 100, lsl 16 				// X1 (En este caso actua como Radio)
+	bl faro
 
-	bl drawcircle
+	mov x22, 324
 
-// ---------------------------------------------- PARAMETROS CUADRADO ----------------------------------------------------
-	movz x2, 0xFF, lsl 16
-	movk x2, 0xFFFF, lsl 00
-
-	movz x4, 100, lsl 48 				// X0
-	movk x4, 100, lsl 32 				// Y0
-	movk x4, 300, lsl 16 				// X1
-	movk x4, 300, lsl 00 				// Y1
-
-	bl drawsquare
-
-// ---------------------------------------------- PARAMETROS LINEA -------------------------------------------------------
-
-	movz x4, 0, lsl 48 					// X0
-	movk x4, 480, lsl 32 				// Y0
-	movk x4, 640, lsl 16 				// X1
-	movk x4, 0, lsl 00 					// Y1
-
-	bl drawline
-
-
-// ---------------------------------------------- PARAMETROS LINEA HORIZONTAL ---------------------------------------------
-
-	movz x2, 0xFF, lsl 16
-	movk x2, 0x0080, lsl 00
-
-	mov x21, 50
-	mov x22, 50
-	mov x23, 250
-
-	bl drawHorizontalLine
-
-// ---------------------------------------------- PARAMETROS TRIANGULO ----------------------------------------------------
-
-	movz x2, 0xFF, lsl 16
-	movk x2, 0x0080, lsl 00
-
-	movz x4, 100, lsl 48 				// X0
-	movk x4, 100, lsl 32 				// Y0
-	movk x4, 300, lsl 16 				// X1
-	movk x4, 300, lsl 00 				// Y1
-
-	bl drawtriangle
-	//---------------------------------------------------------------
-	// Infinite Loop
+	bl faro
 
 InfLoop:
 	b InfLoop
 
-//----------------------------------------------- FUNCIONES DE DIBUJO ----------------------------------------------------
+//Faro (86x60 pixeles) x = x22, y = x23 (Entre faro y faro tiene que haber 224 pixeles)
+faro:
+	movz x2, 0x27, lsl 16				// Carcasa Gris Oscuro----------------------------
+	movk x2, 0x2729, lsl 00				// Color
 
-// Dibuja pixel en las cordenadas almacenadas en los registros x7(X) y x8(Y)
-drawpixel: 
-    mov x1, 640
-    mul x1, x8, x1
-    add x1, x1, x7
-    lsl x1, x1, 2
-    add x1, x1, x0
-	stur x2,[x1]
-    ret
+	add x21, x22, 8
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 8
+	bfi x4, x21, 32, 16					// Y0
+	add x21, x22, 51
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 50
+	bfi x4, x21, 0, 16					// Y1
 
-// Dibuja una linea desde la cordenada A a la B utilizando el algorimo de Bresenham
-drawline:
-	lsr x9, x4, 48 						// Guardamos en x9 el valor de X0
+	mov x27, x30
+	bl drawsquare
+	mov x30, x27
 
-	lsl x10, x4, 16 					// Guardamos en x10 el valor de Y0
-	lsr x10, x10, 48
+	add x21, x22, 0
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 46
+	bfi x4, x21, 32, 16					// Y0
+	add x21, x22, 51
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 50
+	bfi x4, x21, 0, 16					// Y1
 
-	lsl x11, x4, 32 					// Guardamos en x11 el valor de X1
-	lsr x11, x11, 48
+	mov x27, x30
+	bl drawsquare
+	mov x30, x27
 
-	lsl x12, x4, 48 					// Guardamos en x12 el valor de Y1
-	lsr x12, x12, 48	
+	add x21, x22, 3
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 44
+	bfi x4, x21, 32, 16					// Y0
+	add x21, x22, 51
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 48
+	bfi x4, x21, 0, 16					// Y1
 
-	sub x13, x11, x9 					// Calculamos las distancias entre los puntos
-	sub x14, x12, x10 
+	mov x27, x30
+	bl drawsquare
+	mov x30, x27
 
-	mov x20, x13 						// Calculamos los valores absolutos de las distancias
-	mov x28, x30
-	bl abs
-	mov x30, x28
-	mov x13, x20 						// abs(X1-X0)
+	add x21, x22, 6
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 42
+	bfi x4, x21, 32, 16					// Y0
+	add x21, x22, 51
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 46
+	bfi x4, x21, 0, 16					// Y1
 
-	mov x20, x14
-	mov x28, x30
-	bl abs
-	mov x30, x28
-	mov x14, x20 						// abs(Y1-Y0)
+	mov x27, x30
+	bl drawsquare
+	mov x30, x27
 
-	cmp x13, x14
-	csel x19, x13, x14, gt
-	add x19, x19, 1
+	add x21, x22, 7
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 6
+	bfi x4, x21, 32, 16					// Y0
+	add x21, x22, 45
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 8
+	bfi x4, x21, 0, 16					// Y1
 
-	mov x15, xzr
-	sub x14, x15, x14 					//-abs(Y1-Y0)
-	
-	mov x17, 1
-	mov x18, -1
+	mov x27, x30
+	bl drawsquare
+	mov x30, x27
 
-	cmp x9, x11
-	csel x15, x17, x18, lt 				// if X0 < X1 then x15 = 1, else -1
+	add x21, x22, 5
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 4
+	bfi x4, x21, 32, 16					// Y0
+	add x21, x22, 32
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 6
+	bfi x4, x21, 0, 16					// Y1
 
-	cmp x10, x12
-	csel x16, x17, x18, lt 				// if Y0 < Y1 then x16 = 1, else -1
+	mov x27, x30
+	bl drawsquare
+	mov x30, x27
 
-	add x17, x13, x14 					// error = distanciaX + distanciaY
+	add x21, x22, 5
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 2
+	bfi x4, x21, 32, 16					// Y0
+	add x21, x22, 16
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 4
+	bfi x4, x21, 0, 16					// Y1
 
-	mov x7, x9 							// Seteamos valores iniciales
-	mov x8, x10
+	mov x27, x30
+	bl drawsquare
+	mov x30, x27
 
-	mov x29, x30 						// Guardamos el valor original del RET
+	add x21, x22, 28
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 50
+	bfi x4, x21, 32, 16					// Y0
+	add x21, x22, 51
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 52
+	bfi x4, x21, 0, 16					// Y1
+
+	mov x27, x30
+	bl drawsquare
+	mov x30, x27						// Carcasa Gris Oscuro ---------------------------
+
+	movz x2, 0xAB, lsl 16				// Carcasa Roja ----------------------------------
+	movk x2, 0x3D5B, lsl 00				// Color
+
+	add x21, x22, 2
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 0
+	bfi x4, x21, 32, 16					// Y0
+	add x21, x22, 16
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 2
+	bfi x4, x21, 0, 16					// Y1
+
+	mov x27, x30
+	bl drawsquare
+	mov x30, x27	
+
+	add x21, x22, 16
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 2
+	bfi x4, x21, 32, 16					// Y0
+	add x21, x22, 36
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 4
+	bfi x4, x21, 0, 16					// Y1
+
+	mov x27, x30
+	bl drawsquare
+	mov x30, x27	
+
+	add x21, x22, 32
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 4
+	bfi x4, x21, 32, 16					// Y0
+	add x21, x22, 47
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 6
+	bfi x4, x21, 0, 16					// Y1
+
+	mov x27, x30
+	bl drawsquare
+	mov x30, x27	
+
+	add x21, x22, 45
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 6
+	bfi x4, x21, 32, 16					// Y0
+	add x21, x22, 51
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 8
+	bfi x4, x21, 0, 16					// Y1
+
+	mov x27, x30
+	bl drawsquare
+	mov x30, x27						// Carcasa Roja ----------------------------------
+
+	movz x2, 0x3B, lsl 16				// Triangulo gris --------------------------------
+	movk x2, 0x3D49, lsl 00				// Color
+
+	mov x24, 51
+
+trialoop:
+	add x21, x22, 51
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, x24
+	bfi x4, x21, 32, 16					// Y0
+	add x21, x22, 76
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 40
+	bfi x4, x21, 0, 16					// Y1
+
+	mov x27, x30
+	bl drawline
+	mov x30, x27	
+
+	sub x24, x24, 1
+	cmp x24, 7
+
+	b.gt trialoop						// Triangulo gris --------------------------------
+
+	movz x2, 0x0E, lsl 16				// Circulos Negros -------------------------------
+	movk x2, 0x0E0F, lsl 00				// Color
+
+	add x21, x22, 69
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 35
+	bfi x4, x21, 32, 16					// Y0
+	movk x4, 1, lsl 16					// X1
+
+	mov x27, x30
+	bl drawcircle
+	mov x30, x27	
+
+	add x21, x22, 55
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 20
+	bfi x4, x21, 32, 16					// Y0
+	movk x4, 1, lsl 16					// X1
+
+	mov x27, x30
+	bl drawcircle
+	mov x30, x27	
+
+	add x21, x22, 28
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 31
+	bfi x4, x21, 32, 16					// Y0
+	movk x4, 21, lsl 16					// X1
+
+	mov x27, x30
+	bl drawcircle
+	mov x30, x27						// Circulos Negros -------------------------------
+
+	movz x2, 0xD2, lsl 16				// Optica		   -------------------------------
+	movk x2, 0xD2D2, lsl 00				// Color1	
+
+	add x21, x22, 28
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 31
+	bfi x4, x21, 32, 16					// Y0
+	movk x4, 19, lsl 16					// X1
+
+	mov x27, x30
+	bl drawcircle
+	mov x30, x27
+
+	movz x2, 0x85, lsl 16				
+	movk x2, 0x959D, lsl 00				// Color2	
+
+	add x21, x22, 24
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 29
+	bfi x4, x21, 32, 16					// Y0
+	movk x4, 8, lsl 16					// X1
+
+	mov x27, x30
+	bl drawcircle
+	mov x30, x27
+
+	add x21, x22, 24
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 33
+	bfi x4, x21, 32, 16					// Y0
+	add x21, x22, 40
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 38
+	bfi x4, x21, 0, 16					// Y1
+
+	mov x27, x30
+	bl drawsquare
+	mov x30, x27
 
 
-loopline:
-	bl drawpixel 						// Dibujamos el pixel en la coordenada actual (x7, x8)
-	
-	sub x19, x19, 1
+	movz x2, 0xFF, lsl 16				
+	movk x2, 0xFFFF, lsl 00				// Color3
 
-	add x18, x17, x17 					// e2 = error * 2
+	add x21, x22, 28
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 31
+	bfi x4, x21, 32, 16					// Y0
+	movk x4, 6, lsl 16					// X1
 
-	cmp x18, x14 						// if e2 >= distanciaY then:
-	b.lt lineskip1
-	add x17, x17, x14 					// error = error + distanciaY
-	add x7, x7, x15
+	mov x27, x30
+	bl drawcircle
+	mov x30, x27
 
-lineskip1:
+	add x21, x22, 15
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 18
+	bfi x4, x21, 32, 16					// Y0
+	add x21, x22, 22
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 25
+	bfi x4, x21, 0, 16					// Y1
 
-	cmp x18, x13 						// if e2 <= distanciaX then:
-	b.gt lineskip2
-	add x17, x17, x13 					// error = error + distanciaX
-	add x8, x8, x16
+	mov x27, x30
+	bl drawsquare
+	mov x30, x27
 
-lineskip2: 
-	cbnz x19, loopline 
-	mov x30, x29 						// Restauramos el valor del RET
+	add x21, x22, 20
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 15
+	bfi x4, x21, 32, 16					// Y0
+	add x21, x22, 27
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 20
+	bfi x4, x21, 0, 16					// Y1
+
+	mov x27, x30
+	bl drawsquare
+	mov x30, x27
+
+	add x21, x22, 12
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 25
+	bfi x4, x21, 32, 16					// Y0
+	add x21, x22, 18
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 30
+	bfi x4, x21, 0, 16					// Y1
+
+	mov x27, x30
+	bl drawsquare
+	mov x30, x27
+
+	add x21, x22, 32
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 40
+	bfi x4, x21, 32, 16					// Y0
+	add x21, x22, 40
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 45
+	bfi x4, x21, 0, 16					// Y1
+
+	mov x27, x30
+	bl drawsquare
+	mov x30, x27
+
+
+	movz x2, 0x51, lsl 16				
+	movk x2, 0x6779, lsl 00				// Color4
+
+	add x21, x22, 32
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 30
+	bfi x4, x21, 32, 16					// Y0
+	movk x4, 3, lsl 16					// X1
+
+	mov x27, x30
+	bl drawcircle
+	mov x30, x27						// Optica		   -------------------------------
+
+	movz x2, 0x96, lsl 16				// Linea Roja --------------------------------
+	movk x2, 0x354E, lsl 00				// Color
+
+	add x21, x22, 52
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 7
+	bfi x4, x21, 32, 16					// Y0
+	add x21, x22, 77
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 40
+	bfi x4, x21, 0, 16					// Y1
+
+	mov x27, x30
+	bl drawline
+	mov x30, x27
+
 	ret
 
-// Dibuja un rectangulo entre las cordenadas A y B en x4
-drawsquare:
-	lsl x11, x4, 32 					// Guardamos en x11 el valor de X1
-	lsr x11, x11, 48
-
-	lsl x12, x4, 48 					// Guardamos en x12 el valor de Y1
-	lsr x12, x12, 48
-
-	lsl x8, x4, 16  					// Setea el valor original de la cordenada Y0
-	lsr x8, x8, 48
-
-	mov x29, x30 						// Guardamos el valor original del RET
-
-loopsquare1:
-	lsr x7, x4, 48  					// Setea el valor original de la cordenada X0
-
-loopsquare2:
-	bl drawpixel 						// Dibujamos el pixel en la coordenada actual (x7, x8)
-	add x7, x7, 1 						// Incrementamos X
-	cmp x7, x11
-	b.ne loopsquare2 					//Verificamos que llego al limite de X
-	add x8, x8, 1 						// Incrementamos Y
-	cmp x8, x12 						//Verificamos que llego al limite de Y
-	b.ne loopsquare1
-	mov x30, x29 						// Restauramos el valor del RET
-	ret
-
-// Dibuja un circulo con centro en la cordenada A con un radio R (X1)
-drawcircle:
-    lsr x9, x4, 48  					// Guardamos la coordenada X0 del centro
-
-    lsl x10, x4, 16  					// Guardamos la coordenada Y0 del centro
-	lsr x10, x10, 48
-
-    lsl x11, x4, 32  					// Guardamos el radio
-	lsr x11, x11, 48
-
-    mul x12, x11, x11 					// Elevamos al cuadrado el radio
-
-    sub x8, x10, x12  					// Inicializamos Y en el límite superior del cuadrado (Y0 - r)
-
-	add x15, x9, x11 					// Calculamos el límite derecho del cuadrado (X0 + r)
-
-	add x16, x10, x11 					// Calculamos el límite inferior del cuadrado (Y0 + r)
-
-    mov x29, x30      					// Guardamos el valor original del RET
-
-loopcircle1:
-    sub x7, x9, x12  					// Inicializamos X en el límite izquierdo del cuadrado (X0 - r)
-
-loopcircle2:
-    sub x13, x7, x9  					// Diferencia en X (X - X0)
-    sub x14, x8, x10  					// Diferencia en Y (Y - Y0)
-    mul x13, x13, x13 					// (X - X0)^2
-    mul x14, x14, x14 					// (Y - Y0)^2
-    add x13, x13, x14 					// (X - X0)^2 + (Y - Y0)^2
-
-    cmp x13, x12      					// Comparamos con el radio al cuadrado
-    b.gt circuloskip  					// Si está fuera del círculo, saltamos
-
-    bl drawpixel      					// Dibujamos el pixel en la coordenada actual (x7, x8)
-
-circuloskip:
-    add x7, x7, 1     					// Incrementamos X
-    cmp x7, x15
-    b.le loopcircle2   					// Continuamos iterando en X si no hemos llegado al límite
-    add x8, x8, 1     					// Incrementamos Y
-    cmp x8, x16
-    b.le loopcircle1   					// Continuamos iterando en Y si no hemos llegado al límite
-    mov x30, x29      					// Restauramos el valor del RET
-    ret
-
-
-// Dibuja un triangulo desde la cordenada A a la B utilizando el algorimo de Bresenham
-drawtriangle:
-	lsr x9, x4, 48 						// Guardamos en x9 el valor de X0
-
-	lsl x10, x4, 16 					// Guardamos en x10 el valor de Y0
-	lsr x10, x10, 48
-
-	lsl x11, x4, 32 					// Guardamos en x11 el valor de X1
-	lsr x11, x11, 48
-
-	lsl x12, x4, 48 					// Guardamos en x12 el valor de Y1
-	lsr x12, x12, 48	
-
-	sub x13, x11, x9 					// Calculamos las distancias entre los puntos
-	sub x14, x12, x10 
-
-	mov x20, x13 						// Calculamos los valores absolutos de las distancias
-	mov x28, x30
-	bl abs
-	mov x30, x28
-	mov x13, x20 						// abs(X1-X0)
-
-	mov x20, x14
-	mov x28, x30
-	bl abs
-	mov x30, x28
-	mov x14, x20 						// abs(Y1-Y0)
-
-	cmp x13, x14
-	csel x19, x13, x14, gt
-	add x19, x19, 1
-
-	mov x15, xzr
-	sub x14, x15, x14 					//-abs(Y1-Y0)
-	
-	mov x17, 1
-	mov x18, -1
-
-	cmp x9, x11
-	csel x15, x17, x18, lt 				// if X0 < X1 then x15 = 1, else -1
-
-	cmp x10, x12
-	csel x16, x17, x18, lt 				// if Y0 < Y1 then x16 = 1, else -1
-
-	add x17, x13, x14 					// error = distanciaX + distanciaY
-
-	mov x7, x9 							// Seteamos valores iniciales
-	mov x8, x10
-
-	mov x29, x30 						// Guardamos el valor original del RET
-
-
-
-	
-looptriangle1:
-
-	mov x21, x9
-	mov x22, x8
-	mov x23, x7
-	bl drawHorizontalLine
-	
-	cmp x23, x11						// Si la posicion actual = x11 (x1), llegue al final y corto el programa
-	b.eq endtriangle
-
-	sub x19, x19, 1
-	add x18, x17, x17 					// e2 = error * 2
-	cmp x18, x14 						// if e2 >= distanciaY then:
-	b.lt triangleskip1
-	add x17, x17, x14 					// error = error + distanciaY
-	add x7, x7, x15	
-
-	mov x29, x30 						// Guardamos el valor original del RET
-
-
-triangleskip1:
-	cmp x18, x13 						// if e2 <= distanciaX then:
-	b.gt triangleskip2
-	add x17, x17, x13 					// error = error + distanciaX
-	add x8, x8, x16
-
-triangleskip2: 
-	cbnz x19, looptriangle1
-	mov x30, x29 						// Restauramos el valor del RET
-	ret
-
-endtriangle:
-	mov x30, x29            			// Restauramos x30
-    ret
-
-// ------------------------------------------------------------------------------------------
-
-drawHorizontalLine:
-
-	mov x29, x30            			// Guardamos x30 (RET)
-
-	mov x26, 1
-	mov x27, -1
-
-	cmp x21, x23
-	csel x24, x26, x27, le
-
-	mov x8, x22
-
-drawHorizontalLine_loop:
-	mov x7, x21						// Guardo en x7, la posicion actual
-	bl drawpixel					// Dibujo
-
-	add x21, x21, x24 						// Avanzamos o retrocedemos en la linea
-	cmp x21, x23					
-	b.le  drawHorizontalLine_loop
-
-	mov x30, x29            			// Restauramos x30
-    ret
-
-//---------------------------Funciones Matematicas---------------------------//
-
-// Calcula el absoluto del valor en x20
-abs: 
-	cmp x20, xzr
-	b.GE skipabs
-	mov x19, xzr
-	sub x20, x19, x20
-
-skipabs:
-	ret
