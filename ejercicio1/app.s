@@ -14,18 +14,29 @@ main:
 
 	//---------------- CODE HERE ------------------------------------
 
+	mov x22, 76
+	mov x23, 287
+	bl parrilla
+
+//-----------------------------------------------
+
 	mov x22, 100
 	mov x23, 200
-
 	bl faro
+
+//-----------------------------------------------
 
 	mov x22, 324
-
 	bl faro
+
+//-----------------------------------------------
 
 InfLoop:
 	b InfLoop
 
+
+
+// ------------------------------------------------- OPTICAS --------------------------------------------------------------
 //Faro (86x60 pixeles) x = x22, y = x23 (Entre faro y faro tiene que haber 224 pixeles)
 faro:
 	movz x2, 0x27, lsl 16				// Carcasa Gris Oscuro----------------------------
@@ -44,6 +55,8 @@ faro:
 	bl drawsquare
 	mov x30, x27
 
+//-----------------------------------------------
+
 	add x21, x22, 0
 	bfi x4, x21, 48, 16					// X0
 	add x21, x23, 46
@@ -56,6 +69,8 @@ faro:
 	mov x27, x30
 	bl drawsquare
 	mov x30, x27
+
+//-----------------------------------------------
 
 	add x21, x22, 3
 	bfi x4, x21, 48, 16					// X0
@@ -70,6 +85,8 @@ faro:
 	bl drawsquare
 	mov x30, x27
 
+//-----------------------------------------------
+
 	add x21, x22, 6
 	bfi x4, x21, 48, 16					// X0
 	add x21, x23, 42
@@ -82,6 +99,8 @@ faro:
 	mov x27, x30
 	bl drawsquare
 	mov x30, x27
+
+//-----------------------------------------------
 
 	add x21, x22, 7
 	bfi x4, x21, 48, 16					// X0
@@ -96,6 +115,8 @@ faro:
 	bl drawsquare
 	mov x30, x27
 
+//-----------------------------------------------
+
 	add x21, x22, 5
 	bfi x4, x21, 48, 16					// X0
 	add x21, x23, 4
@@ -108,6 +129,8 @@ faro:
 	mov x27, x30
 	bl drawsquare
 	mov x30, x27
+
+//-----------------------------------------------
 
 	add x21, x22, 5
 	bfi x4, x21, 48, 16					// X0
@@ -122,6 +145,8 @@ faro:
 	bl drawsquare
 	mov x30, x27
 
+//-----------------------------------------------
+
 	add x21, x22, 28
 	bfi x4, x21, 48, 16					// X0
 	add x21, x23, 50
@@ -133,9 +158,11 @@ faro:
 
 	mov x27, x30
 	bl drawsquare
-	mov x30, x27						// Carcasa Gris Oscuro ---------------------------
+	mov x30, x27						// Carcasa Gris Oscuro 
 
-	movz x2, 0xAB, lsl 16				// Carcasa Roja ----------------------------------
+//-----------------------------------------------
+
+	movz x2, 0xAB, lsl 16				// Carcasa Roja 
 	movk x2, 0x3D5B, lsl 00				// Color
 
 	add x21, x22, 2
@@ -151,6 +178,8 @@ faro:
 	bl drawsquare
 	mov x30, x27	
 
+//-----------------------------------------------
+
 	add x21, x22, 16
 	bfi x4, x21, 48, 16					// X0
 	add x21, x23, 2
@@ -163,6 +192,8 @@ faro:
 	mov x27, x30
 	bl drawsquare
 	mov x30, x27	
+
+//-----------------------------------------------
 
 	add x21, x22, 32
 	bfi x4, x21, 48, 16					// X0
@@ -177,6 +208,8 @@ faro:
 	bl drawsquare
 	mov x30, x27	
 
+//-----------------------------------------------
+
 	add x21, x22, 45
 	bfi x4, x21, 48, 16					// X0
 	add x21, x23, 6
@@ -188,9 +221,11 @@ faro:
 
 	mov x27, x30
 	bl drawsquare
-	mov x30, x27						// Carcasa Roja ----------------------------------
+	mov x30, x27						// Carcasa Roja 
 
-	movz x2, 0x3B, lsl 16				// Triangulo gris --------------------------------
+//-----------------------------------------------
+
+	movz x2, 0x3B, lsl 16				// Triangulo gris 
 	movk x2, 0x3D49, lsl 00				// Color
 
 	mov x24, 51
@@ -209,12 +244,14 @@ trialoop:
 	bl drawline
 	mov x30, x27	
 
+//-----------------------------------------------
+
 	sub x24, x24, 1
 	cmp x24, 7
 
-	b.gt trialoop						// Triangulo gris --------------------------------
+	b.gt trialoop						// Triangulo gris 
 
-	movz x2, 0x0E, lsl 16				// Circulos Negros -------------------------------
+	movz x2, 0x0E, lsl 16				// Circulos Negros 
 	movk x2, 0x0E0F, lsl 00				// Color
 
 	add x21, x22, 69
@@ -227,6 +264,8 @@ trialoop:
 	bl drawcircle
 	mov x30, x27	
 
+//-----------------------------------------------
+
 	add x21, x22, 55
 	bfi x4, x21, 48, 16					// X0
 	add x21, x23, 20
@@ -237,6 +276,8 @@ trialoop:
 	bl drawcircle
 	mov x30, x27	
 
+//-----------------------------------------------
+
 	add x21, x22, 28
 	bfi x4, x21, 48, 16					// X0
 	add x21, x23, 31
@@ -245,9 +286,11 @@ trialoop:
 
 	mov x27, x30
 	bl drawcircle
-	mov x30, x27						// Circulos Negros -------------------------------
+	mov x30, x27						// Circulos Negros 
 
-	movz x2, 0xD2, lsl 16				// Optica		   -------------------------------
+//-----------------------------------------------
+
+	movz x2, 0xD2, lsl 16				// Optica		   
 	movk x2, 0xD2D2, lsl 00				// Color1	
 
 	add x21, x22, 28
@@ -259,6 +302,8 @@ trialoop:
 	mov x27, x30
 	bl drawcircle
 	mov x30, x27
+
+//-----------------------------------------------
 
 	movz x2, 0x85, lsl 16				
 	movk x2, 0x959D, lsl 00				// Color2	
@@ -273,6 +318,8 @@ trialoop:
 	bl drawcircle
 	mov x30, x27
 
+//-----------------------------------------------
+
 	add x21, x22, 24
 	bfi x4, x21, 48, 16					// X0
 	add x21, x23, 33
@@ -286,6 +333,7 @@ trialoop:
 	bl drawsquare
 	mov x30, x27
 
+//-----------------------------------------------
 
 	movz x2, 0xFF, lsl 16				
 	movk x2, 0xFFFF, lsl 00				// Color3
@@ -300,6 +348,8 @@ trialoop:
 	bl drawcircle
 	mov x30, x27
 
+//-----------------------------------------------
+
 	add x21, x22, 15
 	bfi x4, x21, 48, 16					// X0
 	add x21, x23, 18
@@ -312,6 +362,8 @@ trialoop:
 	mov x27, x30
 	bl drawsquare
 	mov x30, x27
+
+//-----------------------------------------------
 
 	add x21, x22, 20
 	bfi x4, x21, 48, 16					// X0
@@ -326,6 +378,8 @@ trialoop:
 	bl drawsquare
 	mov x30, x27
 
+//-----------------------------------------------
+
 	add x21, x22, 12
 	bfi x4, x21, 48, 16					// X0
 	add x21, x23, 25
@@ -338,6 +392,8 @@ trialoop:
 	mov x27, x30
 	bl drawsquare
 	mov x30, x27
+
+//-----------------------------------------------
 
 	add x21, x22, 32
 	bfi x4, x21, 48, 16					// X0
@@ -352,6 +408,7 @@ trialoop:
 	bl drawsquare
 	mov x30, x27
 
+//-----------------------------------------------
 
 	movz x2, 0x51, lsl 16				
 	movk x2, 0x6779, lsl 00				// Color4
@@ -364,9 +421,11 @@ trialoop:
 
 	mov x27, x30
 	bl drawcircle
-	mov x30, x27						// Optica		   -------------------------------
+	mov x30, x27						// Optica		   
 
-	movz x2, 0x96, lsl 16				// Linea Roja --------------------------------
+//-----------------------------------------------
+
+	movz x2, 0x96, lsl 16				// Linea Roja 
 	movk x2, 0x354E, lsl 00				// Color
 
 	add x21, x22, 52
@@ -383,4 +442,229 @@ trialoop:
 	mov x30, x27
 
 	ret
+
+
+// ------------------------------------------------- PARRILLA -----------------------------------------------------------------
+
+parrilla:
+
+	movz x2, 0x53, lsl 16				
+	movk x2, 0x151d, lsl 00				
+
+	add x21, x22, 15
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 8
+	bfi x4, x21, 32, 16					// Y0
+	movk x4, 8, lsl 16					// X1
+
+	mov x27, x30
+	bl drawcircle
+	mov x30, x27
+
+//-----------------------------------------------
+
+	add x21, x22, 14
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 0
+	bfi x4, x21, 32, 16					// Y0
+	add x21, x22, 163
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 5
+	bfi x4, x21, 0, 16					// Y1
+
+	mov x27, x30
+	bl drawsquare
+	mov x30, x27
+
+//-----------------------------------------------
+
+	movz x2, 0x44, lsl 16				
+	movk x2, 0x050d, lsl 00				
+
+	add x21, x22, 22
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 24
+	bfi x4, x21, 32, 16					// Y0
+	add x21, x22, 144
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 32
+	bfi x4, x21, 0, 16					// Y1
+
+	mov x27, x30
+	bl drawsquare
+	mov x30, x27
+
+//-----------------------------------------------
+	movz x2, 0x0d, lsl 16				
+	movk x2, 0x0b0e, lsl 00	
+
+
+	add x21, x22, 23
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 14
+	bfi x4, x21, 32, 16					// Y0
+	movk x4, 12, lsl 16					// X1
+
+	mov x27, x30
+	bl drawcircle
+	mov x30, x27
+
+//-----------------------------------------------
+
+	add x21, x22, 21
+	bfi x4, x21, 48, 16					// X0 
+	add x21, x23, 3
+ 	bfi x4, x21, 32, 16					// Y0  
+	add x21, x22, 166
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 26
+	bfi x4, x21, 0, 16					// Y1
+
+	mov x27, x30
+	bl drawsquare
+	mov x30, x27	
+
+//-----------------------------------------------
+
+	add x21, x22, 52
+	bfi x4, x21, 48, 16					// X0 
+	add x21, x23, 21
+ 	bfi x4, x21, 32, 16					// Y0 
+	add x21, x22, 164
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 28
+	bfi x4, x21, 0, 16					// Y1
+
+	mov x27, x30
+	bl drawsquare
+	mov x30, x27
+
+//-----------------------------------------------
+
+	add x21, x22, 66
+	bfi x4, x21, 48, 16					// X0 
+	add x21, x23, 28
+ 	bfi x4, x21, 32, 16					// Y0 
+	add x21, x22, 148
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 31
+	bfi x4, x21, 0, 16					// Y1
+
+	mov x27, x30
+	bl drawsquare
+	mov x30, x27
+
+//-----------------------------------------------
+
+	add x21, x22, 163
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 14
+	bfi x4, x21, 32, 16					// Y0
+	movk x4, 12, lsl 16					// X1
+
+	mov x27, x30
+	bl drawcircle
+	mov x30, x27
+
+//-------------------------------------------------- LINEA ---------------------------------------------------------------
+
+	movz x2, 0x26, lsl 16				
+	movk x2, 0x2626, lsl 00	
+
+	add x21, x22, 26
+	bfi x4, x21, 48, 16					// X0 = 
+	add x21, x23, 16
+ 	bfi x4, x21, 32, 16					// Y0 
+	add x21, x22, 154
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 16
+	bfi x4, x21, 0, 16					// Y1
+
+	mov x27, x30
+	bl drawline
+	mov x30, x27
+
+//-------------------------------------------------- SONRISA --------------------------------------------------------------
+
+
+	movz x2, 0xce, lsl 16				
+	movk x2, 0x5f70, lsl 00	
+
+	add x21, x22, 5
+	bfi x4, x21, 48, 16					// X0 = 76
+	add x21, x23, 20
+ 	bfi x4, x21, 32, 16					// Y0  = 287
+	add x21, x22, 23
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 32
+	bfi x4, x21, 0, 16					// Y1
+
+	mov x27, x30
+	bl drawline
+	mov x30, x27
+
+//-----------------------------------------------
+
+	add x21, x22, 23
+	bfi x4, x21, 48, 16					// X0 = 76
+	add x21, x23, 32
+ 	bfi x4, x21, 32, 16					// Y0  = 287
+	add x21, x22, 55
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 39
+	bfi x4, x21, 0, 16					// Y1
+
+	mov x27, x30
+	bl drawline
+	mov x30, x27
+
+//-----------------------------------------------
+
+	add x21, x22, 55
+	bfi x4, x21, 48, 16					// X0 = 76
+	add x21, x23, 39
+ 	bfi x4, x21, 32, 16					// Y0  = 287
+	add x21, x22, 133
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 39
+	bfi x4, x21, 0, 16					// Y1
+
+	mov x27, x30
+	bl drawline
+	mov x30, x27
+
+// ----------------------------------------------
+
+	add x21, x22, 133
+	bfi x4, x21, 48, 16					// X0 = 76
+	add x21, x23, 39
+ 	bfi x4, x21, 32, 16					// Y0  = 287
+	add x21, x22, 163
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 30
+	bfi x4, x21, 0, 16					// Y1
+
+	mov x27, x30
+	bl drawline
+	mov x30, x27
+
+//-----------------------------------------------
+
+	add x21, x22, 163
+	bfi x4, x21, 48, 16					// X0 = 76
+	add x21, x23, 30
+ 	bfi x4, x21, 32, 16					// Y0  = 287
+	add x21, x22, 178
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 24
+	bfi x4, x21, 0, 16					// Y1
+
+	mov x27, x30
+	bl drawline
+	mov x30, x27
+
+
+
+
+
 
