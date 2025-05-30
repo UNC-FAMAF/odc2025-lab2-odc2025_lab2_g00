@@ -64,7 +64,10 @@ main:
 
 
 //-----------------------------------------------
-
+   mov x22, 82
+   mov x23, 360
+   bl ruedaderecha
+   
 InfLoop:
 	b InfLoop
 
@@ -1896,6 +1899,25 @@ frenteAuto:
 	mov x30, x27
 
 	ret
+
+//------------------------------------------ RUEDA DERECHA --------------------------------
+
+ruedaderecha:
+	movz x2, 0x04, lsl 16				
+	movk x2, 0x090d, lsl 00				// Color
+
+	add x21, x22, 60
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 60
+	bfi x4, x21, 32, 16					// Y0
+	movk x4, 60, lsl 16					// X1
+// radio del circulo (derecha de x4)
+
+	mov x27, x30
+	bl drawcircle
+	mov x30, x27
+
+// ---------------------------------------------------------------
 
 
 
