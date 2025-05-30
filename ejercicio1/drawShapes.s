@@ -7,6 +7,7 @@
     .globl drawsquare
     .globl drawcircle
     .globl drawtriangle
+	.globl drawHorizontalLine
 
 //----------------------------------------------- FUNCIONES DE DIBUJO ----------------------------------------------------
 
@@ -240,8 +241,8 @@ looptriangle1:
 	add x17, x17, x14 					// error = error + distanciaY
 	add x7, x7, x15	
 
-	mov x29, x30 						// Guardamos el valor original del RET
 
+	mov x29, x30 						// Guardamos el valor original del RET
 
 triangleskip1:
 	cmp x18, x13 						// if e2 <= distanciaX then:
@@ -258,30 +259,39 @@ endtriangle:
 	mov x30, x29            			// Restauramos x30
     ret
 
+
 // ------------------------------------------------------------------------------------------
 
 drawHorizontalLine:
 
 	mov x29, x30            			// Guardamos x30 (RET)
 
-	mov x26, 1
-	mov x27, -1
+	cmp x21, x23
+	csel x24, x21, x23, le
 
 	cmp x21, x23
-	csel x24, x26, x27, le
-
+	csel x25, x23, x21, le
 	mov x8, x22
-
+	
 drawHorizontalLine_loop:
-	mov x7, x21						// Guardo en x7, la posicion actual
-	bl drawpixel					// Dibujo
+	mov x7, x24						    // Guardo en x7, la posicion actual
+	bl drawpixel					    // Dibujo
 
-	add x21, x21, x24 						// Avanzamos o retrocedemos en la linea
-	cmp x21, x23					
+	add x24, x24, 1 					// Avanzamos o retrocedemos en la linea
+	cmp x24, x25					
 	b.le  drawHorizontalLine_loop
-
 	mov x30, x29            			// Restauramos x30
     ret
+
+	sub x19, x19, 1
+	add x18, x17, x17 					// e2 = error * 2
+	cmp x18, x14 						// if e2 >= distanciaY then:
+	b.lt triangleskip1
+	add x17, x17, x14 					// error = error + distanciaY
+	add x7, x7, x15	
+
+	mov x29, x30 						// Guardamos el valor original del RET
+
 
 //---------------------------Funciones Matematicas---------------------------//
 
