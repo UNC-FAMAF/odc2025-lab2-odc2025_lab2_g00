@@ -24,40 +24,46 @@ main:
 	
 	bl drawtriangle*/
 
+	bl fondo
 
-	/*mov x22, 76
+
+	mov x22, 25
+	mov x23, 150
+	bl cartel
+
+//-----------------------------------------------
+
+	mov x22, 76
 	mov x23, 287
-	bl parrilla*/
+	//bl parrilla
 
 
 //-----------------------------------------------
 
 	mov x22, 25
 	mov x23, 258
-	bl frenteAuto
+	//bl frenteAuto
 
 //-----------------------------------------------
 
-	mov x22, 10
-	mov x23, 30
+	mov x22, 150
+	mov x23, 300
 	bl faro
 
-//-----------------------------------------------
-
-	mov x22, 234
+	mov x22, 374
 	bl faro
 
 //-----------------------------------------------
 
 	mov x22, 32
 	mov x23, 235
-	bl salidaDeAire
+	//bl salidaDeAire
 	
 //-----------------------------------------------
 
 	mov x22, 200
 	mov x23, 50
-	bl espejito
+	//bl espejito
 
 
 //-----------------------------------------------
@@ -66,6 +72,264 @@ InfLoop:
 	b InfLoop
 
 
+
+// ------------------------------------------------- Fondo ----------------------------------------------------------------
+fondo:
+	movz x2, 0x04, lsl 16
+	movk x2, 0x87E2, lsl 00	
+
+	movz x4, 0, lsl 48
+	movk x4, 0, lsl 32
+	movk x4, SCREEN_WIDTH, lsl 16
+	movk x4, SCREEN_HEIGH, lsl 00
+
+	mov x27, x30
+	bl drawsquare
+	mov x30, x27
+
+	movz x2, 0xE2, lsl 16
+	movk x2, 0xCA76, lsl 00	
+
+	movz x4, 0, lsl 48
+	movk x4, 240, lsl 32
+	movk x4, SCREEN_WIDTH, lsl 16
+	movk x4, SCREEN_HEIGH, lsl 00
+
+	mov x27, x30
+	bl drawsquare
+	mov x30, x27
+
+	mov x21, 0
+
+sandloop:
+
+	movz x4, 520, lsl 48
+	movk x4, 240, lsl 32
+
+	add x21, x21, 5
+	bfi x4, x21, 16, 16	
+
+	movk x4, SCREEN_HEIGH, lsl 00
+
+	mov x27, x30
+	bl drawline
+	mov x30, x27
+
+	cmp x21, SCREEN_WIDTH
+	b.ne sandloop
+
+	ret
+
+//----------------------------------------------------------------------
+cartel:
+
+	movz x2, 0xCC, lsl 16
+	movk x2, 0xCCCC, lsl 00	
+
+	add x21, x22, 10
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 80
+	bfi x4, x21, 32, 16					// Y0
+	add x21, x22, 15
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 150
+	bfi x4, x21, 0, 16					// Y1
+
+	mov x27, x30
+	bl drawsquare
+	mov x30, x27	
+
+	add x21, x22, 120
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 80
+	bfi x4, x21, 32, 16					// Y0
+	add x21, x22, 125
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 150
+	bfi x4, x21, 0, 16					// Y1
+
+	mov x27, x30
+	bl drawsquare
+	mov x30, x27	
+
+	movz x2, 0x30, lsl 16
+	movk x2, 0x8446, lsl 00	
+
+	add x21, x22, 10
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 100
+	bfi x4, x21, 32, 16					// Y0
+	add x21, x22, 130
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 100
+	bfi x4, x21, 0, 16					// Y1
+
+	mov x27, x30
+	bl drawline
+	mov x30, x27	
+
+	add x21, x22, 10
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 0
+	bfi x4, x21, 32, 16					// Y0
+	add x21, x22, 130
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 0
+	bfi x4, x21, 0, 16					// Y1
+
+	mov x27, x30
+	bl drawline
+	mov x30, x27	
+
+	add x21, x22, 0
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 10
+	bfi x4, x21, 32, 16					// Y0
+	add x21, x22, 0
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 90
+	bfi x4, x21, 0, 16					// Y1
+
+	mov x27, x30
+	bl drawline
+	mov x30, x27	
+
+	add x21, x22, 140
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 10
+	bfi x4, x21, 32, 16					// Y0
+	add x21, x22, 140
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 90
+	bfi x4, x21, 0, 16					// Y1
+
+	mov x27, x30
+	bl drawline
+	mov x30, x27	
+
+	add x21, x22, 10
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 10
+	bfi x4, x21, 32, 16					// Y0
+	movk x4, 10, lsl 16					// X1
+
+	mov x27, x30
+	bl drawcircle
+	mov x30, x27
+
+	add x21, x22, 10
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 90
+	bfi x4, x21, 32, 16					// Y0
+	movk x4, 10, lsl 16					// X1
+
+	mov x27, x30
+	bl drawcircle
+	mov x30, x27
+
+	add x21, x22, 10
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 0
+	bfi x4, x21, 32, 16					// Y0
+	add x21, x22, 130
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 100
+	bfi x4, x21, 0, 16					// Y1
+
+	mov x27, x30
+	bl drawsquare
+	mov x30, x27	
+
+	add x21, x22, 130
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 10
+	bfi x4, x21, 32, 16					// Y0
+	movk x4, 10, lsl 16					// X1
+
+	mov x27, x30
+	bl drawcircle
+	mov x30, x27
+
+	add x21, x22, 130
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 90
+	bfi x4, x21, 32, 16					// Y0
+	movk x4, 10, lsl 16					// X1
+
+	mov x27, x30
+	bl drawcircle
+	mov x30, x27
+
+	add x21, x22, 0
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 10
+	bfi x4, x21, 32, 16					// Y0
+	add x21, x22, 140
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 90
+	bfi x4, x21, 0, 16					// Y1
+
+	mov x27, x30
+	bl drawsquare
+	mov x30, x27	
+
+	movz x2, 0xFF, lsl 16
+	movk x2, 0xFFFF, lsl 00	
+
+	add x21, x22, 10
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 10
+	bfi x4, x21, 32, 16					// Y0
+	add x21, x22, 130
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 10
+	bfi x4, x21, 0, 16					// Y1
+
+	mov x27, x30
+	bl drawline
+	mov x30, x27	
+
+	add x21, x22, 10
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 90
+	bfi x4, x21, 32, 16					// Y0
+	add x21, x22, 130
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 90
+	bfi x4, x21, 0, 16					// Y1
+
+	mov x27, x30
+	bl drawline
+	mov x30, x27	
+
+	add x21, x22, 10
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 10
+	bfi x4, x21, 32, 16					// Y0
+	add x21, x22, 10
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 90
+	bfi x4, x21, 0, 16					// Y1
+
+	mov x27, x30
+	bl drawline
+	mov x30, x27	
+
+	add x21, x22, 130
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 10
+	bfi x4, x21, 32, 16					// Y0
+	add x21, x22, 130
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 90
+	bfi x4, x21, 0, 16					// Y1
+
+	mov x27, x30
+	bl drawline
+	mov x30, x27	
+
+
+	ret
 
 // ------------------------------------------------- OPTICAS --------------------------------------------------------------
 //Faro (86x60 pixeles) x = x22, y = x23 (Entre faro y faro tiene que haber 224 pixeles)
