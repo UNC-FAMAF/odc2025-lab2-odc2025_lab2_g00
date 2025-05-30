@@ -219,18 +219,15 @@ drawtriangle:
 	mov x7, x9 							// Seteamos valores iniciales
 	mov x8, x10
 
-	mov x29, x30 						// Guardamos el valor original del RET
+	mov x29, x30
 
-
-
-	
 looptriangle1:
 
 	mov x21, x9
 	mov x22, x8
 	mov x23, x7
 	bl drawHorizontalLine
-	
+
 	cmp x23, x11						// Si la posicion actual = x11 (x1), llegue al final y corto el programa
 	b.eq endtriangle
 
@@ -241,8 +238,6 @@ looptriangle1:
 	add x17, x17, x14 					// error = error + distanciaY
 	add x7, x7, x15	
 
-
-	mov x29, x30 						// Guardamos el valor original del RET
 
 triangleskip1:
 	cmp x18, x13 						// if e2 <= distanciaX then:
@@ -264,14 +259,14 @@ endtriangle:
 
 drawHorizontalLine:
 
-	mov x29, x30            			// Guardamos x30 (RET)
-
 	cmp x21, x23
 	csel x24, x21, x23, le
 
 	cmp x21, x23
 	csel x25, x23, x21, le
 	mov x8, x22
+
+	mov x29, x30            			// Guardamos x30 (RET)
 	
 drawHorizontalLine_loop:
 	mov x7, x24						    // Guardo en x7, la posicion actual
@@ -280,18 +275,9 @@ drawHorizontalLine_loop:
 	add x24, x24, 1 					// Avanzamos o retrocedemos en la linea
 	cmp x24, x25					
 	b.le  drawHorizontalLine_loop
+	
 	mov x30, x29            			// Restauramos x30
-    ret
-
-	sub x19, x19, 1
-	add x18, x17, x17 					// e2 = error * 2
-	cmp x18, x14 						// if e2 >= distanciaY then:
-	b.lt triangleskip1
-	add x17, x17, x14 					// error = error + distanciaY
-	add x7, x7, x15	
-
-	mov x29, x30 						// Guardamos el valor original del RET
-
+	ret
 
 //---------------------------Funciones Matematicas---------------------------//
 
