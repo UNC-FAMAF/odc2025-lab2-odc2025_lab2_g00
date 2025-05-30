@@ -219,16 +219,16 @@ drawtriangle:
 	mov x7, x9 							// Seteamos valores iniciales
 	mov x8, x10
 
-	mov x29, x30
+	mov x28, x30
 
 looptriangle1:
 
 	mov x21, x9
-	mov x22, x8
-	mov x23, x7
+	mov x20, x8
+	mov x5, x7
 	bl drawHorizontalLine
 
-	cmp x23, x11						// Si la posicion actual = x11 (x1), llegue al final y corto el programa
+	cmp x5, x11						// Si la posicion actual = x11 (x1), llegue al final y corto el programa
 	b.eq endtriangle
 
 	sub x19, x19, 1
@@ -247,11 +247,11 @@ triangleskip1:
 
 triangleskip2: 
 	cbnz x19, looptriangle1
-	mov x30, x29 						// Restauramos el valor del RET
+	mov x30, x28 						// Restauramos el valor del RET
 	ret
 
 endtriangle:
-	mov x30, x29            			// Restauramos x30
+	mov x30, x28            			// Restauramos x30
     ret
 
 
@@ -259,12 +259,12 @@ endtriangle:
 
 drawHorizontalLine:
 
-	cmp x21, x23
-	csel x24, x21, x23, le
+	cmp x21, x5
+	csel x24, x21, x5, le
 
-	cmp x21, x23
-	csel x25, x23, x21, le
-	mov x8, x22
+	cmp x21, x5
+	csel x25, x5, x21, le
+	mov x8, x20
 
 	mov x29, x30            			// Guardamos x30 (RET)
 	
