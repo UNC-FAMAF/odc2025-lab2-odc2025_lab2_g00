@@ -97,6 +97,11 @@ auto:
 	add x23, x26, 271
 	bl luz 
 
+//-----------------------------------------------
+	add x22, x6, 151
+	add x23, x26, 148
+	bl espejoDerecho 
+
 InfLoop:
 	b InfLoop
 	
@@ -9885,6 +9890,156 @@ luz:
 	mov x30, x27	
 
 	ret
+
+// -------------------------------------- ESPEJO RETROVISOR DERECHO ---------------------------------------
+espejoDerecho:
+/*	add x22, x6, 151
+	add x23, x26, 148
+	bl espejoDerecho */
+
+	// Rectangulo 89
+
+	movz x2, 0xea, lsl 16				
+	movk x2, 0x3c53, lsl 00		
+
+	add x21, x22, 17
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 3
+	bfi x4, x21, 32, 16					// Y0
+	add x21, x22, 22
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 7
+	bfi x4, x21, 0, 16					// Y1
+
+	mov x27, x30
+	bl drawsquare
+	mov x30, x27
+
+	// Elipse 25
+	movz x2, 0xef, lsl 16				
+	movk x2, 0x5a6d, lsl 00				// Color
+
+	add x21, x22, 14 // 151-153+12
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 12 // 148 - 148 + 12
+	bfi x4, x21, 32, 16					// Y0
+	movk x4, 12, lsl 16					// X1
+
+	mov x27, x30
+	bl drawcircle
+	mov x30, x27
+
+	// Rectangulo 90
+
+	add x21, x22, 2
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 4
+	bfi x4, x21, 32, 16					// Y0
+	add x21, x22, 7
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 8
+	bfi x4, x21, 0, 16					// Y1
+
+	mov x27, x30
+	bl drawsquare
+	mov x30, x27
+
+	// Rectangulo 83
+	movz x2, 0xe8, lsl 16				
+	movk x2, 0xb1ae, lsl 00	
+
+	add x21, x22, 4
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 6
+	bfi x4, x21, 32, 16					// Y0
+	add x21, x22, 9
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 10
+	bfi x4, x21, 0, 16					// Y1
+
+	mov x27, x30
+	bl drawsquare
+	mov x30, x27
+
+	// Rectangulo 84
+
+	add x21, x22, 8
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 9
+	bfi x4, x21, 32, 16					// Y0
+	add x21, x22, 13
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 12
+	bfi x4, x21, 0, 16					// Y1
+
+	mov x27, x30
+	bl drawsquare
+	mov x30, x27
+
+	// Rectangulo 85
+	movz x2, 0xa8, lsl 16				
+	movk x2, 0x2336, lsl 00	
+
+	add x21, x22, 0
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 8
+	bfi x4, x21, 32, 16					// Y0
+	add x21, x22, 9
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 15
+	bfi x4, x21, 0, 16					// Y1
+
+	mov x27, x30
+	bl drawsquare
+	mov x30, x27
+	
+	// Rectangulo 86
+	add x21, x22, 1
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 13
+	bfi x4, x21, 32, 16					// Y0
+	add x21, x22, 12
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 17
+	bfi x4, x21, 0, 16					// Y1
+
+	mov x27, x30
+	bl drawsquare
+	mov x30, x27
+
+	// Rectangulo 87
+	add x21, x22, 2
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 17
+	bfi x4, x21, 32, 16					// Y0
+	add x21, x22, 15
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 19
+	bfi x4, x21, 0, 16					// Y1
+
+	mov x27, x30
+	bl drawsquare
+	mov x30, x27
+	
+	// Rectangulo 88
+	add x21, x22, 4
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 19
+	bfi x4, x21, 32, 16					// Y0
+	add x21, x22, 16
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 25
+	bfi x4, x21, 0, 16					// Y1
+
+	mov x27, x30
+	bl drawsquare
+	mov x30, x27
+
+	ret
+	
+
+
+
 
 
 
