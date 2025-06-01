@@ -87,6 +87,11 @@ auto:
 	add x23, x26, 151
 	bl espejito
 
+//-----------------------------------------------
+	add x22, x6, 446
+	add x23, x26, 292
+	bl grupo54
+
 InfLoop:
 	b InfLoop
 	
@@ -9632,30 +9637,133 @@ ruedaDelanteraIzq:
 	bl drawline
 	mov x30, x27
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 	ret
 
+// --------------------------------------------  GRUPO 54 ------------------------------------
+/*  add x22, x6, 446
+	add x23, x26, 292
+	bl grupo54
+*/	
+grupo54: 
+	// Rectangulo 1104
+	movz x2, 0x0f, lsl 16				
+	movk x2, 0x0a10, lsl 00	
 
+	add x21, x22, 76
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 0
+	bfi x4, x21, 32, 16					// Y0
+	add x21, x22, 85
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 17
+	bfi x4, x21, 0, 16					// Y1
+
+	mov x27, x30
+	bl drawsquare
+	mov x30, x27
+
+// FORMA 1105 (triangulo)
+
+	add x21, x22, 85
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 1
+	bfi x4, x21, 32, 16					// Y0
+	add x21, x22, 96
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 17
+	bfi x4, x21, 0, 16					// Y1
+
+	mov x27, x30
+	bl drawtriangle
+	mov x30, x27
+
+// Rectangulo 1098
+
+	add x21, x22, 60
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 4
+	bfi x4, x21, 32, 16					// Y0
+	add x21, x22, 82
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 19
+	bfi x4, x21, 0, 16					// Y1
+
+	mov x27, x30
+	bl drawsquare
+	mov x30, x27
+
+// Rectangulo 1099
+	
+	add x21, x22, 50
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 3
+	bfi x4, x21, 32, 16					// Y0
+	add x21, x22, 72
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 22
+	bfi x4, x21, 0, 16					// Y1
+
+	mov x27, x30
+	bl drawsquare
+	mov x30, x27
+
+// Rectangulo 1100
+   	add x21, x22, 38
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 3
+	bfi x4, x21, 32, 16					// Y0
+	add x21, x22, 58
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 25
+	bfi x4, x21, 0, 16					// Y1
+
+	mov x27, x30
+	bl drawsquare
+	mov x30, x27
+
+// Rectangulo 1101
+	add x21, x22, 27
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 6
+	bfi x4, x21, 32, 16					// Y0
+	add x21, x22, 44
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 28
+	bfi x4, x21, 0, 16					// Y1
+
+	mov x27, x30
+	bl drawsquare
+	mov x30, x27
+
+// Rectangulo 1102
+	add x21, x22, 14
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 10
+	bfi x4, x21, 32, 16					// Y0
+	add x21, x22, 31
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 30
+	bfi x4, x21, 0, 16					// Y1
+
+	mov x27, x30
+	bl drawsquare
+	mov x30, x27
+
+// Rectangulo 1103
+	add x21, x22, 0
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 11
+	bfi x4, x21, 32, 16					// Y0
+	add x21, x22, 19
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 33
+	bfi x4, x21, 0, 16					// Y1
+
+	mov x27, x30
+	bl drawsquare
+	mov x30, x27
+
+	ret
 
 
 
