@@ -92,6 +92,11 @@ auto:
 	add x23, x26, 292
 	bl grupo54
 
+//-----------------------------------------------
+	add x22, x6, 346
+	add x23, x26, 271
+	bl luz 
+
 InfLoop:
 	b InfLoop
 	
@@ -9762,6 +9767,122 @@ grupo54:
 	mov x27, x30
 	bl drawsquare
 	mov x30, x27
+
+	ret
+
+// ------------------------------------------------ LUZ ---------------------------
+/*	add x22, x6, 346
+	add x23, x26, 271
+	bl luz */
+luz: 
+	// Elipse 11
+	movz x2, 0x9f, lsl 16				
+	movk x2, 0x5015, lsl 00				// Color
+
+	add x21, x22, 21 // 362 - 346 + 5
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 6 // 272 - 271 + 5
+	bfi x4, x21, 32, 16					// Y0
+	movk x4, 5, lsl 16					// X1
+
+	mov x27, x30
+	bl drawcircle
+	mov x30, x27
+
+	// Rectangulo 18
+
+	add x21, x22, 14
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 1
+	bfi x4, x21, 32, 16					// Y0
+	add x21, x22, 23
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 11
+	bfi x4, x21, 0, 16					// Y1
+
+	mov x27, x30
+	bl drawsquare
+	mov x30, x27
+
+	// Rectangulo 18
+	movz x2, 0x70, lsl 16				
+	movk x2, 0x3815, lsl 00		
+
+	add x21, x22, 9
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 1
+	bfi x4, x21, 32, 16					// Y0
+	add x21, x22, 18
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 11
+	bfi x4, x21, 0, 16					// Y1
+
+	mov x27, x30
+	bl drawsquare
+	mov x30, x27
+
+// Elipse 11
+	add x21, x22, 5
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 6
+	bfi x4, x21, 32, 16					// Y0
+	movk x4, 5, lsl 16					// X1
+
+	mov x27, x30
+	bl drawcircle
+	mov x30, x27
+
+// Forma 14
+	movz x2, 0x68, lsl 16				
+	movk x2, 0x2c2a, lsl 00	
+
+	add x21, x22, 3
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 1
+	bfi x4, x21, 32, 16					// Y0
+	add x21, x22, 22
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 4
+	bfi x4, x21, 0, 16					// Y1
+
+	mov x27, x30
+	bl drawline
+	mov x30, x27	
+
+// Forma 14
+
+	movz x2, 0x64, lsl 16				
+	movk x2, 0x1e1b, lsl 00	
+
+	add x21, x22, 3
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 10
+	bfi x4, x21, 32, 16					// Y0
+	add x21, x22, 24
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 14
+	bfi x4, x21, 0, 16					// Y1
+
+	mov x27, x30
+	bl drawline
+	mov x30, x27	
+
+// Forma 14
+	movz x2, 0xad, lsl 16				
+	movk x2, 0x6f69, lsl 00	
+	
+	add x21, x22, 1
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 11
+	bfi x4, x21, 32, 16					// Y0
+	add x21, x22, 22
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 14
+	bfi x4, x21, 0, 16					// Y1
+
+	mov x27, x30
+	bl drawline
+	mov x30, x27	
 
 	ret
 
