@@ -16,7 +16,6 @@ main:
 
 
 //-----------------------------------------------
-
 	bl fondo
 	mov x22, 25
 	mov x23, 150
@@ -25,8 +24,13 @@ main:
 	mov x6, 0  //x del auto
 	mov x26, 0 //y del auto
 
+	bl auto
+
+	b InfLoop
 //----------------------------------------------- AUTO -------------------------------------------------
 auto:
+	mov x3, x30 
+
 	add x22, x6, 433
     add x23, x26, 104
 	bl ventana
@@ -113,6 +117,9 @@ auto:
 	add x22, x6, 346
 	add x23, x26, 271
 	bl luz 
+
+	mov x30, x3
+	ret
 
 InfLoop:
 	b InfLoop
