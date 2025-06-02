@@ -8,6 +8,7 @@
     .globl drawcircle
     .globl drawtriangle
 	.globl drawHorizontalLine
+	.globl delay
 
 //----------------------------------------------- FUNCIONES DE DIBUJO ----------------------------------------------------
 
@@ -291,3 +292,8 @@ abs:
 skipabs:
 	ret
 
+//----------------------------Funciones Animacion----------------------------//
+delay: //Modifica el tiempo del delay con x25
+	sub x25, x25, 1
+	cbnz x25, delay
+	ret
