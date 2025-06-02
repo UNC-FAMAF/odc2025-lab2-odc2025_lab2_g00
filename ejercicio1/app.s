@@ -673,13 +673,235 @@ cartel:
 	bl drawline
 	mov x30, x27
 
+	add x21, x22, 30
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 50
+	bfi x4, x21, 32, 16					// Y0
+	add x21, x22, 27
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 55
+	bfi x4, x21, 0, 16					// Y1
+
+	mov x27, x30
+	bl drawline
+	mov x30, x27
+
+	add x21, x22, 30
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 50
+	bfi x4, x21, 32, 16					// Y0
+	add x21, x22, 35
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 50
+	bfi x4, x21, 0, 16					// Y1
+
+	mov x27, x30
+	bl drawline
+	mov x30, x27
+
+	add x21, x22, 38
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 55
+	bfi x4, x21, 32, 16					// Y0
+	add x21, x22, 35
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 50
+	bfi x4, x21, 0, 16					// Y1
+
+	mov x27, x30
+	bl drawline
+	mov x30, x27
+
+	add x21, x22, 38
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 55
+	bfi x4, x21, 32, 16					// Y0
+	add x21, x22, 27
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 63
+	bfi x4, x21, 0, 16					// Y1
+
+	mov x27, x30
+	bl drawline
+	mov x30, x27
+
+	add x21, x22, 38
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 63
+	bfi x4, x21, 32, 16					// Y0
+	add x21, x22, 27
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 63
+	bfi x4, x21, 0, 16					// Y1
+
+	mov x27, x30
+	bl drawline
+	mov x30, x27
+
+	add x21, x22, 70
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 50
+	bfi x4, x21, 32, 16					// Y0
+	add x21, x22, 67
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 55
+	bfi x4, x21, 0, 16					// Y1
+
+	mov x27, x30
+	bl drawline
+	mov x30, x27
+
+	add x21, x22, 70
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 50
+	bfi x4, x21, 32, 16					// Y0
+	add x21, x22, 75
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 50
+	bfi x4, x21, 0, 16					// Y1
+
+	mov x27, x30
+	bl drawline
+	mov x30, x27
+
+	add x21, x22, 78
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 55
+	bfi x4, x21, 32, 16					// Y0
+	add x21, x22, 75
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 50
+	bfi x4, x21, 0, 16					// Y1
+
+	mov x27, x30
+	bl drawline
+	mov x30, x27
+
+	add x21, x22, 78
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 55
+	bfi x4, x21, 32, 16					// Y0
+	add x21, x22, 67
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 63
+	bfi x4, x21, 0, 16					// Y1
+
+	mov x27, x30
+	bl drawline
+	mov x30, x27
+
+	add x21, x22, 78
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 63
+	bfi x4, x21, 32, 16					// Y0
+	add x21, x22, 67
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 63
+	bfi x4, x21, 0, 16					// Y1
+
+	mov x27, x30
+	bl drawline
+	mov x30, x27
+
+	add x21, x22, 93
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 63
+	bfi x4, x21, 32, 16					// Y0
+	add x21, x22, 87
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 63
+	bfi x4, x21, 0, 16					// Y1
+
+	mov x27, x30
+	bl drawline
+	mov x30, x27
+
+	add x21, x22, 93
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 63
+	bfi x4, x21, 32, 16					// Y0
+	add x21, x22, 95
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 60
+	bfi x4, x21, 0, 16					// Y1
+
+	mov x27, x30
+	bl drawline
+	mov x30, x27
+
+	add x21, x22, 95
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 58
+	bfi x4, x21, 32, 16					// Y0
+	add x21, x22, 95
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 60
+	bfi x4, x21, 0, 16					// Y1
+
+	mov x27, x30
+	bl drawline
+	mov x30, x27
+
+	add x21, x22, 95
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 58
+	bfi x4, x21, 32, 16					// Y0
+	add x21, x22, 93
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 55
+	bfi x4, x21, 0, 16					// Y1
+
+	mov x27, x30
+	bl drawline
+	mov x30, x27
+
+	add x21, x22, 88
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 55
+	bfi x4, x21, 32, 16					// Y0
+	add x21, x22, 93
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 55
+	bfi x4, x21, 0, 16					// Y1
+
+	mov x27, x30
+	bl drawline
+	mov x30, x27
+
+	add x21, x22, 88
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 55
+	bfi x4, x21, 32, 16					// Y0
+	add x21, x22, 88
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 50
+	bfi x4, x21, 0, 16					// Y1
+
+	mov x27, x30
+	bl drawline
+	mov x30, x27
+
+	add x21, x22, 88
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 50
+	bfi x4, x21, 32, 16					// Y0
+	add x21, x22, 95
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 50
+	bfi x4, x21, 0, 16					// Y1
+
+	mov x27, x30
+	bl drawline
+	mov x30, x27
+
+
 	add x21, x22, 45
 	bfi x4, x21, 48, 16					// X0
-	add x21, x23, 65
+	add x21, x23, 73
 	bfi x4, x21, 32, 16					// Y0
 	add x21, x22, 100
 	bfi x4, x21, 16, 16					// X1
-	add x21, x23, 70
+	add x21, x23, 78
 	bfi x4, x21, 0, 16					// Y1
 
 	mov x27, x30
@@ -688,16 +910,41 @@ cartel:
 
 	add x21, x22, 50
 	bfi x4, x21, 48, 16					// X0
-	add x21, x23, 62
+	add x21, x23, 70
 	bfi x4, x21, 32, 16					// Y0
 	add x21, x22, 55
 	bfi x4, x21, 16, 16					// X1
-	add x21, x23, 73
+	add x21, x23, 81
 	bfi x4, x21, 0, 16					// Y1
 
 	mov x27, x30
 	bl drawsquare
 	mov x30, x27	
+
+	add x21, x22, 53
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 57
+	bfi x4, x21, 32, 16					// Y0
+	movk x4, 8, lsl 16					// X1
+
+	mov x27, x30
+	bl drawcircle
+	mov x30, x27
+
+	movz x2, 0x30, lsl 16
+	movk x2, 0x8446, lsl 00	
+
+	add x21, x22, 52
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 57
+	bfi x4, x21, 32, 16					// Y0
+	movk x4, 6, lsl 16					// X1
+
+	mov x27, x30
+	bl drawcircle
+	mov x30, x27
+
+
 
 
 	ret
