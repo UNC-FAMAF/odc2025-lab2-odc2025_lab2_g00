@@ -1,7 +1,7 @@
 Nombre y apellido 
 Integrante 1: Facundo Laprovitta
 Integrante 2: Martina Gabriela Sánchez Garcías
-Integrante 3: Miqueas Gigena DePaul
+Integrante 3: Miqueas Gigena De Paul
 Integrante 4: José Ignacio Tomé
 
 
