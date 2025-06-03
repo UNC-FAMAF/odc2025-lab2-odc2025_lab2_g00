@@ -22,11 +22,12 @@ main:
 	mov x23, 150
 	bl cartel
 
-	mov x6, 0  //x del auto
-	mov x26, 0 //y del auto
-
 //----------------------------------------------- AUTO -------------------------------------------------
 auto:
+	mov x6, 40 //x del auto
+	mov x26, 90 //y del auto
+
+	
 	add x22, x6, 239
     add x23, x26, 87
 	bl techo
