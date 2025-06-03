@@ -962,6 +962,7 @@ faro:
 	movz x2, 0x27, lsl 16				// Carcasa Gris Oscuro----------------------------
 	movk x2, 0x2729, lsl 00				// Color
 
+//----------------------------------------------- 9
 	add x21, x22, 8
 	bfi x4, x21, 48, 16					// X0
 	add x21, x23, 8
@@ -969,46 +970,6 @@ faro:
 	add x21, x22, 51
 	bfi x4, x21, 16, 16					// X1
 	add x21, x23, 50
-	bfi x4, x21, 0, 16					// Y1
-
-	mov x27, x30
-	bl drawsquare
-	mov x30, x27
-
-//-----------------------------------------------
-	add x21, x22, 0
-	bfi x4, x21, 48, 16					// X0
-	add x21, x23, 46
-	bfi x4, x21, 32, 16					// Y0
-	add x21, x22, 51
-	bfi x4, x21, 16, 16					// X1
-	add x21, x23, 50
-	bfi x4, x21, 0, 16					// Y1
-
-	mov x27, x30
-	bl drawsquare
-	mov x30, x27
-//-----------------------------------------------
-	add x21, x22, 3
-	bfi x4, x21, 48, 16					// X0
-	add x21, x23, 44
-	bfi x4, x21, 32, 16					// Y0
-	add x21, x22, 51
-	bfi x4, x21, 16, 16					// X1
-	add x21, x23, 48
-	bfi x4, x21, 0, 16					// Y1
-
-	mov x27, x30
-	bl drawsquare
-	mov x30, x27
-//-----------------------------------------------
-	add x21, x22, 6
-	bfi x4, x21, 48, 16					// X0
-	add x21, x23, 42
-	bfi x4, x21, 32, 16					// Y0
-	add x21, x22, 51
-	bfi x4, x21, 16, 16					// X1
-	add x21, x23, 46
 	bfi x4, x21, 0, 16					// Y1
 
 	mov x27, x30
@@ -1065,7 +1026,49 @@ faro:
 
 	mov x27, x30
 	bl drawsquare
-	mov x30, x27						// Carcasa Gris Oscuro 
+	mov x30, x27						
+//-----------------------------------------------
+	movz x2, 0x00, lsl 16				
+	movk x2, 0x0000, lsl 00				
+
+	add x21, x22, 0
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 46
+	bfi x4, x21, 32, 16					// Y0
+	add x21, x22, 8
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 50
+	bfi x4, x21, 0, 16					// Y1
+
+	mov x27, x30
+	bl drawsquare
+	mov x30, x27
+//-----------------------------------------------
+	add x21, x22, 3
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 44
+	bfi x4, x21, 32, 16					// Y0
+	add x21, x22, 8
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 48
+	bfi x4, x21, 0, 16					// Y1
+
+	mov x27, x30
+	bl drawsquare
+	mov x30, x27
+//-----------------------------------------------
+	add x21, x22, 6
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 42
+	bfi x4, x21, 32, 16					// Y0
+	add x21, x22, 8
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 46
+	bfi x4, x21, 0, 16					// Y1
+
+	mov x27, x30
+	bl drawsquare
+	mov x30, x27
 //-----------------------------------------------
 	movz x2, 0xAB, lsl 16				// Carcasa Roja 
 	movk x2, 0x3D5B, lsl 00				// Color
