@@ -17,9 +17,10 @@ main:
 
 //-----------------------------------------------
 	bl fondo
+	bl cielo
 
-	mov x6, 55  //x del auto
-	mov x26, 60 //y del auto
+	mov x6, 50  //x del auto
+	mov x26, 90 //y del auto
 
 	bl auto
 
@@ -131,9 +132,95 @@ auto:
 	
 	ret
 
+reset:
+	mov x6, 0
+
 InfLoop:
+
+	add x6, x6, 2
+
+	bl cielo
+	movz x25, 0x2000, lsl 16
+	bl delay
+
+	cmp x6, 100
+	b.gt reset
+
 	b InfLoop
 	
+
+// ------------------------------------------------- Cielo ----------------------------------------------------------------
+cielo:
+	movz x2, 0x04, lsl 16
+	movk x2, 0x87E2, lsl 00	
+
+	movz x4, 0, lsl 48
+	movk x4, 0, lsl 32
+	movk x4, SCREEN_WIDTH, lsl 16
+	movk x4, 150, lsl 00
+
+	mov x27, x30
+	//bl drawsquare
+	mov x30, x27
+
+	movz x2, 0xFF, lsl 16
+	movk x2, 0xFFFE, lsl 00	
+
+	add x21, x6, 50
+	bfi x4, x21, 48, 16					// X0
+	movk x4, 60, lsl 32
+	movk x4, 40, lsl 16
+
+	mov x27, x30
+	bl drawcircle
+	mov x30, x27
+
+	add x21, x6, 100
+	bfi x4, x21, 48, 16					// X0
+	movk x4, 60, lsl 32
+	movk x4, 50, lsl 16
+
+	mov x27, x30
+	bl drawcircle
+	mov x30, x27
+
+	add x21, x6, 150
+	bfi x4, x21, 48, 16					// X0
+	movk x4, 60, lsl 32
+	movk x4, 40, lsl 16
+
+	mov x27, x30
+	bl drawcircle
+	mov x30, x27
+
+	add x21, x6, 350
+	bfi x4, x21, 48, 16					// X0
+	movk x4, 80, lsl 32
+	movk x4, 30, lsl 16
+
+	mov x27, x30
+	bl drawcircle
+	mov x30, x27
+
+	add x21, x6, 400
+	bfi x4, x21, 48, 16					// X0
+	movk x4, 80, lsl 32
+	movk x4, 50, lsl 16
+
+	mov x27, x30
+	bl drawcircle
+	mov x30, x27
+
+	add x21, x6, 450
+	bfi x4, x21, 48, 16					// X0
+	movk x4, 70, lsl 32
+	movk x4, 45, lsl 16
+
+	mov x27, x30
+	bl drawcircle
+	mov x30, x27
+
+	ret
 
 // ------------------------------------------------- Fondo ----------------------------------------------------------------
 fondo:
@@ -180,58 +267,6 @@ sandloop:
 
 	cmp x21, SCREEN_WIDTH
 	b.ne sandloop
-
-	movz x2, 0xFF, lsl 16
-	movk x2, 0xFFFE, lsl 00	
-
-	movz x4, 50, lsl 48
-	movk x4, 60, lsl 32
-	movk x4, 40, lsl 16
-
-	mov x27, x30
-	bl drawcircle
-	mov x30, x27
-
-	movz x4, 100, lsl 48
-	movk x4, 60, lsl 32
-	movk x4, 50, lsl 16
-
-	mov x27, x30
-	bl drawcircle
-	mov x30, x27
-
-	movz x4, 150, lsl 48
-	movk x4, 60, lsl 32
-	movk x4, 40, lsl 16
-
-	mov x27, x30
-	bl drawcircle
-	mov x30, x27
-
-	movz x4, 450, lsl 48
-	movk x4, 80, lsl 32
-	movk x4, 30, lsl 16
-
-	mov x27, x30
-	bl drawcircle
-	mov x30, x27
-
-	movz x4, 500, lsl 48
-	movk x4, 80, lsl 32
-	movk x4, 50, lsl 16
-
-	mov x27, x30
-	bl drawcircle
-	mov x30, x27
-
-	movz x4, 550, lsl 48
-	movk x4, 70, lsl 32
-	movk x4, 45, lsl 16
-
-	mov x27, x30
-	bl drawcircle
-	mov x30, x27
-
 
 	ret
 
