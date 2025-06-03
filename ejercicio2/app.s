@@ -17,9 +17,6 @@ main:
 
 //-----------------------------------------------
 	bl fondo
-	mov x22, 25
-	mov x23, 150
-	bl cartel
 
 	mov x6, 55  //x del auto
 	mov x26, 60 //y del auto
@@ -79,6 +76,10 @@ auto:
 	add x23, x26, 258
 	bl frenteAuto
 //-----------------------------------------------
+	add x22, x6, 38
+	add x23, x26, 168
+	bl capo
+//-----------------------------------------------
 	add x22, x6, 76
 	add x23, x26, 287
 	bl parrilla
@@ -117,8 +118,13 @@ auto:
 	add x22, x6, 346
 	add x23, x26, 271
 	bl luz 
+//-----------------------------------------------
+	add x22, x6, 140
+	add x23, x26, 260
+	bl patente
 
 	mov x30, x3
+	
 	ret
 
 InfLoop:
@@ -224,737 +230,7 @@ sandloop:
 
 
 	ret
-//----------------------------------------------------------------------
-cartel:
 
-	movz x2, 0xCC, lsl 16
-	movk x2, 0xCCCC, lsl 00	
-
-	add x21, x22, 10
-	bfi x4, x21, 48, 16					// X0
-	add x21, x23, 80
-	bfi x4, x21, 32, 16					// Y0
-	add x21, x22, 15
-	bfi x4, x21, 16, 16					// X1
-	add x21, x23, 150
-	bfi x4, x21, 0, 16					// Y1
-
-	mov x27, x30
-	bl drawsquare
-	mov x30, x27	
-
-	add x21, x22, 120
-	bfi x4, x21, 48, 16					// X0
-	add x21, x23, 80
-	bfi x4, x21, 32, 16					// Y0
-	add x21, x22, 125
-	bfi x4, x21, 16, 16					// X1
-	add x21, x23, 150
-	bfi x4, x21, 0, 16					// Y1
-
-	mov x27, x30
-	bl drawsquare
-	mov x30, x27	
-
-	movz x2, 0x30, lsl 16
-	movk x2, 0x8446, lsl 00	
-
-	add x21, x22, 10
-	bfi x4, x21, 48, 16					// X0
-	add x21, x23, 100
-	bfi x4, x21, 32, 16					// Y0
-	add x21, x22, 130
-	bfi x4, x21, 16, 16					// X1
-	add x21, x23, 100
-	bfi x4, x21, 0, 16					// Y1
-
-	mov x27, x30
-	bl drawline
-	mov x30, x27	
-
-	add x21, x22, 10
-	bfi x4, x21, 48, 16					// X0
-	add x21, x23, 0
-	bfi x4, x21, 32, 16					// Y0
-	add x21, x22, 130
-	bfi x4, x21, 16, 16					// X1
-	add x21, x23, 0
-	bfi x4, x21, 0, 16					// Y1
-
-	mov x27, x30
-	bl drawline
-	mov x30, x27	
-
-	add x21, x22, 0
-	bfi x4, x21, 48, 16					// X0
-	add x21, x23, 10
-	bfi x4, x21, 32, 16					// Y0
-	add x21, x22, 0
-	bfi x4, x21, 16, 16					// X1
-	add x21, x23, 90
-	bfi x4, x21, 0, 16					// Y1
-
-	mov x27, x30
-	bl drawline
-	mov x30, x27	
-
-	add x21, x22, 140
-	bfi x4, x21, 48, 16					// X0
-	add x21, x23, 10
-	bfi x4, x21, 32, 16					// Y0
-	add x21, x22, 140
-	bfi x4, x21, 16, 16					// X1
-	add x21, x23, 90
-	bfi x4, x21, 0, 16					// Y1
-
-	mov x27, x30
-	bl drawline
-	mov x30, x27	
-
-	add x21, x22, 10
-	bfi x4, x21, 48, 16					// X0
-	add x21, x23, 10
-	bfi x4, x21, 32, 16					// Y0
-	movk x4, 10, lsl 16					// X1
-
-	mov x27, x30
-	bl drawcircle
-	mov x30, x27
-
-	add x21, x22, 10
-	bfi x4, x21, 48, 16					// X0
-	add x21, x23, 90
-	bfi x4, x21, 32, 16					// Y0
-	movk x4, 10, lsl 16					// X1
-
-	mov x27, x30
-	bl drawcircle
-	mov x30, x27
-
-	add x21, x22, 10
-	bfi x4, x21, 48, 16					// X0
-	add x21, x23, 0
-	bfi x4, x21, 32, 16					// Y0
-	add x21, x22, 130
-	bfi x4, x21, 16, 16					// X1
-	add x21, x23, 100
-	bfi x4, x21, 0, 16					// Y1
-
-	mov x27, x30
-	bl drawsquare
-	mov x30, x27	
-
-	add x21, x22, 130
-	bfi x4, x21, 48, 16					// X0
-	add x21, x23, 10
-	bfi x4, x21, 32, 16					// Y0
-	movk x4, 10, lsl 16					// X1
-
-	mov x27, x30
-	bl drawcircle
-	mov x30, x27
-
-	add x21, x22, 130
-	bfi x4, x21, 48, 16					// X0
-	add x21, x23, 90
-	bfi x4, x21, 32, 16					// Y0
-	movk x4, 10, lsl 16					// X1
-
-	mov x27, x30
-	bl drawcircle
-	mov x30, x27
-
-	add x21, x22, 0
-	bfi x4, x21, 48, 16					// X0
-	add x21, x23, 10
-	bfi x4, x21, 32, 16					// Y0
-	add x21, x22, 140
-	bfi x4, x21, 16, 16					// X1
-	add x21, x23, 90
-	bfi x4, x21, 0, 16					// Y1
-
-	mov x27, x30
-	bl drawsquare
-	mov x30, x27	
-
-	movz x2, 0xFF, lsl 16
-	movk x2, 0xFFFF, lsl 00	
-
-	add x21, x22, 10
-	bfi x4, x21, 48, 16					// X0
-	add x21, x23, 10
-	bfi x4, x21, 32, 16					// Y0
-	add x21, x22, 130
-	bfi x4, x21, 16, 16					// X1
-	add x21, x23, 10
-	bfi x4, x21, 0, 16					// Y1
-
-	mov x27, x30
-	bl drawline
-	mov x30, x27	
-
-	add x21, x22, 10
-	bfi x4, x21, 48, 16					// X0
-	add x21, x23, 90
-	bfi x4, x21, 32, 16					// Y0
-	add x21, x22, 130
-	bfi x4, x21, 16, 16					// X1
-	add x21, x23, 90
-	bfi x4, x21, 0, 16					// Y1
-
-	mov x27, x30
-	bl drawline
-	mov x30, x27	
-
-	add x21, x22, 10
-	bfi x4, x21, 48, 16					// X0
-	add x21, x23, 10
-	bfi x4, x21, 32, 16					// Y0
-	add x21, x22, 10
-	bfi x4, x21, 16, 16					// X1
-	add x21, x23, 90
-	bfi x4, x21, 0, 16					// Y1
-
-	mov x27, x30
-	bl drawline
-	mov x30, x27	
-
-	add x21, x22, 130
-	bfi x4, x21, 48, 16					// X0
-	add x21, x23, 10
-	bfi x4, x21, 32, 16					// Y0
-	add x21, x22, 130
-	bfi x4, x21, 16, 16					// X1
-	add x21, x23, 90
-	bfi x4, x21, 0, 16					// Y1
-
-	mov x27, x30
-	bl drawline
-	mov x30, x27	
-
-
-	add x21, x22, 30
-	bfi x4, x21, 48, 16					// X0
-	add x21, x23, 25
-	bfi x4, x21, 32, 16					// Y0
-	add x21, x22, 30
-	bfi x4, x21, 16, 16					// X1
-	add x21, x23, 45
-	bfi x4, x21, 0, 16					// Y1
-
-	mov x27, x30
-	bl drawline
-	mov x30, x27	
-
-	add x21, x22, 20
-	bfi x4, x21, 48, 16					// X0
-	add x21, x23, 35
-	bfi x4, x21, 32, 16					// Y0
-	add x21, x22, 35
-	bfi x4, x21, 16, 16					// X1
-	add x21, x23, 35
-	bfi x4, x21, 0, 16					// Y1
-
-	mov x27, x30
-	bl drawline
-	mov x30, x27	
-
-	add x21, x22, 30
-	bfi x4, x21, 48, 16					// X0
-	add x21, x23, 25
-	bfi x4, x21, 32, 16					// Y0
-	add x21, x22, 20
-	bfi x4, x21, 16, 16					// X1
-	add x21, x23, 35
-	bfi x4, x21, 0, 16					// Y1
-
-	mov x27, x30
-	bl drawline
-	mov x30, x27	
-
-	add x21, x22, 40
-	bfi x4, x21, 48, 16					// X0
-	add x21, x23, 25
-	bfi x4, x21, 32, 16					// Y0
-	add x21, x22, 40
-	bfi x4, x21, 16, 16					// X1
-	add x21, x23, 45
-	bfi x4, x21, 0, 16					// Y1
-
-	mov x27, x30
-	bl drawline
-	mov x30, x27	
-
-	add x21, x22, 40
-	bfi x4, x21, 48, 16					// X0
-	add x21, x23, 25
-	bfi x4, x21, 32, 16					// Y0
-	add x21, x22, 50
-	bfi x4, x21, 16, 16					// X1
-	add x21, x23, 25
-	bfi x4, x21, 0, 16					// Y1
-
-	mov x27, x30
-	bl drawline
-	mov x30, x27	
-
-	add x21, x22, 40
-	bfi x4, x21, 48, 16					// X0
-	add x21, x23, 35
-	bfi x4, x21, 32, 16					// Y0
-	add x21, x22, 50
-	bfi x4, x21, 16, 16					// X1
-	add x21, x23, 35
-	bfi x4, x21, 0, 16					// Y1
-
-	mov x27, x30
-	bl drawline
-	mov x30, x27	
-
-	add x21, x22, 65
-	bfi x4, x21, 48, 16					// X0
-	add x21, x23, 25
-	bfi x4, x21, 32, 16					// Y0
-	add x21, x22, 65
-	bfi x4, x21, 16, 16					// X1
-	add x21, x23, 45
-	bfi x4, x21, 0, 16					// Y1
-
-	mov x27, x30
-	bl drawline
-	mov x30, x27	
-
-	add x21, x22, 55
-	bfi x4, x21, 48, 16					// X0
-	add x21, x23, 35
-	bfi x4, x21, 32, 16					// Y0
-	add x21, x22, 70
-	bfi x4, x21, 16, 16					// X1
-	add x21, x23, 35
-	bfi x4, x21, 0, 16					// Y1
-
-	mov x27, x30
-	bl drawline
-	mov x30, x27	
-
-	add x21, x22, 65
-	bfi x4, x21, 48, 16					// X0
-	add x21, x23, 25
-	bfi x4, x21, 32, 16					// Y0
-	add x21, x22, 55
-	bfi x4, x21, 16, 16					// X1
-	add x21, x23, 35
-	bfi x4, x21, 0, 16					// Y1
-
-	mov x27, x30
-	bl drawline
-	mov x30, x27	
-
-	add x21, x22, 85
-	bfi x4, x21, 48, 16					// X0
-	add x21, x23, 25
-	bfi x4, x21, 32, 16					// Y0
-	add x21, x22, 85
-	bfi x4, x21, 16, 16					// X1
-	add x21, x23, 45
-	bfi x4, x21, 0, 16					// Y1
-
-	mov x27, x30
-	bl drawline
-	mov x30, x27	
-
-	add x21, x22, 75
-	bfi x4, x21, 48, 16					// X0
-	add x21, x23, 35
-	bfi x4, x21, 32, 16					// Y0
-	add x21, x22, 90
-	bfi x4, x21, 16, 16					// X1
-	add x21, x23, 35
-	bfi x4, x21, 0, 16					// Y1
-
-	mov x27, x30
-	bl drawline
-	mov x30, x27	
-
-	add x21, x22, 85
-	bfi x4, x21, 48, 16					// X0
-	add x21, x23, 25
-	bfi x4, x21, 32, 16					// Y0
-	add x21, x22, 75
-	bfi x4, x21, 16, 16					// X1
-	add x21, x23, 35
-	bfi x4, x21, 0, 16					// Y1
-
-	mov x27, x30
-	bl drawline
-	mov x30, x27	
-
-	add x21, x22, 105
-	bfi x4, x21, 48, 16					// X0
-	add x21, x23, 25
-	bfi x4, x21, 32, 16					// Y0
-	add x21, x22, 105
-	bfi x4, x21, 16, 16					// X1
-	add x21, x23, 45
-	bfi x4, x21, 0, 16					// Y1
-
-	mov x27, x30
-	bl drawline
-	mov x30, x27	
-
-	add x21, x22, 95
-	bfi x4, x21, 48, 16					// X0
-	add x21, x23, 35
-	bfi x4, x21, 32, 16					// Y0
-	add x21, x22, 110
-	bfi x4, x21, 16, 16					// X1
-	add x21, x23, 35
-	bfi x4, x21, 0, 16					// Y1
-
-	mov x27, x30
-	bl drawline
-	mov x30, x27	
-
-	add x21, x22, 105
-	bfi x4, x21, 48, 16					// X0
-	add x21, x23, 25
-	bfi x4, x21, 32, 16					// Y0
-	add x21, x22, 95
-	bfi x4, x21, 16, 16					// X1
-	add x21, x23, 35
-	bfi x4, x21, 0, 16					// Y1
-
-	mov x27, x30
-	bl drawline
-	mov x30, x27
-
-	add x21, x22, 115
-	bfi x4, x21, 48, 16					// X0
-	add x21, x23, 25
-	bfi x4, x21, 32, 16					// Y0
-	add x21, x22, 115
-	bfi x4, x21, 16, 16					// X1
-	add x21, x23, 45
-	bfi x4, x21, 0, 16					// Y1
-
-	mov x27, x30
-	bl drawline
-	mov x30, x27
-
-	add x21, x22, 115
-	bfi x4, x21, 48, 16					// X0
-	add x21, x23, 25
-	bfi x4, x21, 32, 16					// Y0
-	add x21, x22, 125
-	bfi x4, x21, 16, 16					// X1
-	add x21, x23, 25
-	bfi x4, x21, 0, 16					// Y1
-
-	mov x27, x30
-	bl drawline
-	mov x30, x27
-
-	add x21, x22, 115
-	bfi x4, x21, 48, 16					// X0
-	add x21, x23, 35
-	bfi x4, x21, 32, 16					// Y0
-	add x21, x22, 125
-	bfi x4, x21, 16, 16					// X1
-	add x21, x23, 35
-	bfi x4, x21, 0, 16					// Y1
-
-	mov x27, x30
-	bl drawline
-	mov x30, x27
-
-	add x21, x22, 115
-	bfi x4, x21, 48, 16					// X0
-	add x21, x23, 45
-	bfi x4, x21, 32, 16					// Y0
-	add x21, x22, 125
-	bfi x4, x21, 16, 16					// X1
-	add x21, x23, 45
-	bfi x4, x21, 0, 16					// Y1
-
-	mov x27, x30
-	bl drawline
-	mov x30, x27
-
-	add x21, x22, 30
-	bfi x4, x21, 48, 16					// X0
-	add x21, x23, 50
-	bfi x4, x21, 32, 16					// Y0
-	add x21, x22, 27
-	bfi x4, x21, 16, 16					// X1
-	add x21, x23, 55
-	bfi x4, x21, 0, 16					// Y1
-
-	mov x27, x30
-	bl drawline
-	mov x30, x27
-
-	add x21, x22, 30
-	bfi x4, x21, 48, 16					// X0
-	add x21, x23, 50
-	bfi x4, x21, 32, 16					// Y0
-	add x21, x22, 35
-	bfi x4, x21, 16, 16					// X1
-	add x21, x23, 50
-	bfi x4, x21, 0, 16					// Y1
-
-	mov x27, x30
-	bl drawline
-	mov x30, x27
-
-	add x21, x22, 38
-	bfi x4, x21, 48, 16					// X0
-	add x21, x23, 55
-	bfi x4, x21, 32, 16					// Y0
-	add x21, x22, 35
-	bfi x4, x21, 16, 16					// X1
-	add x21, x23, 50
-	bfi x4, x21, 0, 16					// Y1
-
-	mov x27, x30
-	bl drawline
-	mov x30, x27
-
-	add x21, x22, 38
-	bfi x4, x21, 48, 16					// X0
-	add x21, x23, 55
-	bfi x4, x21, 32, 16					// Y0
-	add x21, x22, 27
-	bfi x4, x21, 16, 16					// X1
-	add x21, x23, 63
-	bfi x4, x21, 0, 16					// Y1
-
-	mov x27, x30
-	bl drawline
-	mov x30, x27
-
-	add x21, x22, 38
-	bfi x4, x21, 48, 16					// X0
-	add x21, x23, 63
-	bfi x4, x21, 32, 16					// Y0
-	add x21, x22, 27
-	bfi x4, x21, 16, 16					// X1
-	add x21, x23, 63
-	bfi x4, x21, 0, 16					// Y1
-
-	mov x27, x30
-	bl drawline
-	mov x30, x27
-
-	add x21, x22, 70
-	bfi x4, x21, 48, 16					// X0
-	add x21, x23, 50
-	bfi x4, x21, 32, 16					// Y0
-	add x21, x22, 67
-	bfi x4, x21, 16, 16					// X1
-	add x21, x23, 55
-	bfi x4, x21, 0, 16					// Y1
-
-	mov x27, x30
-	bl drawline
-	mov x30, x27
-
-	add x21, x22, 70
-	bfi x4, x21, 48, 16					// X0
-	add x21, x23, 50
-	bfi x4, x21, 32, 16					// Y0
-	add x21, x22, 75
-	bfi x4, x21, 16, 16					// X1
-	add x21, x23, 50
-	bfi x4, x21, 0, 16					// Y1
-
-	mov x27, x30
-	bl drawline
-	mov x30, x27
-
-	add x21, x22, 78
-	bfi x4, x21, 48, 16					// X0
-	add x21, x23, 55
-	bfi x4, x21, 32, 16					// Y0
-	add x21, x22, 75
-	bfi x4, x21, 16, 16					// X1
-	add x21, x23, 50
-	bfi x4, x21, 0, 16					// Y1
-
-	mov x27, x30
-	bl drawline
-	mov x30, x27
-
-	add x21, x22, 78
-	bfi x4, x21, 48, 16					// X0
-	add x21, x23, 55
-	bfi x4, x21, 32, 16					// Y0
-	add x21, x22, 67
-	bfi x4, x21, 16, 16					// X1
-	add x21, x23, 63
-	bfi x4, x21, 0, 16					// Y1
-
-	mov x27, x30
-	bl drawline
-	mov x30, x27
-
-	add x21, x22, 78
-	bfi x4, x21, 48, 16					// X0
-	add x21, x23, 63
-	bfi x4, x21, 32, 16					// Y0
-	add x21, x22, 67
-	bfi x4, x21, 16, 16					// X1
-	add x21, x23, 63
-	bfi x4, x21, 0, 16					// Y1
-
-	mov x27, x30
-	bl drawline
-	mov x30, x27
-
-	add x21, x22, 93
-	bfi x4, x21, 48, 16					// X0
-	add x21, x23, 63
-	bfi x4, x21, 32, 16					// Y0
-	add x21, x22, 87
-	bfi x4, x21, 16, 16					// X1
-	add x21, x23, 63
-	bfi x4, x21, 0, 16					// Y1
-
-	mov x27, x30
-	bl drawline
-	mov x30, x27
-
-	add x21, x22, 93
-	bfi x4, x21, 48, 16					// X0
-	add x21, x23, 63
-	bfi x4, x21, 32, 16					// Y0
-	add x21, x22, 95
-	bfi x4, x21, 16, 16					// X1
-	add x21, x23, 60
-	bfi x4, x21, 0, 16					// Y1
-
-	mov x27, x30
-	bl drawline
-	mov x30, x27
-
-	add x21, x22, 95
-	bfi x4, x21, 48, 16					// X0
-	add x21, x23, 58
-	bfi x4, x21, 32, 16					// Y0
-	add x21, x22, 95
-	bfi x4, x21, 16, 16					// X1
-	add x21, x23, 60
-	bfi x4, x21, 0, 16					// Y1
-
-	mov x27, x30
-	bl drawline
-	mov x30, x27
-
-	add x21, x22, 95
-	bfi x4, x21, 48, 16					// X0
-	add x21, x23, 58
-	bfi x4, x21, 32, 16					// Y0
-	add x21, x22, 93
-	bfi x4, x21, 16, 16					// X1
-	add x21, x23, 55
-	bfi x4, x21, 0, 16					// Y1
-
-	mov x27, x30
-	bl drawline
-	mov x30, x27
-
-	add x21, x22, 88
-	bfi x4, x21, 48, 16					// X0
-	add x21, x23, 55
-	bfi x4, x21, 32, 16					// Y0
-	add x21, x22, 93
-	bfi x4, x21, 16, 16					// X1
-	add x21, x23, 55
-	bfi x4, x21, 0, 16					// Y1
-
-	mov x27, x30
-	bl drawline
-	mov x30, x27
-
-	add x21, x22, 88
-	bfi x4, x21, 48, 16					// X0
-	add x21, x23, 55
-	bfi x4, x21, 32, 16					// Y0
-	add x21, x22, 88
-	bfi x4, x21, 16, 16					// X1
-	add x21, x23, 50
-	bfi x4, x21, 0, 16					// Y1
-
-	mov x27, x30
-	bl drawline
-	mov x30, x27
-
-	add x21, x22, 88
-	bfi x4, x21, 48, 16					// X0
-	add x21, x23, 50
-	bfi x4, x21, 32, 16					// Y0
-	add x21, x22, 95
-	bfi x4, x21, 16, 16					// X1
-	add x21, x23, 50
-	bfi x4, x21, 0, 16					// Y1
-
-	mov x27, x30
-	bl drawline
-	mov x30, x27
-
-
-	add x21, x22, 45
-	bfi x4, x21, 48, 16					// X0
-	add x21, x23, 73
-	bfi x4, x21, 32, 16					// Y0
-	add x21, x22, 100
-	bfi x4, x21, 16, 16					// X1
-	add x21, x23, 78
-	bfi x4, x21, 0, 16					// Y1
-
-	mov x27, x30
-	bl drawsquare
-	mov x30, x27	
-
-	add x21, x22, 50
-	bfi x4, x21, 48, 16					// X0
-	add x21, x23, 70
-	bfi x4, x21, 32, 16					// Y0
-	add x21, x22, 55
-	bfi x4, x21, 16, 16					// X1
-	add x21, x23, 81
-	bfi x4, x21, 0, 16					// Y1
-
-	mov x27, x30
-	bl drawsquare
-	mov x30, x27	
-
-	add x21, x22, 53
-	bfi x4, x21, 48, 16					// X0
-	add x21, x23, 57
-	bfi x4, x21, 32, 16					// Y0
-	movk x4, 8, lsl 16					// X1
-
-	mov x27, x30
-	bl drawcircle
-	mov x30, x27
-
-	movz x2, 0x30, lsl 16
-	movk x2, 0x8446, lsl 00	
-
-	add x21, x22, 52
-	bfi x4, x21, 48, 16					// X0
-	add x21, x23, 57
-	bfi x4, x21, 32, 16					// Y0
-	movk x4, 6, lsl 16					// X1
-
-	mov x27, x30
-	bl drawcircle
-	mov x30, x27
-
-
-
-
-	ret
 // ------------------------------------------------- OPTICAS --------------------------------------------------------------
 //Faro (86x60 pixeles) x = x22, y = x23 (Entre faro y faro tiene que haber 224 pixeles)
 faro:
@@ -12213,6 +11489,847 @@ ventanita:
 	bl drawline
 	mov x30, x27
 
-
-
 ret
+
+// ------------------------------------------------- CAPO ----------------------------------------------------------------
+capo:
+//----------------------------------------------- 31
+	movz x2, 0xc4, lsl 16			 
+	movk x2, 0x2537, lsl 00	
+
+
+	add x21, x22, 75
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 10
+	bfi x4, x21, 32, 16					// Y0
+	add x21, x22, 114
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 49
+	bfi x4, x21, 0, 16					// Y1
+
+	mov x27, x30
+	bl drawsquare
+	mov x30, x27
+//----------------------------------------------- 30
+	add x21, x22, 113
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 5
+	bfi x4, x21, 32, 16					// Y0
+	add x21, x22, 121
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 51
+	bfi x4, x21, 0, 16					// Y1
+
+	mov x27, x30
+	bl drawsquare
+	mov x30, x27
+//----------------------------------------------- 29
+	add x21, x22, 119
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 2
+	bfi x4, x21, 32, 16					// Y0
+	add x21, x22, 289
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 52
+	bfi x4, x21, 0, 16					// Y1
+
+	mov x27, x30
+	bl drawsquare
+	mov x30, x27
+//----------------------------------------------- 34
+	add x21, x22, 154
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 0
+	bfi x4, x21, 32, 16					// Y0
+	add x21, x22, 171
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 2
+	bfi x4, x21, 0, 16					// Y1
+
+	mov x27, x30
+	bl drawsquare
+	mov x30, x27
+//----------------------------------------------- 1200
+	add x21, x22, 288
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 23
+	bfi x4, x21, 32, 16					// Y0
+	add x21, x22, 317
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 34
+	bfi x4, x21, 0, 16					// Y1
+
+	mov x27, x30
+	bl drawsquare
+	mov x30, x27
+//-----------------------------------------------
+	add x21, x22, 289
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 52
+	bfi x4, x21, 32, 16					// Y0
+	add x21, x22, 316
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 34
+	bfi x4, x21, 0, 16					// Y1
+
+	mov x27, x30
+	bl drawtriangle
+	mov x30, x27
+//----------------------------------------------- 1201
+	add x21, x22, 9
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 38
+	bfi x4, x21, 32, 16					// Y0
+	add x21, x22, 64
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 52
+	bfi x4, x21, 0, 16					// Y1
+
+	mov x27, x30
+	bl drawsquare
+	mov x30, x27
+//----------------------------------------------- 1202
+	add x21, x22, 29
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 18
+	bfi x4, x21, 32, 16					// Y0
+	add x21, x22, 75
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 39
+	bfi x4, x21, 0, 16					// Y1
+
+	mov x27, x30
+	bl drawsquare
+	mov x30, x27
+//----------------------------------------------- 1203
+	add x21, x22, 54
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 12
+	bfi x4, x21, 32, 16					// Y0
+	add x21, x22, 75
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 22
+	bfi x4, x21, 0, 16					// Y1
+
+	mov x27, x30
+	bl drawsquare
+	mov x30, x27
+//----------------------------------------------- 1204
+	add x21, x22, 17
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 29
+	bfi x4, x21, 32, 16					// Y0
+	add x21, x22, 43
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 39
+	bfi x4, x21, 0, 16					// Y1
+
+	mov x27, x30
+	bl drawsquare
+	mov x30, x27
+//----------------------------------------------- 1205
+	add x21, x22, 21
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 24
+	bfi x4, x21, 32, 16					// Y0
+	add x21, x22, 43
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 30
+	bfi x4, x21, 0, 16					// Y1
+
+	mov x27, x30
+	bl drawsquare
+	mov x30, x27
+//----------------------------------------------- 1206
+	add x21, x22, 46
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 15
+	bfi x4, x21, 32, 16					// Y0
+	add x21, x22, 54
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 22
+	bfi x4, x21, 0, 16					// Y1
+
+	mov x27, x30
+	bl drawsquare
+	mov x30, x27
+//----------------------------------------------- 35
+	movz x2, 0xff, lsl 16			 
+	movk x2, 0x8d9b, lsl 00	
+
+	add x21, x22, 361
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 6
+	bfi x4, x21, 32, 16					// Y0
+	add x21, x22, 394
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 11
+	bfi x4, x21, 0, 16					// Y1
+
+	mov x27, x30
+	bl drawsquare
+	mov x30, x27
+//----------------------------------------------- 23
+	add x21, x22, 361
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 15
+	bfi x4, x21, 32, 16					// Y0
+	add x21, x22, 383
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 11
+	bfi x4, x21, 0, 16					// Y1
+
+	mov x27, x30
+	bl drawtriangle
+	mov x30, x27
+//----------------------------------------------- 36
+	add x21, x22, 360
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 4
+	bfi x4, x21, 32, 16					// Y0
+	add x21, x22, 378
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 6
+	bfi x4, x21, 0, 16					// Y1
+
+	mov x27, x30
+	bl drawsquare
+	mov x30, x27
+//----------------------------------------------- 20
+	movz x2, 0x40, lsl 16			 
+	movk x2, 0x020f, lsl 00	
+
+	add x21, x22, 104
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 10
+	bfi x4, x21, 32, 16					// Y0
+	add x21, x22, 124
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 1
+	bfi x4, x21, 0, 16					// Y1
+
+	mov x27, x30
+	bl drawline
+	mov x30, x27
+//----------------------------------------------- 21
+	add x21, x22, 71
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 11
+	bfi x4, x21, 32, 16					// Y0
+	add x21, x22, 106
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 8
+	bfi x4, x21, 0, 16					// Y1
+
+	mov x27, x30
+	bl drawline
+	mov x30, x27
+//----------------------------------------------- 22
+	add x21, x22, 83
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 10
+	bfi x4, x21, 32, 16					// Y0
+	add x21, x22, 105
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 7
+	bfi x4, x21, 0, 16					// Y1
+
+	mov x27, x30
+	bl drawline
+	mov x30, x27
+//----------------------------------------------- 33
+	movz x2, 0x86, lsl 16			 
+	movk x2, 0x343e, lsl 00	
+
+	add x21, x22, 111
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 7
+	bfi x4, x21, 32, 16					// Y0
+	add x21, x22, 113
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 8
+	bfi x4, x21, 0, 16					// Y1
+
+	mov x27, x30
+	bl drawsquare
+	mov x30, x27
+//----------------------------------------------- 32
+	add x21, x22, 105
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 8
+	bfi x4, x21, 32, 16					// Y0
+	add x21, x22, 113
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 10
+	bfi x4, x21, 0, 16					// Y1
+
+	mov x27, x30
+	bl drawsquare
+	mov x30, x27
+//----------------------------------------------- 37
+	movz x2, 0xff, lsl 16			 
+	movk x2, 0x0000, lsl 00	
+
+	add x21, x22, 57
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 36
+	bfi x4, x21, 32, 16					// Y0
+	add x21, x22, 90
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 51
+	bfi x4, x21, 0, 16					// Y1
+
+	mov x27, x30
+	bl drawsquare
+	mov x30, x27
+//----------------------------------------------- 38
+	movz x2, 0xb8, lsl 16			 
+	movk x2, 0x192b, lsl 00
+
+	add x21, x22, 9
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 36
+	bfi x4, x21, 32, 16					// Y0
+	add x21, x22, 33
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 44
+	bfi x4, x21, 0, 16					// Y1
+
+	mov x27, x30
+	bl drawsquare
+	mov x30, x27
+//----------------------------------------------- 1207
+	add x21, x22, 17
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 29
+	bfi x4, x21, 32, 16					// Y0
+	add x21, x22, 35
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 36
+	bfi x4, x21, 0, 16					// Y1
+
+	mov x27, x30
+	bl drawsquare
+	mov x30, x27
+//----------------------------------------------- 1208
+	add x21, x22, 29
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 18
+	bfi x4, x21, 32, 16					// Y0
+	add x21, x22, 36
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 29
+	bfi x4, x21, 0, 16					// Y1
+
+	mov x27, x30
+	bl drawsquare
+	mov x30, x27
+//----------------------------------------------- 1209
+	add x21, x22, 21
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 24
+	bfi x4, x21, 32, 16					// Y0
+	add x21, x22, 29
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 29
+	bfi x4, x21, 0, 16					// Y1
+
+	mov x27, x30
+	bl drawsquare
+	mov x30, x27
+//----------------------------------------------- 38
+	add x21, x22, 6
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 40
+	bfi x4, x21, 32, 16					// Y0
+	add x21, x22, 12
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 48
+	bfi x4, x21, 0, 16					// Y1
+
+	mov x27, x30
+	bl drawsquare
+	mov x30, x27
+//----------------------------------------------- 38
+	add x21, x22, 4
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 44
+	bfi x4, x21, 32, 16					// Y0
+	add x21, x22, 29
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 52
+	bfi x4, x21, 0, 16					// Y1
+
+	mov x27, x30
+	bl drawsquare
+	mov x30, x27
+//----------------------------------------------- 38
+	add x21, x22, 0
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 48
+	bfi x4, x21, 32, 16					// Y0
+	add x21, x22, 6
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 52
+	bfi x4, x21, 0, 16					// Y1
+
+	mov x27, x30
+	bl drawsquare
+	mov x30, x27
+//----------------------------------------------- 21
+	movz x2, 0xff, lsl 16			 
+	movk x2, 0xa39b, lsl 00
+
+	add x21, x22, 38
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 20
+	bfi x4, x21, 32, 16					// Y0
+	add x21, x22, 100
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 23
+	bfi x4, x21, 0, 16					// Y1
+
+	mov x27, x30
+	bl drawsquare
+	mov x30, x27
+//----------------------------------------------- 21
+	add x21, x22, 166
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 18
+	bfi x4, x21, 32, 16					// Y0
+	add x21, x22, 194
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 21
+	bfi x4, x21, 0, 16					// Y1
+
+	mov x27, x30
+	bl drawsquare
+	mov x30, x27
+//----------------------------------------------- 21
+	add x21, x22, 38
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 20
+	bfi x4, x21, 32, 16					// Y0
+	add x21, x22, 100
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 23
+	bfi x4, x21, 0, 16					// Y1
+
+	mov x27, x30
+	bl drawsquare
+	mov x30, x27
+//----------------------------------------------- 21
+	add x21, x22, 170
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 16
+	bfi x4, x21, 32, 16					// Y0
+	add x21, x22, 202
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 19
+	bfi x4, x21, 0, 16					// Y1
+
+	mov x27, x30
+	bl drawsquare
+	mov x30, x27
+//----------------------------------------------- 21
+	add x21, x22, 177
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 15
+	bfi x4, x21, 32, 16					// Y0
+	add x21, x22, 211
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 18
+	bfi x4, x21, 0, 16					// Y1
+
+	mov x27, x30
+	bl drawsquare
+	mov x30, x27
+//----------------------------------------------- 21
+	add x21, x22, 183
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 14
+	bfi x4, x21, 32, 16					// Y0
+	add x21, x22, 217
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 17
+	bfi x4, x21, 0, 16					// Y1
+
+	mov x27, x30
+	bl drawsquare
+	mov x30, x27
+//----------------------------------------------- 21
+	add x21, x22, 184
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 12
+	bfi x4, x21, 32, 16					// Y0
+	add x21, x22, 223
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 15
+	bfi x4, x21, 0, 16					// Y1
+
+	mov x27, x30
+	bl drawsquare
+	mov x30, x27
+//----------------------------------------------- 21
+	add x21, x22, 223
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 10
+	bfi x4, x21, 32, 16					// Y0
+	add x21, x22, 231
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 13
+	bfi x4, x21, 0, 16					// Y1
+
+	mov x27, x30
+	bl drawsquare
+	mov x30, x27
+//----------------------------------------------- 14
+	add x21, x22, 125
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 6
+	bfi x4, x21, 32, 16					// Y0
+	movk x4, 3, lsl 16					// X1
+
+	mov x27, x30
+	bl drawcircle
+	mov x30, x27
+//----------------------------------------------- 17
+	add x21, x22, 99
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 22
+	bfi x4, x21, 32, 16					// Y0
+	add x21, x22, 138
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 16
+	bfi x4, x21, 0, 16					// Y1
+
+	mov x27, x30
+	bl drawline
+	mov x30, x27
+//----------------------------------------------- 22
+	movz x2, 0xff, lsl 16			 
+	movk x2, 0xe1e9, lsl 00
+
+	add x21, x22, 171
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 0
+	bfi x4, x21, 32, 16					// Y0
+	add x21, x22, 241
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 7
+	bfi x4, x21, 0, 16					// Y1
+
+	mov x27, x30
+	bl drawsquare
+	mov x30, x27
+//----------------------------------------------- 1210
+	add x21, x22, 240
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 1
+	bfi x4, x21, 32, 16					// Y0
+	add x21, x22, 289
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 4
+	bfi x4, x21, 0, 16					// Y1
+
+	mov x27, x30
+	bl drawsquare
+	mov x30, x27
+//----------------------------------------------- 23
+	add x21, x22, 155
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 3
+	bfi x4, x21, 32, 16					// Y0
+	add x21, x22, 171
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 6
+	bfi x4, x21, 0, 16					// Y1
+
+	mov x27, x30
+	bl drawsquare
+	mov x30, x27
+//----------------------------------------------- 23
+	movz x2, 0xff, lsl 16			 
+	movk x2, 0xbcd6, lsl 00
+
+	add x21, x22, 163
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 5
+	bfi x4, x21, 32, 16					// Y0
+	add x21, x22, 172
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 8
+	bfi x4, x21, 0, 16					// Y1
+
+	mov x27, x30
+	bl drawsquare
+	mov x30, x27
+//----------------------------------------------- 25
+	movz x2, 0xfc, lsl 16			 
+	movk x2, 0xb7c1, lsl 00
+
+	add x21, x22, 187
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 21
+	bfi x4, x21, 32, 16					// Y0
+	add x21, x22, 236
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 23
+	bfi x4, x21, 0, 16					// Y1
+
+	mov x27, x30
+	bl drawsquare
+	mov x30, x27
+//----------------------------------------------- 26
+	add x21, x22, 144
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 26
+	bfi x4, x21, 32, 16					// Y0
+	add x21, x22, 242
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 35
+	bfi x4, x21, 0, 16					// Y1
+
+	mov x27, x30
+	bl drawsquare
+	mov x30, x27
+
+
+
+	ret
+
+// ------------------------------------------------- PATENTE  --------------------------------------------------------------------
+patente:
+	movz x2, 0xCC, lsl 16
+	movk x2, 0xCCCC, lsl 00	
+
+	add x21, x22, 0
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 20
+	bfi x4, x21, 32, 16					// Y0
+	movk x4, 5, lsl 16					// X1
+
+	mov x27, x30
+	bl drawcircle
+	mov x30, x27
+
+	add x21, x22, 0
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 5
+	bfi x4, x21, 32, 16					// Y0
+	movk x4, 5, lsl 16					// X1
+
+	mov x27, x30
+	bl drawcircle
+	mov x30, x27
+
+	sub x21, x22, 3
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 0
+	bfi x4, x21, 32, 16					// Y0
+	add x21, x22, 75
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 25
+	bfi x4, x21, 0, 16					// Y1
+
+	mov x27, x30
+	bl drawsquare
+	mov x30, x27	
+
+	add x21, x22, 70
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 5
+	bfi x4, x21, 32, 16					// Y0
+	movk x4, 5, lsl 16					// X1
+
+	mov x27, x30
+	bl drawcircle
+	mov x30, x27
+
+	add x21, x22, 70
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 20
+	bfi x4, x21, 32, 16					// Y0
+	movk x4, 5, lsl 16					// X1
+
+	mov x27, x30
+	bl drawcircle
+	mov x30, x27
+
+	movz x2, 0x00, lsl 16
+	movk x2, 0x0000, lsl 00	
+
+	add x21, x22, 7
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 13
+	bfi x4, x21, 32, 16					// Y0
+	movk x4, 9, lsl 16					// X1
+
+	mov x27, x30
+	bl drawcircle
+	mov x30, x27
+
+	add x21, x22, 27
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 13
+	bfi x4, x21, 32, 16					// Y0
+	movk x4, 9, lsl 16					// X1
+
+	mov x27, x30
+	bl drawcircle
+	mov x30, x27
+
+	add x21, x22, 47
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 13
+	bfi x4, x21, 32, 16					// Y0
+	movk x4, 9, lsl 16					// X1
+
+	mov x27, x30
+	bl drawcircle
+	mov x30, x27
+
+	movz x2, 0xCC, lsl 16
+	movk x2, 0xCCCC, lsl 00	
+
+	add x21, x22, 7
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 13
+	bfi x4, x21, 32, 16					// Y0
+	movk x4, 7, lsl 16					// X1
+
+	mov x27, x30
+	bl drawcircle
+	mov x30, x27
+
+	add x21, x22, 27
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 13
+	bfi x4, x21, 32, 16					// Y0
+	movk x4, 7, lsl 16					// X1
+
+	mov x27, x30
+	bl drawcircle
+	mov x30, x27
+
+	add x21, x22, 51
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 13
+	bfi x4, x21, 32, 16					// Y0
+	movk x4, 7, lsl 16					// X1
+
+	mov x27, x30
+	bl drawcircle
+	mov x30, x27
+
+	add x21, x22, 53
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 0
+	bfi x4, x21, 32, 16					// Y0
+	add x21, x22, 58
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 25
+	bfi x4, x21, 0, 16					// Y1
+
+	mov x27, x30
+	bl drawsquare
+	mov x30, x27	
+
+	movz x2, 0x00, lsl 16
+	movk x2, 0x0000, lsl 00	
+
+	add x21, x22, 19
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 4
+	bfi x4, x21, 32, 16					// Y0
+	add x21, x22, 26
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 23
+	bfi x4, x21, 0, 16					// Y1
+
+	mov x27, x30
+	bl drawsquare
+	mov x30, x27	
+
+	add x21, x22, 62
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 1
+	bfi x4, x21, 32, 16					// Y0
+	add x21, x22, 70
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 9
+	bfi x4, x21, 0, 16					// Y1
+
+	mov x27, x30
+	bl drawline
+	mov x30, x27	
+
+	add x21, x22, 62
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 9
+	bfi x4, x21, 32, 16					// Y0
+	add x21, x22, 70
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 1
+	bfi x4, x21, 0, 16					// Y1
+
+	mov x27, x30
+	bl drawline
+	mov x30, x27	
+
+	add x21, x22, 62
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 9
+	bfi x4, x21, 32, 16					// Y0
+	add x21, x22, 70
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 17
+	bfi x4, x21, 0, 16					// Y1
+
+	mov x27, x30
+	bl drawline
+	mov x30, x27	
+
+	add x21, x22, 62
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 17
+	bfi x4, x21, 32, 16					// Y0
+	add x21, x22, 70
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 9
+	bfi x4, x21, 0, 16					// Y1
+
+	mov x27, x30
+	bl drawline
+	mov x30, x27	
+
+	add x21, x22, 62
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 17
+	bfi x4, x21, 32, 16					// Y0
+	add x21, x22, 66
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 25
+	bfi x4, x21, 0, 16					// Y1
+
+	mov x27, x30
+	bl drawline
+	mov x30, x27	
+
+	add x21, x22, 66
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 25
+	bfi x4, x21, 32, 16					// Y0
+	add x21, x22, 70
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 17
+	bfi x4, x21, 0, 16					// Y1
+
+	mov x27, x30
+	bl drawline
+	mov x30, x27	
+
+
+	ret
+
+
