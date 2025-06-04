@@ -104,9 +104,14 @@ auto:
 	add x22, x6, 47
 	add x23, x26, 159
 	bl faro
+	bl profundidadFaro
+	mov x5, 7
+	bl costadoFaro
 
 	add x22, x6, 270
 	bl faro
+	bl profundidadFaro
+	bl costadoFaro
 //-----------------------------------------------
 	add x22, x6, 245
 	add x23, x26, 239
@@ -135,17 +140,84 @@ auto:
 reset:
 	mov x6, 0
 
+resetFaro:
+	mov x26, 90
+	mov x5, 7
 InfLoop:
 
 	add x6, x6, 2
 
 	bl cielo
-	movz x25, 0x1000, lsl 16
-	bl delay
 
 	cmp x6, 500
 	b.gt reset
 
+	/*////////////////////////////////////////////////////////////// */
+	
+
+	// FIGURAS ANTERIORE
+	mov x22, 88
+	mov x23, 258
+	bl capo
+	//-----------------------------------------------
+	mov x22, 213
+	mov x23, 186
+	bl parabrisas
+	//-----------------------------------------------
+
+	/* ---------------- CONFIGURACION ANIMACION */
+	add x26, x26, 4
+	add x5, x5, 4
+
+	cmp x5, 51
+	b.gt reset
+
+	cmp x26, 150
+	b.gt reset
+
+	/*----------------- ANIMACION FARO */
+	mov x22, 320
+	add x23, x26, 159
+	bl faro
+	mov x23, 249
+	bl costadoFaro
+
+	mov x22, 97
+	add x23, x26, 159
+	bl faro
+	mov x23, 249
+	bl costadoFaro
+
+	// ----------------------------- FIGURAS POSTERIORES
+
+	mov x22, 382
+	mov x23, 267
+	bl esquina
+	//------------------------------------------------	
+	mov x22, 75
+	mov x23, 306
+	bl capoFrente
+	//-----------------------------------------------
+	mov x22, 75
+	mov x23, 348
+	bl frenteAuto
+	//-----------------------------------------------
+	mov x22, 213
+	mov x23, 180
+	bl contornoParabrisas
+	//-----------------------------------------------
+	mov x22, 295
+	mov x23, 329
+	bl salidaDeAireDer
+	//-----------------------------------------------
+	mov x22, 320
+	mov x23, 249
+	bl profundidadFaro
+	//-----------------------------------------------
+
+	movz x25, 0x500, lsl 16
+	bl delay
+	
 	b InfLoop
 	
 
@@ -284,30 +356,47 @@ sandloop:
 	ret
 
 // ------------------------------------------------- OPTICAS --------------------------------------------------------------
-//Faro (86x60 pixeles) x = x22, y = x23 (Entre faro y faro tiene que haber 224 pixeles)
-faro:
-	movz x2, 0x27, lsl 16				// Carcasa Gris Oscuro----------------------------
-	movk x2, 0x2729, lsl 00				// Color
 
-	add x21, x22, 8
-	bfi x4, x21, 48, 16					// X0
-	add x21, x23, 8
-	bfi x4, x21, 32, 16					// Y0
-	add x21, x22, 51
-	bfi x4, x21, 16, 16					// X1
-	add x21, x23, 50
-	bfi x4, x21, 0, 16					// Y1
+// Costado Faro
+costadoFaro:
+	//-----------------------------------------------
+		movz x2, 0x3B, lsl 16				// Triangulo gris 
+		movk x2, 0x3D49, lsl 00				// Color
 
-	mov x27, x30
-	bl drawsquare
-	mov x30, x27
+		mov x25, x5
 
-//-----------------------------------------------
+	trialoop:
+		add x21, x22, 51
+		bfi x4, x21, 48, 16					// X0
+		add x21, x23, x25
+		bfi x4, x21, 32, 16					// Y0
+		add x21, x22, 76
+		bfi x4, x21, 16, 16					// X1
+		add x21, x23, 40
+		bfi x4, x21, 0, 16					// Y1
+
+		mov x27, x30
+		bl drawline
+		mov x30, x27	
+	//-----------------------------------------------
+		add x25, x25, 1
+		cmp x25, 51
+
+		b.le trialoop						// Triangulo gris 
+
+		ret
+
+
+profundidadFaro:
+	//-----------------------------------------------
+	movz x2, 0x00, lsl 16				
+	movk x2, 0x0000, lsl 00				
+
 	add x21, x22, 0
 	bfi x4, x21, 48, 16					// X0
 	add x21, x23, 46
 	bfi x4, x21, 32, 16					// Y0
-	add x21, x22, 51
+	add x21, x22, 8
 	bfi x4, x21, 16, 16					// X1
 	add x21, x23, 50
 	bfi x4, x21, 0, 16					// Y1
@@ -320,7 +409,7 @@ faro:
 	bfi x4, x21, 48, 16					// X0
 	add x21, x23, 44
 	bfi x4, x21, 32, 16					// Y0
-	add x21, x22, 51
+	add x21, x22, 8
 	bfi x4, x21, 16, 16					// X1
 	add x21, x23, 48
 	bfi x4, x21, 0, 16					// Y1
@@ -333,9 +422,29 @@ faro:
 	bfi x4, x21, 48, 16					// X0
 	add x21, x23, 42
 	bfi x4, x21, 32, 16					// Y0
-	add x21, x22, 51
+	add x21, x22, 8
 	bfi x4, x21, 16, 16					// X1
 	add x21, x23, 46
+	bfi x4, x21, 0, 16					// Y1
+
+	mov x27, x30
+	bl drawsquare
+	mov x30, x27
+
+	ret
+
+//Faro (86x60 pixeles) x = x22, y = x23 (Entre faro y faro tiene que haber 224 pixeles)
+faro:
+	movz x2, 0x27, lsl 16				// Carcasa Gris Oscuro----------------------------
+	movk x2, 0x2729, lsl 00				// Color
+
+	add x21, x22, 8
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 8
+	bfi x4, x21, 32, 16					// Y0
+	add x21, x22, 51
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 50
 	bfi x4, x21, 0, 16					// Y1
 
 	mov x27, x30
@@ -449,62 +558,7 @@ faro:
 	bl drawsquare
 	mov x30, x27						// Carcasa Roja 
 //-----------------------------------------------
-	movz x2, 0x3B, lsl 16				// Triangulo gris 
-	movk x2, 0x3D49, lsl 00				// Color
 
-	mov x24, 51
-
-trialoop:
-	add x21, x22, 51
-	bfi x4, x21, 48, 16					// X0
-	add x21, x23, x24
-	bfi x4, x21, 32, 16					// Y0
-	add x21, x22, 76
-	bfi x4, x21, 16, 16					// X1
-	add x21, x23, 40
-	bfi x4, x21, 0, 16					// Y1
-
-	mov x27, x30
-	bl drawline
-	mov x30, x27	
-//-----------------------------------------------
-	sub x24, x24, 1
-	cmp x24, 7
-
-	b.gt trialoop						// Triangulo gris 
-
-	movz x2, 0x0E, lsl 16				// Circulos Negros 
-	movk x2, 0x0E0F, lsl 00				// Color
-
-	add x21, x22, 69
-	bfi x4, x21, 48, 16					// X0
-	add x21, x23, 35
-	bfi x4, x21, 32, 16					// Y0
-	movk x4, 1, lsl 16					// X1
-
-	mov x27, x30
-	bl drawcircle
-	mov x30, x27	
-//-----------------------------------------------
-	add x21, x22, 55
-	bfi x4, x21, 48, 16					// X0
-	add x21, x23, 20
-	bfi x4, x21, 32, 16					// Y0
-	movk x4, 1, lsl 16					// X1
-
-	mov x27, x30
-	bl drawcircle
-	mov x30, x27	
-//-----------------------------------------------
-	add x21, x22, 28
-	bfi x4, x21, 48, 16					// X0
-	add x21, x23, 31
-	bfi x4, x21, 32, 16					// Y0
-	movk x4, 21, lsl 16					// X1
-
-	mov x27, x30
-	bl drawcircle
-	mov x30, x27						// Circulos Negros 
 //-----------------------------------------------
 	movz x2, 0xD2, lsl 16				// Optica		   
 	movk x2, 0xD2D2, lsl 00				// Color1	
@@ -623,12 +677,12 @@ trialoop:
 	bl drawcircle
 	mov x30, x27						// Optica		   
 //-----------------------------------------------
-	movz x2, 0x96, lsl 16				// Linea Roja 
+	/*movz x2, 0x96, lsl 16				// Linea Roja 
 	movk x2, 0x354E, lsl 00				// Color
 
 	add x21, x22, 52
 	bfi x4, x21, 48, 16					// X0
-	add x21, x23, 7
+	add x21, x23, x5
 	bfi x4, x21, 32, 16					// Y0
 	add x21, x22, 77
 	bfi x4, x21, 16, 16					// X1
@@ -637,7 +691,7 @@ trialoop:
 
 	mov x27, x30
 	bl drawline
-	mov x30, x27
+	mov x30, x27*/
 
 	ret
 
@@ -1481,6 +1535,9 @@ frenteAuto:
 	bl drawcircle
 	mov x30, x27
 //-----------------------------------------------
+	movz x2, 0xc4, lsl 16				
+	movk x2, 0x2537, lsl 00	
+
 	add x21, x22, 344
 	bfi x4, x21, 48, 16					// X0
 	add x21, x23, 56
@@ -2373,13 +2430,13 @@ parabrisas:
 	mov x30, x27
 
 	// rect 127
-	add x21, x22, 58
+	add x21, x22, 49
 	bfi x4, x21, 48, 16					// X0
 	add x21, x23, 10
 	bfi x4, x21, 32, 16					// Y0
 	add x21, x22, 284
 	bfi x4, x21, 16, 16					// X1
-	add x21, x23, 79
+	add x21, x23, 78
 	bfi x4, x21, 0, 16					// Y1
 
 	mov x27, x30
@@ -2393,7 +2450,7 @@ parabrisas:
 	bfi x4, x21, 32, 16					// Y0
 	add x21, x22, 268
 	bfi x4, x21, 16, 16					// X1
-	add x21, x23, 12
+	add x21, x23, 19
 	bfi x4, x21, 0, 16					// Y1
 
 	mov x27, x30
@@ -2949,7 +3006,7 @@ parabrisas:
 	bfi x4, x21, 32, 16					// Y0
 	add x21, x22, 53
 	bfi x4, x21, 16, 16					// X1
-	add x21, x23, 72
+	add x21, x23, 75
 	bfi x4, x21, 0, 16					// Y1
 
 	mov x27, x30
@@ -3082,19 +3139,6 @@ capoFrente:
 	bl drawline
 	mov x30, x27
 // ---------------------------------------------------------------
-	add x21, x22, 330
-	bfi x4, x21, 48, 16					// X0
-	add x21, x23, 32
-	bfi x4, x21, 32, 16					// Y0
-	add x21, x22, 343
-	bfi x4, x21, 16, 16					// X1
-	add x21, x23, 49
-	bfi x4, x21, 0, 16					// Y1
-
-	mov x27, x30
-	bl drawtriangle
-	mov x30, x27
-// ---------------------------------------------------------------
 	add x21, x22, 314
 	bfi x4, x21, 48, 16					// X0
 	add x21, x23, 15
@@ -3107,7 +3151,7 @@ capoFrente:
 	mov x27, x30
 	bl drawline
 	mov x30, x27
-// ---------------------------------------------------------------
+// --------------------------------------------------------------- mover
 	add x21, x22, 296
 	bfi x4, x21, 48, 16					// X0
 	add x21, x23, 6
@@ -3134,6 +3178,7 @@ capoFrente:
 	bl drawsquare
 	mov x30, x27
 // ---------------------------------------------------------------
+
 	add x21, x22, 304
 	bfi x4, x21, 48, 16					// X0
 	add x21, x23, 6
@@ -3247,6 +3292,19 @@ capoFrente:
 	bl drawsquare
 	mov x30, x27
 // ---------------------------------------------------------------
+	add x21, x22, 330
+	bfi x4, x21, 48, 16					// X0
+	add x21, x23, 32
+	bfi x4, x21, 32, 16					// Y0
+	add x21, x22, 343
+	bfi x4, x21, 16, 16					// X1
+	add x21, x23, 49
+	bfi x4, x21, 0, 16					// Y1
+
+	mov x27, x30
+	bl drawtriangle
+	mov x30, x27
+// ----------------------------------------------
 	movz x2, 0x3f, lsl 16				
 	movk x2, 0x010f, lsl 00	
 
@@ -3305,9 +3363,6 @@ capoFrente:
 	bl drawtriangle
 	mov x30, x27
 // ---------------------------------------------------------------
-	movz x2, 0xa0, lsl 16				
-	movk x2, 0x152c, lsl 00	
-
 	add x21, x22, 280
 	bfi x4, x21, 48, 16					// X0
 	add x21, x23, 46
@@ -3376,6 +3431,8 @@ capoFrente:
 	bl drawsquare
 	mov x30, x27
 // ---------------------------------------------------------------
+	movz x2, 0xc3, lsl 16				
+	movk x2, 0x2537, lsl 00	
 	add x21, x22, 43
 	bfi x4, x21, 48, 16					// X0
 	add x21, x23, 2
@@ -3661,9 +3718,9 @@ contornoParabrisas:
 	bl drawsquare
 	mov x30, x27
 // ----------------------------------------------
-	add x21, x22, 50
+	add x21, x22, 49
 	bfi x4, x21, 48, 16					// X0
-	add x21, x23, 19
+	add x21, x23, 18
 	bfi x4, x21, 32, 16					// Y0
 	add x21, x22, 55
 	bfi x4, x21, 16, 16					// X1
@@ -3674,7 +3731,9 @@ contornoParabrisas:
 	bl drawsquare
 	mov x30, x27
 // ----------------------------------------------
-	add x21, x22, 54
+
+
+	add x21, x22, 52
 	bfi x4, x21, 48, 16					// X0
 	add x21, x23, 16
 	bfi x4, x21, 32, 16					// Y0
@@ -3687,9 +3746,12 @@ contornoParabrisas:
 	bl drawsquare
 	mov x30, x27
 // ----------------------------------------------
+	movz x2, 0xd3, lsl 16				
+	movk x2, 0x7995, lsl 00	
+
 	add x21, x22, 59
 	bfi x4, x21, 48, 16					// X0
-	add x21, x23, 13
+	add x21, x23, 11
 	bfi x4, x21, 32, 16					// Y0
 	add x21, x22, 67
 	bfi x4, x21, 16, 16					// X1
@@ -4047,11 +4109,11 @@ contornoParabrisas:
 //-----------------------------------------------
 	add x21, x22, 0
 	bfi x4, x21, 48, 16					// X0
-	add x21, x23, 79
+	add x21, x23, 77
 	bfi x4, x21, 32, 16					// Y0
 	add x21, x22, 52
 	bfi x4, x21, 16, 16					// X1
-	add x21, x23, 77
+	add x21, x23, 83
 	bfi x4, x21, 0, 16					// Y1
 
 	mov x27, x30
@@ -4060,11 +4122,11 @@ contornoParabrisas:
 //-----------------------------------------------
 	add x21, x22, 49			
 	bfi x4, x21, 48, 16					// X0
-	add x21, x23, 77
+	add x21, x23, 83
 	bfi x4, x21, 32, 16					// Y0
 	add x21, x22, 112
 	bfi x4, x21, 16, 16					// X1
-	add x21, x23, 76
+	add x21, x23, 83
 	bfi x4, x21, 0, 16					// Y1
 
 	mov x27, x30
@@ -4073,11 +4135,11 @@ contornoParabrisas:
 //-----------------------------------------------
 	add x21, x22, 112
 	bfi x4, x21, 48, 16					// X0
-	add x21, x23, 76
+	add x21, x23, 83
 	bfi x4, x21, 32, 16					// Y0
 	add x21, x22, 167
 	bfi x4, x21, 16, 16					// X1
-	add x21, x23, 80
+	add x21, x23, 83
 	bfi x4, x21, 0, 16					// Y1
 
 	mov x27, x30
@@ -4086,11 +4148,11 @@ contornoParabrisas:
 //-----------------------------------------------
 	add x21, x22, 167
 	bfi x4, x21, 48, 16					// X0
-	add x21, x23, 80
+	add x21, x23, 83
 	bfi x4, x21, 32, 16					// Y0
 	add x21, x22, 236
 	bfi x4, x21, 16, 16					// X1
-	add x21, x23, 80
+	add x21, x23, 83
 	bfi x4, x21, 0, 16					// Y1
 
 	mov x27, x30
@@ -4099,7 +4161,7 @@ contornoParabrisas:
 //-----------------------------------------------
 	add x21, x22, 236
 	bfi x4, x21, 48, 16					// X0
-	add x21, x23, 81
+	add x21, x23, 83
 	bfi x4, x21, 32, 16					// Y0
 	add x21, x22, 282
 	bfi x4, x21, 16, 16					// X1
