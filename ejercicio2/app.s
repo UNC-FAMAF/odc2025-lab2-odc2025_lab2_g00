@@ -12,12 +12,12 @@ main:
 	// x0 contiene la direccion base del framebuffer
 	// Para mayor organizacion, usaremos los registros de la siguiente manera: https://docs.google.com/spreadsheets/d/1SuxA6J6tJd5geir0w2ndczHOmU239FzZQ2teHOsjGkk/edit?usp=sharing
 
-//--------------------------------------------------- CODE HERE ----------------------------------------------------------
+//--------------------------------------------------- CODE HERE ------------------------------------------------------------------------------
 
 
 //-----------------------------------------------
-	bl fondo
 	bl cielo
+	bl fondo
 
 	mov x6, 50  //x del auto
 	mov x26, 90 //y del auto
@@ -133,8 +133,11 @@ auto:
 	add x23, x26, 260
 	bl patente
 
+	add x22, x6, 5
+	add x23, x26, -64
+	//bl nubes
+
 	mov x30, x3
-	
 	ret
 
 reset:
@@ -145,12 +148,12 @@ resetFaro:
 	mov x5, 7
 InfLoop:
 
-	add x6, x6, 2
+	/*add x6, x6, 2
 
 	bl cielo
 
 	cmp x6, 500
-	b.gt reset
+	b.gt reset*/
 
 	/*////////////////////////////////////////////////////////////// */
 	
@@ -160,7 +163,7 @@ InfLoop:
 	mov x23, 258
 	bl capo
 	//-----------------------------------------------
-	bl parches
+	bl parchesPre
 	//-----------------------------------------------
 
 	/* ---------------- CONFIGURACION ANIMACION */
@@ -204,7 +207,7 @@ InfLoop:
 	bl profundidadFaro
 	//-----------------------------------------------
 
-	movz x25, 0x500, lsl 16
+	movz x25, 0x200, lsl 16
 	bl delay
 	
 	b InfLoop
@@ -212,93 +215,314 @@ InfLoop:
 
 // ------------------------------------------------- CIELO -----------------------------------------------------------------------------------
 cielo:
-	movz x2, 0x04, lsl 16
-	movk x2, 0x87E2, lsl 00	
+	movz x2, 0x0a, lsl 16
+	movk x2, 0x68c2, lsl 00	
 
 	movz x4, 0, lsl 48
 	movk x4, 0, lsl 32
 	movk x4, SCREEN_WIDTH, lsl 16
-	movk x4, 150, lsl 00
+	movk x4, 4, lsl 00
+
+	mov x27, x30
+	bl drawsquare
+	mov x30, x27
+//-----------------------------------------------
+	movz x2, 0x15, lsl 16
+	movk x2, 0x6fc5, lsl 00	
+
+	movz x4, 0, lsl 48
+	movk x4, 4, lsl 32
+	movk x4, SCREEN_WIDTH, lsl 16
+	movk x4, 8, lsl 00
 
 	mov x27, x30
 	bl drawsquare
 	mov x30, x27
 
-	movz x2, 0xFF, lsl 16
-	movk x2, 0xFFFE, lsl 00	
+//-----------------------------------------------
+	movz x2, 0x1d, lsl 16
+	movk x2, 0x75ca, lsl 00	
 
-	add x21, x6, 8
-	bfi x4, x21, 48, 16					// X0
+	movz x4, 0, lsl 48
+	movk x4, 8, lsl 32
+	movk x4, SCREEN_WIDTH, lsl 16
+	movk x4, 12, lsl 00
+
+	mov x27, x30
+	bl drawsquare
+	mov x30, x27
+//-----------------------------------------------
+	movz x2, 0x25, lsl 16
+	movk x2, 0x7acd, lsl 00	
+
+	movz x4, 0, lsl 48
+	movk x4, 12, lsl 32
+	movk x4, SCREEN_WIDTH, lsl 16
+	movk x4, 16, lsl 00
+
+	mov x27, x30
+	bl drawsquare
+	mov x30, x27
+//-----------------------------------------------
+	movz x2, 0x2a, lsl 16
+	movk x2, 0x7ed0, lsl 00	
+
+	movz x4, 0, lsl 48
+	movk x4, 16, lsl 32
+	movk x4, SCREEN_WIDTH, lsl 16
+	movk x4, 20, lsl 00
+
+	mov x27, x30
+	bl drawsquare
+	mov x30, x27
+//-----------------------------------------------
+	movz x2, 0x31, lsl 16
+	movk x2, 0x83d4, lsl 00	
+
+	movz x4, 0, lsl 48
 	movk x4, 20, lsl 32
-	add x21, x6, 51
-	bfi x4, x21, 16, 16					// X1
-	movk x4, 100, lsl 00
-
+	movk x4, SCREEN_WIDTH, lsl 16
+	movk x4, 26, lsl 00
 
 	mov x27, x30
 	bl drawsquare
 	mov x30, x27
+//-----------------------------------------------
+	movz x2, 0x35, lsl 16
+	movk x2, 0x87d9, lsl 00	
 
-
-	add x21, x6, 50
-	bfi x4, x21, 48, 16					// X0
-	movk x4, 60, lsl 32
-	movk x4, 40, lsl 16
-
-	mov x27, x30
-	//bl drawcircle
-	mov x30, x27
-
-	add x21, x6, 100
-	bfi x4, x21, 48, 16					// X0
-	movk x4, 60, lsl 32
-	movk x4, 50, lsl 16
+	movz x4, 0, lsl 48
+	movk x4, 26, lsl 32
+	movk x4, SCREEN_WIDTH, lsl 16
+	movk x4, 32, lsl 00
 
 	mov x27, x30
-	//bl drawcircle
+	bl drawsquare
 	mov x30, x27
+//-----------------------------------------------
+	movz x2, 0x29, lsl 16
+	movk x2, 0x84de, lsl 00	
 
-	add x21, x6, 150
-	bfi x4, x21, 48, 16					// X0
-	movk x4, 60, lsl 32
-	movk x4, 40, lsl 16
+	movz x4, 0, lsl 48
+	movk x4, 32, lsl 32
+	movk x4, SCREEN_WIDTH, lsl 16
+	movk x4, 38, lsl 00
 
 	mov x27, x30
-	//bl drawcircle
+	bl drawsquare
 	mov x30, x27
+//-----------------------------------------------
+	movz x2, 0x16, lsl 16
+	movk x2, 0x80e8, lsl 00	
 
-	add x21, x6, 350
-	bfi x4, x21, 48, 16					// X0
-	movk x4, 80, lsl 32
-	movk x4, 30, lsl 16
+	movz x4, 0, lsl 48
+	movk x4, 38, lsl 32
+	movk x4, SCREEN_WIDTH, lsl 16
+	movk x4, 45, lsl 00
 
 	mov x27, x30
-	//bl drawcircle
+	bl drawsquare
 	mov x30, x27
+//-----------------------------------------------
+	movz x2, 0x1e, lsl 16
+	movk x2, 0x85ea, lsl 00	
 
-	add x21, x6, 400
-	bfi x4, x21, 48, 16					// X0
-	movk x4, 80, lsl 32
-	movk x4, 50, lsl 16
+	movz x4, 0, lsl 48
+	movk x4, 45, lsl 32
+	movk x4, SCREEN_WIDTH, lsl 16
+	movk x4, 53, lsl 00
 
 	mov x27, x30
-	//bl drawcircle
+	bl drawsquare
 	mov x30, x27
-
-	add x21, x6, 450
-	bfi x4, x21, 48, 16					// X0
-	movk x4, 70, lsl 32
-	movk x4, 45, lsl 16
+//----------------------------------------------- inicio fondo nube (46 copy 2)
+	movz x4, 0, lsl 48
+	movk x4, 53, lsl 32
+	movk x4, SCREEN_WIDTH, lsl 16
+	movk x4, 61, lsl 00
 
 	mov x27, x30
-	//bl drawcircle
+	bl drawsquare
 	mov x30, x27
+//-----------------------------------------------
+	movz x2, 0x24, lsl 16
+	movk x2, 0x89ec, lsl 00	
 
+	movz x4, 0, lsl 48
+	movk x4, 61, lsl 32
+	movk x4, SCREEN_WIDTH, lsl 16
+	movk x4, 69, lsl 00
+
+	mov x27, x30
+	bl drawsquare
+	mov x30, x27
+//-----------------------------------------------
+	movz x2, 0x30, lsl 16
+	movk x2, 0x8fec, lsl 00	
+
+	movz x4, 0, lsl 48
+	movk x4, 69, lsl 32
+	movk x4, SCREEN_WIDTH, lsl 16
+	movk x4, 77, lsl 00
+
+	mov x27, x30
+	bl drawsquare
+	mov x30, x27
+//-----------------------------------------------
+	movz x2, 0x35, lsl 16
+	movk x2, 0x92ee, lsl 00	
+
+	movz x4, 0, lsl 48
+	movk x4, 77, lsl 32
+	movk x4, SCREEN_WIDTH, lsl 16
+	movk x4, 85, lsl 00
+
+	mov x27, x30
+	bl drawsquare
+	mov x30, x27
+//-----------------------------------------------
+	movz x2, 0x36, lsl 16
+	movk x2, 0x92ed, lsl 00	
+
+	movz x4, 0, lsl 48
+	movk x4, 85, lsl 32
+	movk x4, SCREEN_WIDTH, lsl 16
+	movk x4, 97, lsl 00
+
+	mov x27, x30
+	bl drawsquare
+	mov x30, x27
+//-----------------------------------------------
+	movz x2, 0x25, lsl 16
+	movk x2, 0x96fc, lsl 00	
+
+	movz x4, 0, lsl 48
+	movk x4, 97, lsl 32
+	movk x4, SCREEN_WIDTH, lsl 16
+	movk x4, 109, lsl 00
+
+	mov x27, x30
+	bl drawsquare
+	mov x30, x27
+//-----------------------------------------------
+	movz x2, 0x2a, lsl 16
+	movk x2, 0x9aff, lsl 00	
+
+	movz x4, 0, lsl 48
+	movk x4, 109, lsl 32
+	movk x4, SCREEN_WIDTH, lsl 16
+	movk x4, 121, lsl 00
+
+	mov x27, x30
+	bl drawsquare
+	mov x30, x27
+//-----------------------------------------------
+	movz x2, 0x34, lsl 16
+	movk x2, 0x9efd, lsl 00	
+
+	movz x4, 0, lsl 48
+	movk x4, 121, lsl 32
+	movk x4, SCREEN_WIDTH, lsl 16
+	movk x4, 133, lsl 00
+
+	mov x27, x30
+	bl drawsquare
+	mov x30, x27
+//-----------------------------------------------
+	movz x2, 0x41, lsl 16
+	movk x2, 0xa5ff, lsl 00	
+
+	movz x4, 0, lsl 48
+	movk x4, 133, lsl 32
+	movk x4, SCREEN_WIDTH, lsl 16
+	movk x4, 145, lsl 00
+
+	mov x27, x30
+	bl drawsquare
+	mov x30, x27
+//----------------------------------------------- 46 copy 10
+	movz x2, 0x4d, lsl 16
+	movk x2, 0xabff, lsl 00	
+
+	movz x4, 0, lsl 48
+	movk x4, 145, lsl 32
+	movk x4, SCREEN_WIDTH, lsl 16
+	movk x4, 157, lsl 00
+
+	mov x27, x30
+	bl drawsquare
+	mov x30, x27
+//----------------------------------------------- fin fondo nube (copy 10) 
+//-----------------------------------------------
+	movz x2, 0x56, lsl 16
+	movk x2, 0xafff, lsl 00	
+
+	movz x4, 0, lsl 48
+	movk x4, 157, lsl 32
+	movk x4, SCREEN_WIDTH, lsl 16
+	movk x4, 171, lsl 00
+
+	mov x27, x30
+	bl drawsquare
+	mov x30, x27
+//-----------------------------------------------
+	movz x2, 0x73, lsl 16
+	movk x2, 0xbaff, lsl 00	
+
+	movz x4, 0, lsl 48
+	movk x4, 171, lsl 32
+	movk x4, SCREEN_WIDTH, lsl 16
+	movk x4, 185, lsl 00
+
+	mov x27, x30
+	bl drawsquare
+	mov x30, x27
+//-----------------------------------------------
+	movz x2, 0x88, lsl 16
+	movk x2, 0xc4ff, lsl 00	
+
+	movz x4, 0, lsl 48
+	movk x4, 185, lsl 32
+	movk x4, SCREEN_WIDTH, lsl 16
+	movk x4, 199, lsl 00
+
+	mov x27, x30
+	bl drawsquare
+	mov x30, x27
+//-----------------------------------------------
+	movz x2, 0xa8, lsl 16
+	movk x2, 0xd6fd, lsl 00	
+
+	movz x4, 0, lsl 48
+	movk x4, 199, lsl 32
+	movk x4, SCREEN_WIDTH, lsl 16
+	movk x4, 221, lsl 00
+
+	mov x27, x30
+	bl drawsquare
+	mov x30, x27
+//-----------------------------------------------
+	movz x2, 0xc7, lsl 16
+	movk x2, 0xe5ff, lsl 00	
+
+	movz x4, 0, lsl 48
+	movk x4, 221, lsl 32
+	movk x4, SCREEN_WIDTH, lsl 16
+	movk x4, 240, lsl 00
+
+	mov x27, x30
+	bl drawsquare
+	mov x30, x27
+	
 	ret
+// ------------------------------------------------- NUBE -----------------------------------------------------------------------------------
+nubes:
+	//////////////////////// Relleno 
+	//-----------------------------------------------
 
 // ------------------------------------------------- FONDO -----------------------------------------------------------------------------------
 fondo:
-	movz x2, 0x04, lsl 16
+	/*movz x2, 0x04, lsl 16
 	movk x2, 0x87E2, lsl 00	
 
 	movz x4, 0, lsl 48
@@ -308,7 +532,7 @@ fondo:
 
 	mov x27, x30
 	bl drawsquare
-	mov x30, x27
+	mov x30, x27*/
 
 	movz x2, 0xE2, lsl 16
 	movk x2, 0xCA76, lsl 00	
@@ -12952,22 +13176,9 @@ patente:
 
 
 	ret
+
 // ------------------------------------------------- PARCHES ----------------------------------------------------------------
-
 parches:
-//------- PARCHE PARABRISAS
-	movz x2, 0x03, lsl 16				
-	movk x2, 0x566e, lsl 00
-
-	movz x4, 321, lsl 48
-	movk x4, 240, lsl 32
-	movk x4, 381, lsl 16
-	movk x4, 260, lsl 0
-
-	mov x27, x30
-	bl drawsquare
-	mov x30, x27	
-
 //------- PARCHE CAPO
 	movz x2, 0xc4, lsl 16				
 	movk x2, 0x2537, lsl 00
@@ -13018,19 +13229,111 @@ parches:
 	bl drawsquare
 	mov x30, x27
 
-//------- PARCHE ARENA
-/* 	movz x2, 0xc4, lsl 16				
-	movk x2, 0x2537, lsl 00
+	movz x4, 340, lsl 48
+	movk x4, 338, lsl 32
+	movk x4, 382, lsl 16
+	movk x4, 346, lsl 0
 
-	movz x4, 95, lsl 48
-	movk x4, 249, lsl 32
-	movk x4, 175, lsl 16
-	movk x4, 300, lsl 0
+
+	mov x27, x30
+	bl drawsquare
+	mov x30, x27
+	
+
+	ret
+
+// ------------------------------------------------- PARCHES PRE ----------------------------------------------------------------
+parchesPre:
+	//------- PARCHE PARABRISAS
+	movz x2, 0x03, lsl 16				
+	movk x2, 0x566e, lsl 00
+
+	movz x4, 321, lsl 48
+	movk x4, 240, lsl 32
+	movk x4, 381, lsl 16
+	movk x4, 260, lsl 0
 
 	mov x27, x30
 	bl drawsquare
 	mov x30, x27	
-*/
+
+
+//------- PARCHE ARENA
+ 	movz x2, 0xE2, lsl 16
+	movk x2, 0xCA76, lsl 00	
+
+	movz x4, 94, lsl 48
+	movk x4, 298, lsl 32
+	movk x4, 98, lsl 16
+	movk x4, 302, lsl 0
+
+	mov x27, x30
+	bl drawsquare
+	mov x30, x27	
+//----------------------
+	movz x4, 94, lsl 48
+	movk x4, 268, lsl 32
+	movk x4, 105, lsl 16
+	movk x4, 298, lsl 0
+
+	mov x27, x30
+	bl drawsquare
+	mov x30, x27	
+//----------------------
+	movz x4, 105, lsl 48
+	movk x4, 282, lsl 32
+	movk x4, 109, lsl 16
+	movk x4, 287, lsl 0
+
+	mov x27, x30
+	bl drawsquare
+	mov x30, x27	
+//----------------------
+	movz x4, 105, lsl 48
+	movk x4, 276, lsl 32
+	movk x4, 117, lsl 16
+	movk x4, 282, lsl 0
+
+	mov x27, x30
+	bl drawsquare
+	mov x30, x27	
+//----------------------
+	movz x4, 105, lsl 48
+	movk x4, 273, lsl 32
+	movk x4, 134, lsl 16
+	movk x4, 276, lsl 0
+
+	mov x27, x30
+	bl drawsquare
+	mov x30, x27	
+//----------------------
+	movz x4, 104, lsl 48
+	movk x4, 270, lsl 32
+	movk x4, 142, lsl 16
+	movk x4, 273, lsl 0
+
+	mov x27, x30
+	bl drawsquare
+	mov x30, x27	
+//----------------------
+	movz x4, 104, lsl 48
+	movk x4, 267, lsl 32
+	movk x4, 163, lsl 16
+	movk x4, 270, lsl 0
+
+	mov x27, x30
+	bl drawsquare
+	mov x30, x27	
+//----------------------
+	movz x4, 94, lsl 48
+	movk x4, 246, lsl 32
+	movk x4, 172, lsl 16
+	movk x4, 268, lsl 0
+
+	mov x27, x30
+	bl drawsquare
+	mov x30, x27
 
 	ret
+
 
