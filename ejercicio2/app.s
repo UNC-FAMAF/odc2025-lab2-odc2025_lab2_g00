@@ -25,7 +25,7 @@ main:
 	bl auto
 
 	b InfLoop
-//----------------------------------------------- AUTO -------------------------------------------------
+//----------------------------------------------- AUTO --------------------------------------------------------------------------------------
 auto:
 	mov x3, x30 
 
@@ -155,14 +155,12 @@ InfLoop:
 	/*////////////////////////////////////////////////////////////// */
 	
 
-	// FIGURAS ANTERIORE
+	// FIGURAS ANTERIORES
 	mov x22, 88
 	mov x23, 258
 	bl capo
 	//-----------------------------------------------
-	mov x22, 213
-	mov x23, 186
-	bl parabrisas
+	bl parches
 	//-----------------------------------------------
 
 	/* ---------------- CONFIGURACION ANIMACION */
@@ -188,26 +186,17 @@ InfLoop:
 	mov x23, 249
 	bl costadoFaro
 
-	// ----------------------------- FIGURAS POSTERIORES
 
-	mov x22, 382
-	mov x23, 267
-	bl esquina
-	//------------------------------------------------	
-	mov x22, 75
-	mov x23, 306
-	bl capoFrente
-	//-----------------------------------------------
-	mov x22, 75
-	mov x23, 348
-	bl frenteAuto
-	//-----------------------------------------------
-	mov x22, 213
-	mov x23, 180
-	bl contornoParabrisas
+	// ----------------------------- FIGURAS POSTERIORES
+	
+	bl parches
 	//-----------------------------------------------
 	mov x22, 295
 	mov x23, 329
+	bl salidaDeAireDer
+	//-----------------------------------------------
+	mov x22, 82
+	mov x23, 325
 	bl salidaDeAireDer
 	//-----------------------------------------------
 	mov x22, 320
@@ -221,7 +210,7 @@ InfLoop:
 	b InfLoop
 	
 
-// ------------------------------------------------- Cielo ----------------------------------------------------------------
+// ------------------------------------------------- CIELO -----------------------------------------------------------------------------------
 cielo:
 	movz x2, 0x04, lsl 16
 	movk x2, 0x87E2, lsl 00	
@@ -307,7 +296,7 @@ cielo:
 
 	ret
 
-// ------------------------------------------------- Fondo ----------------------------------------------------------------
+// ------------------------------------------------- FONDO -----------------------------------------------------------------------------------
 fondo:
 	movz x2, 0x04, lsl 16
 	movk x2, 0x87E2, lsl 00	
@@ -3152,11 +3141,11 @@ capoFrente:
 	bl drawline
 	mov x30, x27
 // --------------------------------------------------------------- mover
-	add x21, x22, 296
+	add x21, x22, 290
 	bfi x4, x21, 48, 16					// X0
 	add x21, x23, 6
 	bfi x4, x21, 32, 16					// Y0
-	add x21, x22, 304
+	add x21, x22, 312
 	bfi x4, x21, 16, 16					// X1
 	add x21, x23, 32
 	bfi x4, x21, 0, 16					// Y1
@@ -12196,8 +12185,8 @@ capo:
 	bl drawsquare
 	mov x30, x27
 //----------------------------------------------- 37
-	movz x2, 0xff, lsl 16			 
-	movk x2, 0x0000, lsl 00	
+	movz x2, 0xc4, lsl 16				
+	movk x2, 0x2537, lsl 00
 
 	add x21, x22, 57
 	bfi x4, x21, 48, 16					// X0
@@ -12963,5 +12952,85 @@ patente:
 
 
 	ret
+// ------------------------------------------------- PARCHES ----------------------------------------------------------------
 
+parches:
+//------- PARCHE PARABRISAS
+	movz x2, 0x03, lsl 16				
+	movk x2, 0x566e, lsl 00
+
+	movz x4, 321, lsl 48
+	movk x4, 240, lsl 32
+	movk x4, 381, lsl 16
+	movk x4, 260, lsl 0
+
+	mov x27, x30
+	bl drawsquare
+	mov x30, x27	
+
+//------- PARCHE CAPO
+	movz x2, 0xc4, lsl 16				
+	movk x2, 0x2537, lsl 00
+
+	movz x4, 320, lsl 48
+	movk x4, 300, lsl 32
+	movk x4, 371, lsl 16
+	movk x4, 340, lsl 0
+
+	mov x27, x30
+	bl drawsquare
+	mov x30, x27	
+
+	movz x2, 0xfc, lsl 16				
+	movk x2, 0x3e58, lsl 00
+
+	movz x4, 102, lsl 48
+	movk x4, 300, lsl 32
+	movk x4, 148, lsl 16
+	movk x4, 325, lsl 0
+
+	mov x27, x30
+	bl drawsquare
+	mov x30, x27
+
+	movz x2, 0xc4, lsl 16				
+	movk x2, 0x2537, lsl 00
+
+	movz x4, 102, lsl 48
+	movk x4, 300, lsl 32
+	movk x4, 148, lsl 16
+	movk x4, 305, lsl 0
+
+	mov x27, x30
+	bl drawsquare
+	mov x30, x27
+
+
+	movz x2, 0xff, lsl 16				
+	movk x2, 0xabb3, lsl 00
+
+	movz x4, 102, lsl 48
+	movk x4, 338, lsl 32
+	movk x4, 148, lsl 16
+	movk x4, 345, lsl 0
+
+	mov x27, x30
+	bl drawsquare
+	mov x30, x27
+
+//------- PARCHE ARENA
+/* 	movz x2, 0xc4, lsl 16				
+	movk x2, 0x2537, lsl 00
+
+	movz x4, 95, lsl 48
+	movk x4, 249, lsl 32
+	movk x4, 175, lsl 16
+	movk x4, 300, lsl 0
+
+	mov x27, x30
+	bl drawsquare
+	mov x30, x27	
+*/
+
+	ret
 

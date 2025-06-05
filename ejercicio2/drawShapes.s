@@ -19,7 +19,7 @@ drawpixel:
     add x1, x1, x7
     lsl x1, x1, 2
     add x1, x1, x0
-	stur x2,[x1]
+	stur w2,[x1]
     ret
 
 // Dibuja una linea desde la cordenada A a la B utilizando el algorimo de Bresenham
@@ -226,10 +226,10 @@ looptriangle1:
 
 	mov x21, x9
 	mov x20, x8
-	mov x5, x7
+	mov x4, x7
 	bl drawHorizontalLine
 
-	cmp x5, x11						// Si la posicion actual = x11 (x1), llegue al final y corto el programa
+	cmp x4, x11						// Si la posicion actual = x11 (x1), llegue al final y corto el programa
 	b.eq endtriangle
 
 	sub x19, x19, 1
@@ -260,11 +260,11 @@ endtriangle:
 
 drawHorizontalLine:
 
-	cmp x21, x5
-	csel x24, x21, x5, le
+	cmp x21, x4
+	csel x24, x21, x4, le
 
-	cmp x21, x5
-	csel x25, x5, x21, le
+	cmp x21, x4
+	csel x25, x4, x21, le
 	mov x8, x20
 
 	mov x29, x30            			// Guardamos x30 (RET)
