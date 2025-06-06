@@ -8,7 +8,7 @@ Integrante 4: José Ignacio Tomé
 Descripción ejercicio 1: Imagen de una Mazda Miata en una ruta desertica de dia. Con un cartel al fondo donde esta inscripto ODC en ASCII a Hexadecimal.
 
 
-Descripción ejercicio 2:
+Descripción ejercicio 2: Miata moviendo las opticas en un decierto en un dia soleado con nubes de fondo
 
 
 Justificación instrucciones ARMv8:
