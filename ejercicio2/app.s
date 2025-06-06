@@ -226,7 +226,7 @@ animacionBajarAmbosFaros:
 
 	bl dibujarFigurasParches
 
-	movz x25, 0x200, lsl 16
+	movz x25, 0x500, lsl 16
 	bl delay
 
 	b animacionBajarAmbosFaros
@@ -278,7 +278,7 @@ subeFaroIzquierdo:
 
 
 
-	movz x25, 0x300, lsl 16
+	movz x25, 0x500, lsl 16
 	bl delay
 
 	b subeFaroIzquierdo
@@ -329,7 +329,7 @@ bajaFaroIzquierdo:
 
 
 
-	movz x25, 0x300, lsl 16
+	movz x25, 0x500, lsl 16
 	bl delay
 
 	b bajaFaroIzquierdo
@@ -380,7 +380,7 @@ subeFaroDerecho:
 	bl dibujarFigurasParches
 
 
-	movz x25, 0x300, lsl 16
+	movz x25, 0x500, lsl 16
 	bl delay
 
 	b subeFaroDerecho
@@ -430,7 +430,7 @@ bajaFaroDerecho:
 	bl dibujarFigurasParches
 
 
-	movz x25, 0x300, lsl 16
+	movz x25, 0x500, lsl 16
 	bl delay
 
 	b bajaFaroDerecho
@@ -478,7 +478,7 @@ animacionSubirAmbosFaros:
 
 	bl dibujarFigurasParches
 
-	movz x25, 0x200, lsl 16
+	movz x25, 0x500, lsl 16
 	bl delay
 
 	b animacionSubirAmbosFaros
