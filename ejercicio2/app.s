@@ -146,15 +146,341 @@ auto:
 //-----------------------------------------------
 
 	mov x30, x3
+
+
 	ret
 
-reset:
+resetNubes:
 	mov x6, 50
 
-resetFaro:
+InfLoop:
+
 	mov x26, 90
 	mov x5, 7
-InfLoop:
+	
+	
+	//----------------------------------------------- Dibujo para resetear faros correctamente
+	mov x22, 97
+	mov x23, 249
+	bl faro
+	bl profundidadFaro
+	bl costadoFaro
+
+	mov x22, 320
+	bl faro
+	bl profundidadFaro
+	bl costadoFaro
+	
+	bl animacionNubes
+
+	//------------------------------ Comenzamos animacion
+	bl animacionBajarAmbosFaros
+
+	
+
+/*/////////////////////////////////////////////////////////////////// */
+
+
+animacionBajarAmbosFaros:
+
+	bl animacionNubes
+
+	//------------ FIGURAS ANTERIORES
+	mov x22, 88
+	mov x23, 258
+	bl capo
+	//-----------------------------------------------
+	bl parchesPre
+
+	// ---------------- CONFIGURACION ANIMACION
+	add x26, x26, 4
+	add x5, x5, 4
+
+	cmp x5, 51
+	b.gt inicializacionSubeFaroIzquierdo
+
+	cmp x26, 150
+	b.gt inicializacionSubeFaroIzquierdo
+	//------------------------ ANIMACION FARO 
+	mov x22, 320
+	add x23, x26, 159
+	bl faro
+	mov x23, 249
+	bl costadoFaro
+
+	mov x22, 97
+	add x23, x26, 159
+	bl faro
+	mov x23, 249
+	bl costadoFaro
+
+	//---------------------- FIGURAS POSTERIORES
+
+	bl dibujarFigurasParches
+
+	movz x25, 0x200, lsl 16
+	bl delay
+
+	b animacionBajarAmbosFaros
+
+
+inicializacionSubeFaroIzquierdo:
+	mov x26, 134
+	mov x5, 51
+
+	b subeFaroIzquierdo
+
+subeFaroIzquierdo:
+
+	bl animacionNubes
+
+	//------------ FIGURAS ANTERIORES
+	mov x22, 88
+	mov x23, 258
+	bl capo
+	//-----------------------------------------------
+	bl parchesPre
+	//----------------------------------------------
+
+	// ---------------- CONFIGURACION ANIMACION
+	sub x26, x26, 4
+	sub x5, x5, 4
+
+	cmp x5, 7
+	b.lt inicializacionBajaFaroIzquierdo
+
+	cmp x26, 90
+	b.lt inicializacionBajaFaroIzquierdo
+	//------------------------ ANIMACION FARO 
+	mov x22, 320
+	add x23, x26, 159
+	bl faro
+	mov x23, 249
+	bl costadoFaro
+
+	//---------------------- DIBUJO FARO NO ANIMADO
+	mov x22, 97
+	mov x23, 293
+	bl faro
+	bl profundidadFaro
+
+	//---------------------- FIGURAS POSTERIORES
+
+	bl dibujarFigurasParches
+
+
+
+	movz x25, 0x300, lsl 16
+	bl delay
+
+	b subeFaroIzquierdo
+
+
+inicializacionBajaFaroIzquierdo:
+	mov x26, 90
+	mov x5, 7
+
+	b bajaFaroIzquierdo
+
+bajaFaroIzquierdo:
+
+	bl animacionNubes
+
+	//------------ FIGURAS ANTERIORES
+	mov x22, 88
+	mov x23, 258
+	bl capo
+	//-----------------------------------------------
+	bl parchesPre
+	//----------------------------------------------
+
+	// ---------------- CONFIGURACION ANIMACION
+	add x26, x26, 4
+	add x5, x5, 4
+
+	cmp x5, 51
+	b.gt inicializacionSubeFaroDerecho
+
+	cmp x26, 150
+	b.gt inicializacionSubeFaroDerecho
+	//------------------------ ANIMACION FARO 
+	mov x22, 320
+	add x23, x26, 159
+	bl faro
+	mov x23, 249
+	bl costadoFaro
+
+	//---------------------- DIBUJO FARO NO ANIMADO
+	mov x22, 97
+	mov x23, 293
+	bl faro
+	bl profundidadFaro
+	//---------------------- FIGURAS POSTERIORES
+
+	bl dibujarFigurasParches
+
+
+
+	movz x25, 0x300, lsl 16
+	bl delay
+
+	b bajaFaroIzquierdo
+
+
+inicializacionSubeFaroDerecho:
+	mov x26, 134
+	mov x5, 51
+
+	b subeFaroDerecho
+
+subeFaroDerecho:
+
+	bl animacionNubes
+
+	//------------ FIGURAS ANTERIORES
+	mov x22, 88
+	mov x23, 258
+	bl capo
+	//-----------------------------------------------
+	bl parchesPre
+	//----------------------------------------------
+
+	// ---------------- CONFIGURACION ANIMACION
+	sub x26, x26, 4
+	sub x5, x5, 4
+
+	cmp x5, 7
+	b.lt inicializacionBajaFaroDerecho
+
+	cmp x26, 90
+	b.lt inicializacionBajaFaroDerecho
+	//------------------------ ANIMACION FARO 
+	mov x22, 97
+	add x23, x26, 159
+	bl faro
+	mov x23, 249
+	bl costadoFaro
+
+	//---------------------- DIBUJO FARO NO ANIMADO
+	mov x22, 320
+	mov x23, 293
+	bl faro
+	bl profundidadFaro
+
+	//---------------------- FIGURAS POSTERIORES
+
+	bl dibujarFigurasParches
+
+
+	movz x25, 0x300, lsl 16
+	bl delay
+
+	b subeFaroDerecho
+
+inicializacionBajaFaroDerecho:
+	mov x26, 90
+	mov x5, 7
+
+	b bajaFaroDerecho
+
+bajaFaroDerecho:
+
+	bl animacionNubes
+
+	//------------ FIGURAS ANTERIORES
+	mov x22, 88
+	mov x23, 258
+	bl capo
+	//-----------------------------------------------
+	bl parchesPre
+	//----------------------------------------------
+
+	// ---------------- CONFIGURACION ANIMACION
+	add x26, x26, 4
+	add x5, x5, 4
+
+	cmp x5, 51
+	b.gt inicializacionSubenAmbosFaros
+
+	cmp x26, 150
+	b.gt inicializacionSubenAmbosFaros
+	//------------------------ ANIMACION FARO 
+	mov x22, 97
+	add x23, x26, 159
+	bl faro
+	mov x23, 249
+	bl costadoFaro
+
+	//---------------------- DIBUJO FARO NO ANIMADO
+	mov x22, 320
+	mov x23, 293
+	bl faro
+	bl profundidadFaro
+
+	//---------------------- FIGURAS POSTERIORES
+
+	bl dibujarFigurasParches
+
+
+	movz x25, 0x300, lsl 16
+	bl delay
+
+	b bajaFaroDerecho
+
+inicializacionSubenAmbosFaros:
+	mov x26, 134
+	mov x5, 51
+
+	b animacionSubirAmbosFaros
+
+animacionSubirAmbosFaros:
+
+	bl animacionNubes
+
+	//------------ FIGURAS ANTERIORES
+	mov x22, 88
+	mov x23, 258
+	bl capo
+	//-----------------------------------------------
+	bl parchesPre
+
+	// ---------------- CONFIGURACION ANIMACION
+	sub x26, x26, 4
+	sub x5, x5, 4
+
+	cmp x5, 7
+	b.lt InfLoop
+
+	cmp x26, 90
+	b.lt InfLoop
+	//------------------------ ANIMACION FARO 
+	mov x22, 320
+	add x23, x26, 159
+	bl faro
+	mov x23, 249
+	bl costadoFaro
+
+	mov x22, 97
+	add x23, x26, 159
+	bl faro
+	mov x23, 249
+	bl costadoFaro
+
+	//---------------------- FIGURAS POSTERIORES
+
+	bl dibujarFigurasParches
+
+	movz x25, 0x200, lsl 16
+	bl delay
+
+	b animacionSubirAmbosFaros
+
+
+
+
+animacionNubes:
+
+	mov x3, x30
 
 	add x6, x6, 2
 
@@ -172,63 +498,75 @@ InfLoop:
 	mov x23, 37
 	bl nubes
 
-	cmp x6, 1000
-	b.gt reset
+	mov x30, x3
 
-////////////////////////////////////////////////////////////// 
-// FIGURAS ANTERIORES
-	mov x22, 88
-	mov x23, 258
-	bl capo
-//-----------------------------------------------
-	bl parchesPre
-//-----------------------------------------------
-// ---------------- CONFIGURACION ANIMACION
-	add x26, x26, 4
-	add x5, x5, 4
-
-	cmp x5, 51
-	b.gt reset
-
-	cmp x26, 150
-	b.gt reset
-
-//------------------------ ANIMACION FARO 
-	mov x22, 320
-	add x23, x26, 159
-	bl faro
-	mov x23, 249
-	bl costadoFaro
-
-	mov x22, 97
-	add x23, x26, 159
-	bl faro
-	mov x23, 249
-	bl costadoFaro
+	ret
 
 
-// ----------------------------- FIGURAS POSTERIORES
+dibujarFigurasParches:
+
+	mov x3, x30
 	
-	bl parches
-//-----------------------------------------------
-	mov x22, 295
-	mov x23, 329
-	bl salidaDeAireDer
-//-----------------------------------------------
-	mov x22, 82
-	mov x23, 325
-	bl salidaDeAireDer
-//-----------------------------------------------
-	mov x22, 320
-	mov x23, 249
-	bl profundidadFaro
-//-----------------------------------------------
+		bl parches
+	//-----------------------------------------------
+		mov x22, 295
+		mov x23, 329
+		bl salidaDeAireDer
+	//-----------------------------------------------
+		mov x22, 82
+		mov x23, 325
+		bl salidaDeAireDer
+	//-----------------------------------------------
+		mov x22, 320
+		mov x23, 249
+		bl profundidadFaro
+	//-----------------------------------------------
+	
+	mov x30, x3
+		
+	ret
 
-	movz x25, 0x200, lsl 16
-	bl delay
+
+
+
 	
-	b InfLoop
-	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // ------------------------------------------------- CIELO -----------------------------------------------------------------------------------
 cielo:
@@ -1195,6 +1533,36 @@ costadoFaro:
 		b.le trialoop						// Triangulo gris 
 
 		ret
+
+costadoFaroEstatico:
+//-----------------------------------------------
+		movz x2, 0x3B, lsl 16				// Triangulo gris 
+		movk x2, 0x3D49, lsl 00				// Color
+
+		mov x25, 7
+
+	trialoop2:
+		add x21, x22, 51
+		bfi x4, x21, 48, 16					// X0
+		add x21, x23, x25
+		bfi x4, x21, 32, 16					// Y0
+		add x21, x22, 76
+		bfi x4, x21, 16, 16					// X1
+		add x21, x23, 40
+		bfi x4, x21, 0, 16					// Y1
+
+		mov x27, x30
+		bl drawline
+		mov x30, x27	
+//-----------------------------------------------
+		add x25, x25, 1
+		cmp x25, 51
+
+		b.le trialoop2						// Triangulo gris 
+
+		ret
+
+
 
 
 profundidadFaro:
@@ -13540,6 +13908,7 @@ capo:
 
 	ret
 
+
 // ------------------------------------------------- PATENTE  --------------------------------------------------------------------
 patente:
 	movz x2, 0xCC, lsl 16
@@ -13930,6 +14299,9 @@ parchesPre:
 	mov x27, x30
 	bl drawsquare
 	mov x30, x27
+
+
+	
 
 	ret
 
